@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXListView?>
+<?import java.net.URL?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="700.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="attendanceautomation.GUI.Controller.StudViewController">
+    <stylesheets>
+        <URL value="@/attendanceautomation/GUI/CSS/guiStyle.css" />
+    </stylesheets>
+   <children>
+      <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="700.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <Rectangle fill="#ffffff1c" height="264.0" layoutX="20.0" layoutY="43.0" stroke="#bcbcbc" strokeLineCap="ROUND" strokeType="INSIDE" width="370.0">
+         <effect>
+            <InnerShadow height="0.0" radius="0.0" width="0.0" />
+         </effect>
+      </Rectangle>
+      <Label fx:id="lblStudentFullname" alignment="CENTER" layoutX="34.0" layoutY="49.0" prefHeight="27.0" prefWidth="345.0" text="Student Full Name">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="34.0" layoutY="200.0" text="Current class:">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <JFXListView fx:id="listviewTodaysClasses" layoutX="34.0" layoutY="100.0" prefHeight="80.0" prefWidth="345.0" />
+      <Label fx:id="lblCurrentClass" layoutX="37.0" layoutY="224.0" prefHeight="17.0" prefWidth="345.0" text="[Classname]">
+         <font>
+            <Font name="System Italic" size="15.0" />
+         </font>
+      </Label>
+      <JFXButton fx:id="btnAttendCurrentClass" alignment="CENTER" layoutX="135.0" layoutY="257.0" text="Attend current class" textAlignment="CENTER">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </JFXButton>
+      <Label layoutX="34.0" layoutY="76.0" text="Classes today:">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Rectangle fill="#ffffff1c" height="264.0" layoutX="396.0" layoutY="43.0" stroke="#bcbcbc" strokeLineCap="ROUND" strokeType="INSIDE" width="283.0">
+         <effect>
+            <InnerShadow height="0.0" radius="0.0" width="0.0" />
+         </effect>
+      </Rectangle>
+      <Label alignment="CENTER" layoutX="396.0" layoutY="49.0" prefHeight="27.0" prefWidth="283.0" text="Attendance">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <PieChart fx:id="piechartAttendance" layoutX="414.0" layoutY="76.0" prefHeight="175.0" prefWidth="246.0" />
+      <Rectangle fill="#ffffff1c" height="169.0" layoutX="20.0" layoutY="312.0" stroke="#bcbcbc" strokeLineCap="ROUND" strokeType="INSIDE" width="660.0">
+         <effect>
+            <InnerShadow height="0.0" radius="0.0" width="0.0" />
+         </effect>
+      </Rectangle>
+      <Label alignment="CENTER" layoutX="20.0" layoutY="318.0" prefHeight="27.0" prefWidth="660.0" text="Missed classes (last 14 days)">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <JFXListView fx:id="listviewMissedClasses" layoutX="34.0" layoutY="357.0" prefHeight="111.0" prefWidth="634.0" />
+      <Label layoutX="458.0" layoutY="273.0" prefHeight="27.0" prefWidth="79.0" text="Absence:">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblAbsencepercent" layoutX="537.0" layoutY="273.0" prefHeight="27.0" prefWidth="79.0">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

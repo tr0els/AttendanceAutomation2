@@ -1,0 +1,21 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.mainFxmlClass {
+
+}
+
+.jfx-button{
+    -jfx-button-type: RAISED;
+    -fx-background-color: #00b2ed;
+    -fx-text-fill: black;
+}
+
+.data0.chart-pie { -fx-pie-color: #00b2ed; }
+.data1.chart-pie { -fx-pie-color: #fdac41; }
+
+.chart-bar{
+    -fx-bar-fill: #00b2ed;
+}
+

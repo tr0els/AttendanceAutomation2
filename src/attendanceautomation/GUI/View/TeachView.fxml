@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXListView?>
+<?import java.net.URL?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="700.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="attendanceautomation.GUI.Controller.TeachViewController">
+    <stylesheets>
+        <URL value="@/attendanceautomation/GUI/CSS/guiStyle.css" />
+    </stylesheets>
+   <children>
+      <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="700.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Class">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Class 1" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <Rectangle fill="#ffffff1c" height="336.0" layoutX="25.0" layoutY="137.0" stroke="#bcbcbc" strokeLineCap="ROUND" strokeType="INSIDE" width="270.0">
+         <effect>
+            <InnerShadow height="0.0" radius="0.0" width="0.0" />
+         </effect>
+      </Rectangle>
+      <Rectangle fill="#ffffff1c" height="431.0" layoutX="303.0" layoutY="43.0" stroke="#bcbcbc" strokeLineCap="ROUND" strokeType="INSIDE" width="381.0">
+         <effect>
+            <InnerShadow height="0.0" radius="0.0" width="0.0" />
+         </effect>
+      </Rectangle>
+      <Rectangle fill="#ffffff1c" height="86.0" layoutX="25.0" layoutY="43.0" stroke="#bcbcbc" strokeLineCap="ROUND" strokeType="INSIDE" width="270.0">
+         <effect>
+            <InnerShadow height="0.0" radius="0.0" width="0.0" />
+         </effect>
+      </Rectangle>
+      <Label alignment="CENTER" layoutX="36.0" layoutY="50.0" prefHeight="25.0" prefWidth="252.0" text="Class" textAlignment="CENTER">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblSelectedclass" alignment="CENTER" layoutX="35.0" layoutY="78.0" prefHeight="42.0" prefWidth="252.0" text="No class selected (please select class in menu)" textAlignment="CENTER" wrapText="true" />
+      <Label alignment="CENTER" layoutX="35.0" layoutY="144.0" prefHeight="25.0" prefWidth="252.0" text="Students with absence" textAlignment="CENTER">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <JFXListView fx:id="listviewStudents" layoutX="34.0" layoutY="189.0" prefHeight="272.0" prefWidth="252.0" />
+      <Label alignment="CENTER" layoutX="36.0" layoutY="165.0" prefHeight="17.0" prefWidth="252.0" text="Select student for details" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font name="System Italic" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="309.0" layoutY="50.0" prefHeight="25.0" prefWidth="252.0" text="Student details">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <ImageView fx:id="imgStudent" fitHeight="150.0" fitWidth="100.0" layoutX="572.0" layoutY="79.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../gfx/pngfuel.com.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="309.0" layoutY="90.0" prefHeight="17.0" prefWidth="45.0" text="Name:">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="309.0" layoutY="110.0" prefHeight="17.0" prefWidth="37.0" text="Email:">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="309.0" layoutY="130.0" text="Phone:">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblStudentname" layoutX="354.0" layoutY="90.0" prefHeight="17.0" prefWidth="200.0" text="no student selected" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font name="System Italic" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblEmail" layoutX="354.0" layoutY="110.0" prefHeight="17.0" prefWidth="200.0" text="no student selected" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font name="System Italic" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblPhone" layoutX="354.0" layoutY="130.0" prefHeight="17.0" prefWidth="200.0" text="no student selected" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font name="System Italic" size="12.0" />
+         </font>
+      </Label>
+      <JFXListView fx:id="listviewAbsenceDays" layoutX="309.0" layoutY="200.0" prefHeight="260.0" prefWidth="147.0" />
+      <Label layoutX="309.0" layoutY="180.0" text="Days with absence:">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <BarChart fx:id="chartAbsenceperDay" layoutX="457.0" layoutY="257.0" legendVisible="false" prefHeight="208.0" prefWidth="215.0">
+        <xAxis>
+          <CategoryAxis side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis autoRanging="false" minorTickCount="20" minorTickLength="10.0" side="LEFT" tickLabelGap="5.0" tickLength="5.0" tickUnit="10.0" />
+        </yAxis>
+      </BarChart>
+      <Label layoutX="500.0" layoutY="250.0" text="Absence distributed per day:">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
