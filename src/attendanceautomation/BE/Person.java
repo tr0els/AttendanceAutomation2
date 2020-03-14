@@ -12,10 +12,26 @@ package attendanceautomation.BE;
 public class Person {
     
     private String name;
-    private String Email;
+    private String email;
+    private String password;
     private int phoneNumber;
+
     
+    
+    
+    //using the IsTeacher interface to dynamically chance the status of the 
+    //person between teacher or student.
     public IsTeacher isThisPersonATeacher;
+    
+    public boolean CheckTeacher(){
+        return isThisPersonATeacher.isTeacher();
+    }
+    
+    public void setTeacherStatus(IsTeacher newTeacher){
+        isThisPersonATeacher = newTeacher;
+    }
+    
+    
 
     public String getName() {
         return name;
@@ -26,11 +42,19 @@ public class Person {
     }
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
-    public void setEmail(String Email) {
-        this.Email = Email;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public int getPhoneNumber() {
@@ -41,12 +65,9 @@ public class Person {
         this.phoneNumber = phoneNumber;
     }
     
-    public boolean CheckTeacher(){
-        return isThisPersonATeacher.isTeacher();
-    }
     
-    public void setTeacherStatus(IsTeacher newTeacher){
-        isThisPersonATeacher = newTeacher;
-    }
+
+
+    
     
 }
