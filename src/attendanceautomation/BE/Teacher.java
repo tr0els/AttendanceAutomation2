@@ -12,6 +12,7 @@ package attendanceautomation.BE;
 public class Teacher extends Person{
 
     public Teacher() {
+        
         super();
         
         isThisPersonATeacher = new isATeacher();

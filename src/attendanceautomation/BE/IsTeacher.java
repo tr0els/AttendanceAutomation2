@@ -21,9 +21,12 @@ class isATeacher implements IsTeacher{
         return true;
     }
     
-    public boolean isNotTeacher() {
+}
+
+class isNotTeacher implements IsTeacher{
+
+    public boolean isTeacher() {
         return false;
     }
-
     
 }

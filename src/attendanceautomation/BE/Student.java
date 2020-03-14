@@ -15,7 +15,7 @@ public class Student extends Person{
     
         super();
         
-        isThisPersonATeacher = new isATeacher();
+        isThisPersonATeacher = new isNotTeacher();
     }
     
 }
