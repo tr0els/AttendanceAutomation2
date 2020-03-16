@@ -24,6 +24,8 @@ public class AttendanceAutomation extends Application {
         Scene scene = new Scene(root);
         
         stage.setScene(scene);
+        stage.setTitle("Attendance Automation");
+        stage.setResizable(false);
         stage.show();
     }
 

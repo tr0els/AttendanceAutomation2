@@ -17,6 +17,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -35,6 +36,8 @@ public class LoginController implements Initializable
     private PasswordField passwordfieldPassword;
     @FXML
     private JFXButton btnLogIn;
+    @FXML
+    private MenuItem menuitemClose;
 
     @Override
     public void initialize(URL url, ResourceBundle rb)
@@ -59,6 +62,7 @@ public class LoginController implements Initializable
                 Stage Currentstage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 Currentstage.close();
                 stage.setScene(scene);
+                stage.setResizable(false);
                 stage.show();
             } catch (IOException e)
             {
@@ -78,6 +82,7 @@ public class LoginController implements Initializable
                 Stage Currentstage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 Currentstage.close();
                 stage.setScene(scene);
+                stage.setResizable(false);
                 stage.show();
             } catch (IOException e)
             {
@@ -85,6 +90,11 @@ public class LoginController implements Initializable
             }
         }
 
+    }
+
+    @FXML
+    private void handleCloseprogram(ActionEvent event) {
+        System.exit(0);
     }
 
 }

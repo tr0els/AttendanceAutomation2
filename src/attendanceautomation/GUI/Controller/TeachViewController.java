@@ -7,16 +7,24 @@ package attendanceautomation.GUI.Controller;
 
 import attendanceautomation.GUI.Model.AttendanceAutomationModel;
 import com.jfoenix.controls.JFXListView;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -44,6 +52,10 @@ public class TeachViewController implements Initializable
     private BarChart<?, ?> chartAbsenceperDay;
 
     private AttendanceAutomationModel model;
+    @FXML
+    private MenuBar menuBar;
+    @FXML
+    private MenuItem menuitemTLogout;
     /**
      * Initializes the controller class.
      */
@@ -81,6 +93,27 @@ public class TeachViewController implements Initializable
 
         
         chartAbsenceperDay.getData().add(model.absencePerDay());
+    }
+
+    @FXML
+    private void handleLogout(ActionEvent event) {
+        
+        try
+            {
+                Parent root = FXMLLoader.load(getClass().getResource("/attendanceautomation/GUI/View/Login.fxml"));
+
+                Scene scene = new Scene(root);
+                Stage stage = new Stage();
+                stage.setTitle("Attendance Automation");
+                Stage Currentstage = (Stage) menuBar.getScene().getWindow();
+                Currentstage.close();
+                stage.setScene(scene);
+                stage.setResizable(false);
+                stage.show();
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+            }
     }
     
 
