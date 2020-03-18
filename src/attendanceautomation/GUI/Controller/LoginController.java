@@ -16,6 +16,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.PasswordField;
@@ -38,6 +40,8 @@ public class LoginController implements Initializable
     private JFXButton btnLogIn;
     @FXML
     private MenuItem menuitemClose;
+    @FXML
+    private MenuItem menuitemAbout;
 
     @Override
     public void initialize(URL url, ResourceBundle rb)
@@ -96,5 +100,22 @@ public class LoginController implements Initializable
     private void handleCloseprogram(ActionEvent event) {
         System.exit(0);
     }
+
+    @FXML
+    private void handleAbout(ActionEvent event) {
+        Alert a = new Alert(AlertType.INFORMATION);        
+        a.setTitle("About");
+        a.setHeaderText(null);
+        a.setGraphic(null);
+        a.setWidth(100);
+        a.setContentText("This program was made by:\n"
+                + " \n"
+                + "Charlotte Christensen\n"
+                + "Troels Klein\n"
+                + "René Jørgensen\n"
+                + "Kim Christensen\n"
+                + "Brian Brandt");
+        a.show();
+     }
 
 }

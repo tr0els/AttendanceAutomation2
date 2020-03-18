@@ -23,6 +23,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.PieChart;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -56,6 +57,8 @@ public class StudViewController implements Initializable {
     private JFXButton btnAttendCurrentClass;
     @FXML
     private BarChart<?, ?> chartAbsenceperDay;
+    @FXML
+    private MenuItem menuitemClose;
 
     /**
      * Initializes the controller class.
@@ -95,8 +98,7 @@ public class StudViewController implements Initializable {
 
     }
 
-    public void handleBarChart()
-    {
+    public void handleBarChart() {
         chartAbsenceperDay.getData().add(model.absencePerDay()); //use studentid?
     }
 
@@ -121,7 +123,29 @@ public class StudViewController implements Initializable {
 
     @FXML
     private void handleAttendance(ActionEvent event) {
-        
+
         //register todays date into DB as present, also check if already registered today.
+    }
+
+    @FXML
+    private void handleCloseprogram(ActionEvent event) {
+        System.exit(0);
+    }
+
+    @FXML
+    private void handleAbout(ActionEvent event) {
+        Alert a = new Alert(Alert.AlertType.INFORMATION);
+        a.setTitle("About");
+        a.setHeaderText(null);
+        a.setGraphic(null);
+        a.setWidth(100);
+        a.setContentText("This program was made by:\n"
+                + " \n"
+                + "Charlotte Christensen\n"
+                + "Troels Klein\n"
+                + "René Jørgensen\n"
+                + "Kim Christensen\n"
+                + "Brian Brandt");
+        a.show();
     }
 }
