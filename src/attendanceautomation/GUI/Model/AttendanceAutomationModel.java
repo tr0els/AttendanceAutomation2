@@ -11,51 +11,64 @@ import javafx.scene.chart.XYChart;
 
 /**
  *
- * @author BBran
+ * @author Troels Klein
  */
 public class AttendanceAutomationModel
 {
-
-    private MockManager manager;
-
-    public AttendanceAutomationModel()
-    {
-        manager = new MockManager();
-
+    private MockManager bll;
+    
+    private AttendanceAutomationModel() {
+        bll = new MockManager(); // MockManager should later be a BLLManager
+    }
+    
+    private static class SingletonHolder {
+        private static final AttendanceAutomationModel INSTANCE = new AttendanceAutomationModel();
+    }
+    
+    public static AttendanceAutomationModel getInstance() {
+        return SingletonHolder.INSTANCE;
     }
 
     public List<String> absentStudentList()
     {
-        return manager.absentStudentList();
+        return bll.absentStudentList();
     }
 
     public List<String> studentAbsentDays()
     {
-        return manager.studentAbsentDays();
+        return bll.studentAbsentDays();
     }
 
     public XYChart.Series absencePerDay()
     {
-        return manager.absencePerDay();
+        return bll.absencePerDay();
     }
 
     public List<String> selectedStudent()
     {
-        return manager.selectedStudent();
+        return bll.selectedStudent();
     }
 
     public String selectedClass()
     {
-        return manager.selectedClass();
+        return bll.selectedClass();
     }
 
     public List<String> currentClass()
     {
-        return manager.currentClass();
+        return bll.currentClass();
     }
     
     public List<String> missedClass()
     {
-        return manager.missedClass();
+        return bll.missedClass();
+    }
+    
+    public String getTest() {
+        return bll.getTest();
+    }
+    
+    public void setTest(String txt) {
+        bll.setTest(txt);
     }
 }

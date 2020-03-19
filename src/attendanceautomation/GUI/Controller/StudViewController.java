@@ -49,6 +49,7 @@ public class StudViewController implements Initializable {
 
     private int absence;
     private AttendanceAutomationModel model;
+    private AttendanceAutomationModel model2;
     @FXML
     private MenuItem menuitemSLogout;
     @FXML
@@ -66,13 +67,27 @@ public class StudViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        model = new AttendanceAutomationModel();
+        model = AttendanceAutomationModel.getInstance();
+        model2 = AttendanceAutomationModel.getInstance();
         absence = Integer.parseInt(model.selectedStudent().get(3));
         handlePieChart();
         handleMissedClasses();
         lblAbsencepercent.setText(absence + "%");
         lblStudentFullname.setText(model.selectedStudent().get(0));
         handleBarChart();
+        
+        // testing singleton
+        // output String txt from model
+        System.out.println("Model: " + model.getTest());
+        System.out.println("Model2: " + model2.getTest());
+        
+        // change String txt using model 2
+        model2.setTest("YEEHAAA!");
+        
+        // output Sting txt from model again
+        // if it has changed model and model 2 refers to the same object
+        System.out.println("Model: " + model.getTest());
+        System.out.println("Model2: " + model2.getTest());   
     }
 
     public void handlePieChart() {
