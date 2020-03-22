@@ -7,9 +7,9 @@ package attendanceautomation.BE;
 
 /**
  *
- * @author Draik
+ * @author Kim
  */
-public class Person {
+public class abstract Person {
     
     private String name;
     private String email;

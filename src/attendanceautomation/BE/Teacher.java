@@ -7,11 +7,13 @@ package attendanceautomation.BE;
 
 /**
  *
- * @author Draik
+ * @author Kim
  */
 public class Teacher extends Person{
+    
+    private String students;
 
-    public Teacher(String name, String email, int phoneNumber) {
+    public Teacher(String name, String email, int phoneNumber, String student) {
         
         super();
         

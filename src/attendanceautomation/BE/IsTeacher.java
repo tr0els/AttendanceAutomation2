@@ -7,7 +7,7 @@ package attendanceautomation.BE;
 
 /**
  *
- * @author Draik
+ * @author Kim
  */
 public interface IsTeacher {
     
