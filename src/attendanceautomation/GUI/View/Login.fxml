@@ -7,28 +7,27 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="338.0" prefWidth="393.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="attendanceautomation.GUI.Controller.LoginController">
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="attendanceautomation.GUI.Controller.LoginController">
     <stylesheets>
         <URL value="@/attendanceautomation/GUI/CSS/guiStyle.css" />
     </stylesheets>
     <children>
-      <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="393.0">
+      <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="400.0" AnchorPane.bottomAnchor="325.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
+              <MenuItem fx:id="menuitemClose" mnemonicParsing="false" onAction="#handleCloseprogram" text="Close" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
             <items>
-              <MenuItem mnemonicParsing="false" text="About" />
+              <MenuItem fx:id="menuitemAbout" mnemonicParsing="false" onAction="#handleAbout" text="About" />
             </items>
           </Menu>
         </menus>
@@ -38,10 +37,7 @@
             <Image url="@../gfx/EASYDVEST.png" />
          </image>
       </ImageView>
-      <Rectangle fill="#ffffff1c" height="289.0" layoutX="13.0" layoutY="36.0" stroke="#bcbcbc" strokeLineCap="ROUND" strokeType="INSIDE" width="367.0">
-         <effect>
-            <InnerShadow height="0.0" radius="0.0" width="0.0" />
-         </effect></Rectangle>
+      <Rectangle fill="#ffffff1c" height="305.0" layoutX="13.0" layoutY="36.0" stroke="#bcbcbc" strokeLineCap="ROUND" strokeType="INSIDE" width="380.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="35.0" />
       <TextField fx:id="txtfieldUsername" layoutX="47.0" layoutY="168.0" prefHeight="25.0" prefWidth="294.0" promptText="Username" />
       <PasswordField fx:id="passwordfieldPassword" layoutX="47.0" layoutY="210.0" prefHeight="25.0" prefWidth="294.0" promptText="Password" />
       <JFXButton fx:id="btnLogIn" alignment="CENTER" layoutX="152.0" layoutY="263.0" lineSpacing="10.0" onAction="#handleLogIn" ripplerFill="BLACK" text="Log In" textAlignment="CENTER">

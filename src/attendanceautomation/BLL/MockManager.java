@@ -57,4 +57,12 @@ public class MockManager
     {
         return mockDao.missedClass();
     }
+    
+    public String getTest() {
+        return mockDao.getTest();
+    }
+    
+    public void setTest(String txt) {
+        mockDao.setTest(txt);
+    }
 }

@@ -15,7 +15,7 @@ import javafx.scene.chart.XYChart;
 public class Student extends Person{
     
     private List<String> last30DaysAbsent;
-    private int present;
+//    private int present;
     private int absent;
     private XYChart.Series AbsenceDistributedPerDay;
     private String teachers;

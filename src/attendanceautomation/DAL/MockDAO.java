@@ -16,6 +16,8 @@ import javafx.scene.chart.XYChart;
 public class MockDAO
 {
 
+    private String test = "test";
+    
     public List<String> absentStudentList()
     {
         ArrayList<String> studentList = new ArrayList<>();
@@ -45,8 +47,8 @@ public class MockDAO
         dataSeries1.getData().add(new XYChart.Data("Monday", 10));
         dataSeries1.getData().add(new XYChart.Data("Tuesday", 0));
         dataSeries1.getData().add(new XYChart.Data("Wednesday", 50));
-        dataSeries1.getData().add(new XYChart.Data("Thursday", 20));
-        dataSeries1.getData().add(new XYChart.Data("Friday", 40));
+        dataSeries1.getData().add(new XYChart.Data("Thursday", 17));
+        dataSeries1.getData().add(new XYChart.Data("Friday", 23));
 
         return dataSeries1;
     }
@@ -83,11 +85,19 @@ public class MockDAO
     {
         ArrayList<String> missedClass = new ArrayList<>();
 
-        missedClass.add("SDE | (Monday - 11.01.2020)");
-        missedClass.add("SCO | (Friday - 15.01.2020");
-        missedClass.add("DBO | (Monday - 18.01.2020)");
+        missedClass.add("Monday - 11.01.2020");
+        missedClass.add("Friday - 15.01.2020");
+        missedClass.add("Monday - 18.01.2020");
 
         return missedClass;
 
+    }
+    
+    public String getTest() {
+        return test;
+    }
+    
+    public void setTest(String txt) {
+        test = txt;
     }
 }
