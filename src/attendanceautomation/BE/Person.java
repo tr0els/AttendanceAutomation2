@@ -11,13 +11,11 @@ package attendanceautomation.BE;
  */
 public class Person {
     
+    private int personID;
     private String name;
     private String email;
     private String password;
     private int phoneNumber;
-
-    
-    
     
     //using the IsTeacher interface to dynamically chance the status of the 
     //person between teacher or student.
