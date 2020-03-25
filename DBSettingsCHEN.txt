@@ -1,0 +1,4 @@
+user=CSe19A_5
+password=CSe19A_5
+database=CHAN_ATT
+server=10.176.111.31
