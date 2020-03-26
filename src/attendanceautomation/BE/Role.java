@@ -9,24 +9,20 @@ package attendanceautomation.BE;
  *
  * @author Kim
  */
-public interface IsTeacher {
-    
-    boolean isTeacher();
-    
+public interface Role {
+    String Role();
 }
 
-class isATeacher implements IsTeacher{
-
-    public boolean isTeacher() {
-        return true;
-    }
+class IsTeacher implements Role {
     
+    public String Role() {
+        return "Teacher";
+    }
 }
 
-class isNotTeacher implements IsTeacher{
+class IsStudent implements Role {
 
-    public boolean isTeacher() {
-        return false;
+    public String Role() {
+        return "Student";
     }
-    
 }

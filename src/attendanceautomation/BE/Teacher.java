@@ -13,12 +13,13 @@ public class Teacher extends Person{
     
     private String students;
 
-    public Teacher(String name, String email, int phoneNumber, String student) {
+    public Teacher(String email, String password) {
+        super(email, password);
         
-        super();
-        
-        isThisPersonATeacher = new isATeacher();
+        personRole = new IsTeacher();
     }
+
+
     
     
     

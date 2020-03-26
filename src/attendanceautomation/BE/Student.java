@@ -19,12 +19,12 @@ public class Student extends Person{
     private int absent;
     private XYChart.Series AbsenceDistributedPerDay;
     private String teachers;
-    
-    public Student(String name, String email, int phoneNumber, List<String> last30DaysAbsent, int present, int absent, XYChart.Series AbsenceDistributedPerDay, String teachers){
-    
-        super();
+
+    public Student(String email, String password) {
+        super(email, password);
         
-        isThisPersonATeacher = new isNotTeacher();
+        personRole = new IsStudent();
     }
+    
     
 }
