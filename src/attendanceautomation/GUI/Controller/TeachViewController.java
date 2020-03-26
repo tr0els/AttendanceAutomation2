@@ -65,7 +65,7 @@ public class TeachViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        model = new AttendanceAutomationModel();
+        model = AttendanceAutomationModel.getInstance();
 
         lblStudentname.setText(model.selectedStudent().get(0));
         lblEmail.setText(model.selectedStudent().get(1));

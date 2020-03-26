@@ -16,6 +16,8 @@ import javafx.scene.chart.XYChart;
 public class MockDAO
 {
 
+    private String test = "test";
+    
     public List<String> absentStudentList()
     {
         ArrayList<String> studentList = new ArrayList<>();
@@ -89,5 +91,13 @@ public class MockDAO
 
         return missedClass;
 
+    }
+    
+    public String getTest() {
+        return test;
+    }
+    
+    public void setTest(String txt) {
+        test = txt;
     }
 }
