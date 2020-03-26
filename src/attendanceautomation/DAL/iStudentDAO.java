@@ -21,9 +21,9 @@ public interface iStudentDAO {
     public Date getCurrentDate();
     
     /**
-     * sender en dato og studentID ind i DB'en for at registrere tilstede.
+     * sender en dato og personID ind i DB'en for at registrere personen er tilstede på denne dato.
      * @param date 
      */
-    public void studentIsPresent(Date date, int studentID);
+    public void studentIsPresent(Date date, int personID);
     
 }

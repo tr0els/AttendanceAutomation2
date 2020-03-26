@@ -19,7 +19,7 @@ public class Student extends Person{
     private int absent;
     private XYChart.Series AbsenceDistributedPerDay;
     
-    public Student(String name, String email, int phoneNumber){
+    public Student(int personID, String name, String email, int phoneNumber){
     
         super();
         

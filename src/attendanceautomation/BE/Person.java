@@ -63,8 +63,13 @@ public class Person {
         this.phoneNumber = phoneNumber;
     }
     
-    
+    public void setPersonID(int personID){
+        this.personID = personID;
+    }
 
+    public int getPersonID(){
+        return personID;
+    }
 
     
     

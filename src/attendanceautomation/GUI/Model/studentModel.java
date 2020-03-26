@@ -34,12 +34,12 @@ public class studentModel {
     
 
     /**
-     * sender en dato ned i systemet for at registrere at man er tilstede denne dato.
+     * sender en dato og personID ind i DB'en for at registrere personen er tilstede på denne dato.
      * @param date 
      */
-    public void studentIsPresent(Date date, int studentID)
+    public void studentIsPresent(Date date, int personID)
     {
-        manager.studentIsPresent(date, studentID);
+        manager.studentIsPresent(date, personID);
     }
     
 }

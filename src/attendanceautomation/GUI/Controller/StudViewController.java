@@ -64,7 +64,7 @@ public class StudViewController implements Initializable {
     @FXML
     private Label showDate;
 
-    private int studentID;
+    private int personID;
     
     /**
      * Initializes the controller class.
@@ -73,6 +73,7 @@ public class StudViewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 
         model = new studentModel();
+
         
     }
 
@@ -108,7 +109,7 @@ public class StudViewController implements Initializable {
     }
 
     /**
-     * Henter dato for idag og sender den ned i db for at registrere at man er tilstede.
+     * Henter dato for idag og sender den og personID ned i db for at registrere at man er tilstede.
      * Konvertere dato til string og viser den i label showDate.
      * @param event 
      */
@@ -120,9 +121,10 @@ public class StudViewController implements Initializable {
         DateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy");
         String strDate = dateFormat.format(currentDate);
         showDate.setText(strDate);
+                
+        //TO_DO Skaffe personID fra BE!
         
-        studentID = 0;
-        model.studentIsPresent(currentDate, studentID);
+        model.studentIsPresent(currentDate, personID);
     }
 
     @FXML

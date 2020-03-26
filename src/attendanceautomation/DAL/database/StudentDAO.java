@@ -25,11 +25,11 @@ public class StudentDAO implements iStudentDAO {
     }
 
     /**
-     * sender en dato og studentID ind i DB'en for at registrere tilstede.
+     * sender en dato og personID ind i DB'en for at registrere personen er tilstede på denne dato.
      * @param date 
      */
     @Override
-    public void studentIsPresent(Date date, int studentID) {
+    public void studentIsPresent(Date date, int personID) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
