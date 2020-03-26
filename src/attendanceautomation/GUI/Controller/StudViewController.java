@@ -5,20 +5,19 @@
  */
 package attendanceautomation.GUI.Controller;
 
-import attendanceautomation.GUI.Model.AttendanceAutomationModel;
+import attendanceautomation.GUI.Model.studentModel;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
 import java.io.IOException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
@@ -27,6 +26,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 /**
@@ -48,7 +48,7 @@ public class StudViewController implements Initializable {
     private Label lblAbsencepercent;
 
     private int absence;
-    private AttendanceAutomationModel model;
+    private studentModel model;
     @FXML
     private MenuItem menuitemSLogout;
     @FXML
@@ -59,47 +59,33 @@ public class StudViewController implements Initializable {
     private BarChart<?, ?> chartAbsenceperDay;
     @FXML
     private MenuItem menuitemClose;
+    @FXML
+    private Rectangle rectangle;
+    @FXML
+    private Label showDate;
 
+    private int studentID;
+    
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        model = new AttendanceAutomationModel();
-        absence = Integer.parseInt(model.selectedStudent().get(3));
-        handlePieChart();
-        handleMissedClasses();
-        lblAbsencepercent.setText(absence + "%");
-        lblStudentFullname.setText(model.selectedStudent().get(0));
-        handleBarChart();
+        model = new studentModel();
+        
     }
 
     public void handlePieChart() {
-        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
-                new PieChart.Data("Present", 100 - absence),
-                new PieChart.Data("Absent", absence)
-        );
-
-        piechartAttendance.setData(pieChartData);
-        piechartAttendance.setClockwise(true);
-        piechartAttendance.setLabelLineLength(10);
-        piechartAttendance.setLegendVisible(false);
-        piechartAttendance.setStartAngle(90);
 
     }
 
     public void handleMissedClasses() {
-        ObservableList<String> missedClass = FXCollections.observableArrayList(model.missedClass());
-
-        listviewMissedClasses.setItems(missedClass);
-//        listviewMissedClasses.setFocusTraversable(false);
-//        listviewMissedClasses.setMouseTransparent(true);
 
     }
 
     public void handleBarChart() {
-        chartAbsenceperDay.getData().add(model.absencePerDay()); //use studentid?
+       //use studentid?
     }
 
     @FXML
@@ -121,10 +107,22 @@ public class StudViewController implements Initializable {
         }
     }
 
+    /**
+     * Henter dato for idag og sender den ned i db for at registrere at man er tilstede.
+     * Konvertere dato til string og viser den i label showDate.
+     * @param event 
+     */
     @FXML
     private void handleAttendance(ActionEvent event) {
 
-        //register todays date into DB as present, also check if already registered today.
+        Date currentDate = model.getCurrentDate();
+        
+        DateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy");
+        String strDate = dateFormat.format(currentDate);
+        showDate.setText(strDate);
+        
+        studentID = 0;
+        model.studentIsPresent(currentDate, studentID);
     }
 
     @FXML

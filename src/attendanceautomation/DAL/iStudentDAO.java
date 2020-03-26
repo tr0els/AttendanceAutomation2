@@ -5,6 +5,8 @@
  */
 package attendanceautomation.DAL;
 
+import java.util.Date;
+
 /**
  *
  * @author BBran
@@ -12,5 +14,16 @@ package attendanceautomation.DAL;
 public interface iStudentDAO {
     
     
+    /**
+     * returnere dagens dato.
+     * @return 
+     */
+    public Date getCurrentDate();
+    
+    /**
+     * sender en dato og studentID ind i DB'en for at registrere tilstede.
+     * @param date 
+     */
+    public void studentIsPresent(Date date, int studentID);
     
 }
