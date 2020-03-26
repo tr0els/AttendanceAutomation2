@@ -25,7 +25,7 @@ public class StudentDAO implements iStudentDAO {
     }
 
     /**
-     * modtager en dato og sætter den ind i DB'en for at registerer at eleven er tilstede.
+     * sender en dato og studentID ind i DB'en for at registrere tilstede.
      * @param date 
      */
     @Override
