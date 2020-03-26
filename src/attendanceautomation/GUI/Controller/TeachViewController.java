@@ -85,6 +85,8 @@ public class TeachViewController implements Initializable {
         ObservableList<String> currentStudent = FXCollections.observableArrayList(model.studentAbsentDays());
 
         listviewAbsenceDays.setItems(currentStudent);
+        listviewAbsenceDays.setFocusTraversable(false);
+        listviewAbsenceDays.setMouseTransparent(true);
     }
 
     public void handleBarChart() {

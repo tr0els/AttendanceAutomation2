@@ -93,8 +93,8 @@ public class StudViewController implements Initializable {
         ObservableList<String> missedClass = FXCollections.observableArrayList(model.missedClass());
 
         listviewMissedClasses.setItems(missedClass);
-        listviewMissedClasses.setFocusTraversable(false);
-        listviewMissedClasses.setMouseTransparent(true);
+//        listviewMissedClasses.setFocusTraversable(false);
+//        listviewMissedClasses.setMouseTransparent(true);
 
     }
 

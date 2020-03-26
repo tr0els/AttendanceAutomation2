@@ -10,6 +10,8 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
@@ -18,32 +20,33 @@
         <URL value="@/attendanceautomation/GUI/CSS/guiStyle.css" />
     </stylesheets>
     <children>
-      <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="400.0" AnchorPane.bottomAnchor="325.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <menus>
-          <Menu mnemonicParsing="false" text="File">
-            <items>
-              <MenuItem fx:id="menuitemClose" mnemonicParsing="false" onAction="#handleCloseprogram" text="Close" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem fx:id="menuitemAbout" mnemonicParsing="false" onAction="#handleAbout" text="About" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
-      <ImageView fitHeight="85.0" fitWidth="247.0" layoutX="70.0" layoutY="61.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../gfx/EASYDVEST.png" />
-         </image>
-      </ImageView>
-      <Rectangle fill="#ffffff1c" height="305.0" layoutX="13.0" layoutY="36.0" stroke="#bcbcbc" strokeLineCap="ROUND" strokeType="INSIDE" width="380.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="35.0" />
-      <TextField fx:id="txtfieldUsername" layoutX="47.0" layoutY="168.0" prefHeight="25.0" prefWidth="294.0" promptText="Username" />
-      <PasswordField fx:id="passwordfieldPassword" layoutX="47.0" layoutY="210.0" prefHeight="25.0" prefWidth="294.0" promptText="Password" />
-      <JFXButton fx:id="btnLogIn" alignment="CENTER" layoutX="152.0" layoutY="263.0" lineSpacing="10.0" onAction="#handleLogIn" ripplerFill="BLACK" text="Log In" textAlignment="CENTER">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </JFXButton>
-   </children>
+        <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="400.0" AnchorPane.bottomAnchor="325.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <menus>
+                <Menu mnemonicParsing="false" text="File">
+                    <items>
+                        <MenuItem fx:id="menuitemClose" mnemonicParsing="false" onAction="#handleCloseprogram" text="Close" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                    <items>
+                        <MenuItem fx:id="menuitemAbout" mnemonicParsing="false" onAction="#handleAbout" text="About" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+        <Rectangle fx:id="rectangle" height="305.0" layoutX="13.0" layoutY="36.0" width="380.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="35.0">
+        </Rectangle>
+        <ImageView fitHeight="85.0" fitWidth="247.0" layoutX="70.0" layoutY="61.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../gfx/EASYDVEST.png" />
+            </image>
+        </ImageView>
+        <TextField fx:id="txtfieldUsername" layoutX="47.0" layoutY="168.0" prefHeight="25.0" prefWidth="294.0" promptText="Username" />
+        <PasswordField fx:id="passwordfieldPassword" layoutX="47.0" layoutY="210.0" prefHeight="25.0" prefWidth="294.0" promptText="Password" />
+        <JFXButton fx:id="btnLogIn" alignment="CENTER" layoutX="152.0" layoutY="263.0" lineSpacing="10.0" onAction="#handleLogIn" ripplerFill="BLACK" text="Log In" textAlignment="CENTER">
+            <font>
+                <Font size="20.0" />
+            </font>
+        </JFXButton>
+    </children>
 </AnchorPane>

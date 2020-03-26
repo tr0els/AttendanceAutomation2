@@ -6,14 +6,61 @@
 
 }
 
+#AnchorPane{
+    -fx-background-color: #e8e8e8;
+}
+
+#rectangle{
+    -fx-fill: #c9c9c9;
+    -fx-stroke: #8f8f8f;
+    -fx-stroke-line-cap: round;
+    -fx-stroke-type: inside; 
+    
+}
+
 .jfx-button{
     -jfx-button-type: RAISED;
     -fx-background-color: #00b2ed;
     -fx-text-fill: black;
 }
 
+.jfx-list-view{
+    -fx-border-color: #8f8f8f;
+
+}
+
+.jfx-list-view, .jfx-list-cell{
+    -fx-background-color: #bdbbbb;
+    -fx-text-fill: black;
+
+}
+
+.jfx-list-cell:focused:selected:filled{
+    -fx-text-fill: white;
+    
+}
+
+.text-field, .password-field{
+    -fx-border-color: black;
+    -fx-border-width: 1px;
+    -fx-prompt-text-fill: white;
+    -fx-background-color: #bdbbbb;
+}
+
+.text-field:focused, .password-field:focused{
+    -fx-border-color: #00b2ed;
+    -fx-border-width: 1px;
+    -fx-prompt-text-fill: transparent;
+    -fx-background-color: #dbdbdb;
+}
+
+
 .data0.chart-pie { -fx-pie-color: #00b2ed; }
 .data1.chart-pie { -fx-pie-color: #fdac41; }
+
+.chart-pie {
+    -fx-border-color: derive(-fx-pie-color, -60%);
+}
 
 .chart-bar{
     -fx-bar-fill: #00b2ed;

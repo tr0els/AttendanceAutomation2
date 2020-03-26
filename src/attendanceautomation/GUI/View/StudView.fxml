@@ -11,7 +11,6 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.shape.Rectangle?>
@@ -37,10 +36,7 @@
           </Menu>
         </menus>
       </MenuBar>
-      <Rectangle fill="#ffffff1c" height="120.0" layoutX="20.0" layoutY="43.0" stroke="#bcbcbc" strokeLineCap="ROUND" strokeType="INSIDE" width="370.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="35.0">
-         <effect>
-            <InnerShadow height="0.0" radius="0.0" width="0.0" />
-         </effect>
+      <Rectangle fx:id="rectangle" height="120.0" layoutX="20.0" layoutY="43.0" width="370.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="35.0">
       </Rectangle>
       <Label fx:id="lblStudentFullname" alignment="CENTER" layoutX="23.0" layoutY="43.0" prefHeight="27.0" prefWidth="345.0" text="Student Full Name">
          <font>
@@ -52,10 +48,7 @@
             <Font size="14.0" />
          </font>
       </JFXButton>
-      <Rectangle fill="#ffffff1c" height="375.0" layoutX="396.0" layoutY="43.0" stroke="#bcbcbc" strokeLineCap="ROUND" strokeType="INSIDE" width="283.0" AnchorPane.leftAnchor="390.0" AnchorPane.topAnchor="35.0">
-         <effect>
-            <InnerShadow height="0.0" radius="0.0" width="0.0" />
-         </effect>
+      <Rectangle fx:id="rectangle" height="375.0" layoutX="396.0" layoutY="43.0" width="283.0" AnchorPane.leftAnchor="390.0" AnchorPane.topAnchor="35.0">
       </Rectangle>
       <Label alignment="CENTER" layoutX="390.0" layoutY="43.0" prefHeight="27.0" prefWidth="283.0" text="Attendance details:">
          <font>
@@ -63,12 +56,9 @@
          </font>
       </Label>
       <PieChart fx:id="piechartAttendance" layoutX="438.0" layoutY="75.0" prefHeight="120.0" prefWidth="200.0" />
-      <Rectangle fill="#ffffff1c" height="245.0" layoutX="20.0" layoutY="165.0" stroke="#bcbcbc" strokeLineCap="ROUND" strokeType="INSIDE" width="370.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="165.0">
-         <effect>
-            <InnerShadow height="0.0" radius="0.0" width="0.0" />
-         </effect>
+      <Rectangle fx:id="rectangle" height="245.0" layoutX="20.0" layoutY="165.0" width="370.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="165.0">
       </Rectangle>
-      <Label alignment="CENTER" layoutX="10.0" layoutY="179.0" prefHeight="27.0" prefWidth="370.0" text="Missed classes (last 14 days)">
+      <Label alignment="CENTER" layoutX="10.0" layoutY="179.0" prefHeight="27.0" prefWidth="370.0" text="Missed days (last 7 days)">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
