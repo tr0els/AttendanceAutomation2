@@ -5,6 +5,7 @@
  */
 package attendanceautomation.GUI.Model;
 
+import attendanceautomation.BE.Classes;
 import attendanceautomation.BLL.MockManager;
 import java.util.List;
 import javafx.scene.chart.XYChart;
@@ -70,5 +71,9 @@ public class AttendanceAutomationModel
     
     public void setTest(String txt) {
         bll.setTest(txt);
+    }
+    
+    public List<Classes> listClasses(){
+        return bll.listClasses();
     }
 }
