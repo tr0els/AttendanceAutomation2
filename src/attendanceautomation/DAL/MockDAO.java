@@ -5,6 +5,7 @@
  */
 package attendanceautomation.DAL;
 
+import attendanceautomation.BE.Classes;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.chart.XYChart;
@@ -99,5 +100,26 @@ public class MockDAO
     
     public void setTest(String txt) {
         test = txt;
+    }
+    
+    public List<Classes> listClasses(){
+        
+        Classes class1 = new Classes(1, "CSe2019_A");
+        Classes class2 = new Classes(2, "CSe2019_B");
+        Classes class3 = new Classes(3, "CSe2018_A");
+        Classes class4 = new Classes(4, "CSe2018_B");
+        Classes class5 = new Classes(5, "CSe2017_A");
+        Classes class6 = new Classes(6, "CSe2017_B");
+        
+        ArrayList<Classes> listClasses = new ArrayList<>();
+        
+        listClasses.add(class1);
+        listClasses.add(class2);
+        listClasses.add(class3);
+        listClasses.add(class4);
+        listClasses.add(class5);
+        listClasses.add(class6);
+        
+        return listClasses;
     }
 }

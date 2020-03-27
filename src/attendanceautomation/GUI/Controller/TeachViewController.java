@@ -5,6 +5,7 @@
  */
 package attendanceautomation.GUI.Controller;
 
+import attendanceautomation.BE.Classes;
 import attendanceautomation.GUI.Model.AttendanceAutomationModel;
 import com.jfoenix.controls.JFXListView;
 import java.io.IOException;
@@ -21,10 +22,12 @@ import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 /**
@@ -58,6 +61,8 @@ public class TeachViewController implements Initializable {
     private MenuItem menuitemClose;
     @FXML
     private Label lblPhone1;
+    @FXML
+    private ChoiceBox<Classes> choiceBoxClasses;
 
     /**
      * Initializes the controller class.
@@ -67,6 +72,8 @@ public class TeachViewController implements Initializable {
 
         model = AttendanceAutomationModel.getInstance();
 
+        ObservableList<Classes> listClasses = FXCollections.observableArrayList(model.listClasses());
+        choiceBoxClasses.setItems(listClasses);
         lblStudentname.setText(model.selectedStudent().get(0));
         lblEmail.setText(model.selectedStudent().get(1));
         lblPhone.setText(model.selectedStudent().get(2));
@@ -131,6 +138,11 @@ public class TeachViewController implements Initializable {
                 + "Kim Christensen\n"
                 + "Brian Brandt");
         a.show();
+    }
+
+    @FXML
+    private void handleChosenClass(MouseEvent event)
+    {
     }
 
 }
