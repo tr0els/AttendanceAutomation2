@@ -1,4 +1,0 @@
-user=CSe19A_05
-password=CSe19A_05
-database=CHEN_ATTENDANCE
-server=10.176.111.31
