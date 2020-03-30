@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package attendanceautomation.DAL;
+package attendanceautomation.DAL.database;
 
 /**
  *
@@ -13,6 +13,7 @@ package attendanceautomation.DAL;
     
     
     
+import attendanceautomation.DAL.DALException;
 import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.io.FileReader;
@@ -32,12 +33,12 @@ public class DatabaseConnector
     {
         try{
         Properties props = new Properties();
-        props.load(new FileReader("DBSettingsCHEN.db"));
+        props.load(new FileReader("DBSettings.txt"));
         dataSource = new SQLServerDataSource();
         dataSource.setDatabaseName(props.getProperty("database"));
         dataSource.setUser(props.getProperty("user"));
-        dataSource.setPassword(props.getProperty("password"));        
-        dataSource.setServerName(props.getProperty("server"));
+        dataSource.setPassword(props.getProperty("password"));
+        dataSource.setServerName(props.getProperty("server")); 
         }
         catch (IOException ex) {
             

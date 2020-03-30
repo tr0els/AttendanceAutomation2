@@ -11,11 +11,10 @@ package attendanceautomation.BE;
  */
 public class Teacher extends Person{
 
-    public Teacher(String name, String email, int phoneNumber) {
+    public Teacher(int personid, String name, String email, String password, String phonenumber) {
         
-        super();
+        super(personid, name, email, email, phonenumber);
         
-        isThisPersonATeacher = new isATeacher();
     }
     
     

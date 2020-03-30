@@ -15,21 +15,15 @@ public class Person {
     private String name;
     private String email;
     private String password;
-    private int phoneNumber;
+    private String phoneNumber;
     
-    //using the IsTeacher interface to dynamically chance the status of the 
-    //person between teacher or student.
-    public IsTeacher isThisPersonATeacher;
-    
-    public boolean CheckTeacher(){
-        return isThisPersonATeacher.isTeacher();
+    public Person(int personid, String name, String email, String password, String phonenumber){
+        this.personID = personid;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
     }
-    
-    public void setTeacherStatus(IsTeacher newTeacher){
-        isThisPersonATeacher = newTeacher;
-    }
-    
-    
 
     public String getName() {
         return name;
@@ -55,11 +49,11 @@ public class Person {
         this.password = password;
     }
 
-    public int getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
     

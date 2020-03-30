@@ -6,6 +6,8 @@
 package attendanceautomation.GUI.Model;
 
 import attendanceautomation.BLL.BLLManager;
+import attendanceautomation.DAL.DALException;
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -16,7 +18,7 @@ public class studentModel {
     
     private BLLManager manager;
     
-    public studentModel()
+    public studentModel() throws DALException
     {
         manager = new BLLManager();
     }
@@ -26,7 +28,7 @@ public class studentModel {
      * Henter datoen for idag og returnere den.
      * @return Dagens dato
      */
-    public Date getCurrentDate()
+    public LocalDate getCurrentDate()
     {
         return manager.getCurrentdate();
         
@@ -37,7 +39,7 @@ public class studentModel {
      * sender en dato og personID ind i DB'en for at registrere personen er tilstede på denne dato.
      * @param date 
      */
-    public void studentIsPresent(Date date, int personID)
+    public void studentIsPresent(LocalDate date, int personID)
     {
         manager.studentIsPresent(date, personID);
     }

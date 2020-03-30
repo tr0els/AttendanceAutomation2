@@ -5,25 +5,16 @@
  */
 package attendanceautomation.BE;
 
-import java.util.List;
-import javafx.scene.chart.XYChart;
-
 /**
  *
  * @author Draik
  */
 public class Student extends Person{
     
-    private List<String> last30DaysAbsent;
-//    private int present;
-    private int absent;
-    private XYChart.Series AbsenceDistributedPerDay;
+
+    public Student(int personid, String name, String email, String password, String phonenumber){
     
-    public Student(int personID, String name, String email, int phoneNumber){
-    
-        super();
-        
-        isThisPersonATeacher = new isNotTeacher();
+        super(personid, name, email, email, phonenumber);
     }
     
 }
