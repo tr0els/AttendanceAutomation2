@@ -32,7 +32,7 @@ public class DatabaseConnector
     {
         try{
         Properties props = new Properties();
-        props.load(new FileReader("DBSettingsCHEN.db"));
+        props.load(new FileReader("DBSettingsCHEN.txt"));
         dataSource = new SQLServerDataSource();
         dataSource.setDatabaseName(props.getProperty("database"));
         dataSource.setUser(props.getProperty("user"));
