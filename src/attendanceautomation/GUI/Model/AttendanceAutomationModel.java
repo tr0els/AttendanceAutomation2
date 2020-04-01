@@ -5,25 +5,22 @@
  */
 package attendanceautomation.GUI.Model;
 
-import java.util.Date;
 import attendanceautomation.BLL.BLLManager;
 import attendanceautomation.DAL.DALException;
+import java.time.LocalDate;
+import java.util.Date;
 
 /**
  *
  * @author BBran
  */
-
 public class AttendanceAutomationModel {
 
     private BLLManager manager;
 
     public AttendanceAutomationModel() throws DALException {
-                manager = new BLLManager();
-    
+        manager = new BLLManager();
     }
-
-    
 
 //    /**
 //     * shit doesn't work! Skal laves så den kaster exceptions
@@ -38,21 +35,21 @@ public class AttendanceAutomationModel {
 
     /**
      * Henter datoen for idag og returnere den.
+     *
      * @return Dagens dato
      */
-    public Date getCurrentDate()
-    {
+    public LocalDate getCurrentDate() {
         return manager.getCurrentdate();
-        
+
     }
-    
 
     /**
-     * sender en dato og personID ind i DB'en for at registrere personen er tilstede på denne dato.
-     * @param date 
+     * sender en dato og personID ind i DB'en for at registrere personen er
+     * tilstede på denne dato.
+     *
+     * @param date
      */
-    public void studentIsPresent(Date date, int personID)
-    {
+    public void studentIsPresent(LocalDate date, int personID) {
         manager.studentIsPresent(date, personID);
     }
 
@@ -85,4 +82,4 @@ public class AttendanceAutomationModel {
 
     }
 
-
+}

@@ -5,8 +5,6 @@
  */
 package attendanceautomation.GUI.Controller;
 
-import attendanceautomation.BE.Student;
-import attendanceautomation.BE.Teacher;
 import attendanceautomation.DAL.DALException;
 import attendanceautomation.GUI.Model.AttendanceAutomationModel;
 import com.jfoenix.controls.JFXButton;
@@ -47,8 +45,6 @@ public class LoginController implements Initializable {
     private MenuItem menuitemClose;
     @FXML
     private MenuItem menuitemAbout;
-    
-    private AttendanceAutomationModel model;
 
     private AttendanceAutomationModel model;
 
@@ -61,24 +57,18 @@ public class LoginController implements Initializable {
         }
     }
 
-    
-    /*
-        Tager det info der er blevet tastet ind og sender det ned til DAO for at
-        blive verified
-    */
     @FXML
     private void handleLogIn(ActionEvent event) throws IOException {
         String username = txtfieldUsername.getText();
         String password = passwordfieldPassword.getText().toString();
 
-        
         if (model.loginModel(username, password) == true) {
             String role = model.getRole();
-            
-            if (role.equals("Student")){
+
+            if (role.equals("Student")) {
                 OpenStudentMenu(event);
             }
-            if (role.equals("Teacher")){
+            if (role.equals("Teacher")) {
                 OpenTeacherMenu(event);
             }
         }
@@ -86,7 +76,7 @@ public class LoginController implements Initializable {
 
     /*
         åbner lære Menuen
-    */
+     */
     private void OpenTeacherMenu(ActionEvent event) {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/attendanceautomation/GUI/View/TeachView.fxml"));
@@ -103,26 +93,6 @@ public class LoginController implements Initializable {
             e.printStackTrace();
         }
 
-    }
-    
-    /*
-        åbner studerende menuen
-    */
-    private void OpenStudentMenu(ActionEvent event) {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/attendanceautomation/GUI/View/StudView.fxml"));
-
-            Scene scene = new Scene(root);
-            Stage stage = new Stage();
-            stage.setTitle("Student Menu");
-            Stage Currentstage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            Currentstage.close();
-            stage.setScene(scene);
-            stage.setResizable(false);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     /*
