@@ -5,10 +5,8 @@
  */
 package attendanceautomation.BLL;
 
-import attendanceautomation.DAL.DALException;
-import attendanceautomation.DAL.database.DataDAO;
-import attendanceautomation.DAL.iDataDAO;
-import java.time.LocalDate;
+import attendanceautomation.DAL.database.StudentDAO;
+import attendanceautomation.DAL.iStudentDAO;
 import java.util.Date;
 
 /**
@@ -16,45 +14,31 @@ import java.util.Date;
  * @author BBran
  */
 public class BLLManager {
-
-    private iDataDAO datadao;
-
-    public BLLManager() throws DALException {
-
-        datadao = new DataDAO();
+    
+    private iStudentDAO studentdao;
+    
+    public BLLManager(){
+        
+        studentdao = new StudentDAO();
     }
-
+    
     /**
      * returnere dagens dato.
-     *
-     * @return
+     * @return 
      */
-    public LocalDate getCurrentdate() {
-
-        return datadao.getCurrentDate();
+    public Date getCurrentdate(){
+        
+        return studentdao.getCurrentDate();
     }
-
+    
+    
     /**
-     * sender en dato og personID ind i DB'en for at registrere personen er
-     * tilstede på denne dato.
-     *
-     * @param date
+     * sender en dato og personID ind i DB'en for at registrere personen er tilstede på denne dato.
+     * @param date 
      */
-    public void studentIsPresent(LocalDate date, int personID) {
-
-        datadao.studentIsPresent(date, personID);
+    public void studentIsPresent(Date date, int personID){
+        
+        studentdao.studentIsPresent(date, personID);
     }
-
-    /**
-     * sender en personID ind i DB for at tjekke om studenten har registreret
-     * sig idag.
-     *
-     * @param personID
-     * @return
-     */
-    public boolean studentAlreadyRegistered(int personID) {
-
-        return datadao.studentAlreadyRegistered(personID);
-    }
-
+    
 }

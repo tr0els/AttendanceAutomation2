@@ -6,6 +6,7 @@
 package attendanceautomation.GUI.Controller;
 
 import attendanceautomation.BE.Classes;
+import attendanceautomation.GUI.Model.AttendanceAutomationModel;
 import com.jfoenix.controls.JFXListView;
 import java.io.IOException;
 import java.net.URL;
@@ -51,6 +52,7 @@ public class TeachViewController implements Initializable {
     @FXML
     private BarChart<?, ?> chartAbsenceperDay;
 
+    private AttendanceAutomationModel model;
     @FXML
     private MenuBar menuBar;
     @FXML
@@ -68,22 +70,35 @@ public class TeachViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
+        model = AttendanceAutomationModel.getInstance();
 
+        ObservableList<Classes> listClasses = FXCollections.observableArrayList(model.listClasses());
+        choiceBoxClasses.setItems(listClasses);
+        lblStudentname.setText(model.selectedStudent().get(0));
+        lblEmail.setText(model.selectedStudent().get(1));
+        lblPhone.setText(model.selectedStudent().get(2));
+        handleStudentList();
+        handleStudentAbsence();
+        handleBarChart();
     }
 
     public void handleStudentList() {
+        ObservableList<String> currentClass = FXCollections.observableArrayList(model.absentStudentList());
 
-
-
+        listviewStudents.setItems(currentClass);
     }
 
     public void handleStudentAbsence() {
-        
+        ObservableList<String> currentStudent = FXCollections.observableArrayList(model.studentAbsentDays());
 
+        listviewAbsenceDays.setItems(currentStudent);
+        listviewAbsenceDays.setFocusTraversable(false);
+        listviewAbsenceDays.setMouseTransparent(true);
     }
 
     public void handleBarChart() {
 
+        chartAbsenceperDay.getData().add(model.absencePerDay());
     }
 
     @FXML
