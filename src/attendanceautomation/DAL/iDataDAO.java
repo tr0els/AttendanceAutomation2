@@ -5,25 +5,32 @@
  */
 package attendanceautomation.DAL;
 
-import java.util.Date;
+import java.time.LocalDate;
+
 
 /**
  *
  * @author BBran
  */
-public interface iStudentDAO {
+public interface iDataDAO {
     
-    
-    /**
+     /**
      * returnere dagens dato.
      * @return 
      */
-    public Date getCurrentDate();
+    public LocalDate getCurrentDate();
     
     /**
      * sender en dato og personID ind i DB'en for at registrere personen er tilstede på denne dato.
      * @param date 
      */
-    public void studentIsPresent(Date date, int personID);
+    public void studentIsPresent(LocalDate date, int personID);
     
+    
+    /**
+     * sender en personID ind i DB for at tjekke om studenten har registreret sig idag.
+     * @param personID
+     * @return 
+     */
+    public boolean studentAlreadyRegistered(int personID);
 }

@@ -5,9 +5,6 @@
  */
 package attendanceautomation.BE;
 
-import java.util.List;
-import javafx.scene.chart.XYChart;
-
 /**
  *
  * @author Kim

@@ -5,6 +5,7 @@
  */
 package attendanceautomation.GUI.Controller;
 
+import attendanceautomation.DAL.DALException;
 import attendanceautomation.GUI.Model.studentModel;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
@@ -12,8 +13,12 @@ import java.io.IOException;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -65,16 +70,34 @@ public class StudViewController implements Initializable {
     private Label showDate;
 
     private int personID;
-    
+    private LocalDate currentDate;
+    private Boolean registeredToday;
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        model = new studentModel();
+        try {
+            model = new studentModel();
 
-        
+            personID = 1; //TO_DO Skaffe personID fra BE!
+
+            currentDate = model.getCurrentDate();
+            String strDate = currentDate.format(DateTimeFormatter.ofPattern("dd. MMMM yyyy"));
+            showDate.setText(strDate);
+
+            registeredToday = model.studentAlreadyRegistered(personID);
+            if (registeredToday == true) {
+                btnAttendCurrentClass.setDisable(true);
+                btnAttendCurrentClass.setText("Already Registered!");
+            }
+
+        } catch (DALException ex) {
+            Logger.getLogger(StudViewController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     public void handlePieChart() {
@@ -86,7 +109,7 @@ public class StudViewController implements Initializable {
     }
 
     public void handleBarChart() {
-       //use studentid?
+        //use studentid?
     }
 
     @FXML
@@ -109,22 +132,18 @@ public class StudViewController implements Initializable {
     }
 
     /**
-     * Henter dato for idag og sender den og personID ned i db for at registrere at man er tilstede.
-     * Konvertere dato til string og viser den i label showDate.
-     * @param event 
+     * Henter dato for idag og sender den og personID ned i db for at registrere
+     * at man er tilstede. Konvertere dato til string og viser den i label
+     * showDate.
+     *
+     * @param event
      */
     @FXML
     private void handleAttendance(ActionEvent event) {
 
-        Date currentDate = model.getCurrentDate();
-        
-        DateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy");
-        String strDate = dateFormat.format(currentDate);
-        showDate.setText(strDate);
-                
-        //TO_DO Skaffe personID fra BE!
-        
         model.studentIsPresent(currentDate, personID);
+        btnAttendCurrentClass.setDisable(true);
+        btnAttendCurrentClass.setText("Already Registered!");
     }
 
     @FXML
