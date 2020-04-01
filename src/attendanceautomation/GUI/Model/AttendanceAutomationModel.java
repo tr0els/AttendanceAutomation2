@@ -76,6 +76,7 @@ public class AttendanceAutomationModel
 
     public List<Classes> listClasses(){
         return bll.listClasses();
+    }
 
     public boolean loginModel(String email, String password){
         return bll.LoginBLL(email, password);
