@@ -69,9 +69,9 @@ public class BLLManager {
     /*
         rollen som model spørger efter bliver returneret her
     */
-    public String getRole(){
+    public int getRole(String username, String password){
     
-        return datadao.getRole();
+        return datadao.getRole(username, password);
 
     }
     

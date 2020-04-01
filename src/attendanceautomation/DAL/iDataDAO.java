@@ -56,4 +56,5 @@ public interface iDataDAO {
      
      public List<LocalDate> daysPresent(int personID);
      
+     public int getRole(String username, String password);
 }
