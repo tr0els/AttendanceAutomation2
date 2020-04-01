@@ -7,29 +7,33 @@ package attendanceautomation.BE;
 
 /**
  *
- * @author Draik
+ * @author Kim
  */
-public class Person {
+public class Person
+
+    {
     
     private int personID;
     private String name;
-    private String email;
-    private String password;
+    public String email;
+    public String password;
     private int phoneNumber;
-    
-    //using the IsTeacher interface to dynamically chance the status of the 
-    //person between teacher or student.
-    public IsTeacher isThisPersonATeacher;
-    
-    public boolean CheckTeacher(){
-        return isThisPersonATeacher.isTeacher();
+
+    public Person(String email, String password) {
+        this.email = email;
+        this.password = password;
     }
-    
-    public void setTeacherStatus(IsTeacher newTeacher){
-        isThisPersonATeacher = newTeacher;
+
+    //using the Role interface to dynamically change the role of the person
+    public Role personRole;
+
+    public String CheckRole() {
+        return personRole.Role();
     }
-    
-    
+
+    public void setRole(Role setRole) {
+        personRole = setRole;
+    }
 
     public String getName() {
         return name;
@@ -71,6 +75,5 @@ public class Person {
         return personID;
     }
 
-    
-    
+
 }

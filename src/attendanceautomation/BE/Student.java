@@ -10,7 +10,7 @@ import javafx.scene.chart.XYChart;
 
 /**
  *
- * @author Draik
+ * @author Kim
  */
 public class Student extends Person{
     
@@ -18,12 +18,14 @@ public class Student extends Person{
 //    private int present;
     private int absent;
     private XYChart.Series AbsenceDistributedPerDay;
-    
-    public Student(int personID, String name, String email, int phoneNumber){
-    
-        super();
+
+    private String teachers;
+
+    public Student(String email, String password) {
+        super(email, password);
+
         
-        isThisPersonATeacher = new isNotTeacher();
+        personRole = new IsStudent();
     }
     
 }

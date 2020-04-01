@@ -73,7 +73,17 @@ public class AttendanceAutomationModel
         bll.setTest(txt);
     }
     
+
     public List<Classes> listClasses(){
         return bll.listClasses();
+
+    public boolean loginModel(String email, String password){
+        return bll.LoginBLL(email, password);
+    }
+    
+    public String getRole(){
+    
+        return bll.getRole();
+
     }
 }

@@ -5,6 +5,9 @@
  */
 package attendanceautomation.GUI.Controller;
 
+import attendanceautomation.BE.Student;
+import attendanceautomation.BE.Teacher;
+import attendanceautomation.GUI.Model.AttendanceAutomationModel;
 import com.jfoenix.controls.JFXButton;
 import java.io.IOException;
 import java.net.URL;
@@ -28,8 +31,7 @@ import javafx.stage.Stage;
  *
  * @author BBran
  */
-public class LoginController implements Initializable
-{
+public class LoginController implements Initializable {
 
     private Label label;
     @FXML
@@ -42,58 +44,65 @@ public class LoginController implements Initializable
     private MenuItem menuitemClose;
     @FXML
     private MenuItem menuitemAbout;
+    
+    private AttendanceAutomationModel model;
 
     @Override
-    public void initialize(URL url, ResourceBundle rb)
-    {
-
+    public void initialize(URL url, ResourceBundle rb) {
+        model = AttendanceAutomationModel.getInstance();
     }
 
     @FXML
-    private void handleLogIn(ActionEvent event) throws IOException
-    {
+    private void handleLogIn(ActionEvent event) throws IOException {
         String username = txtfieldUsername.getText();
+        String password = passwordfieldPassword.getText().toString();
 
-        if (username.equals("Teacher"))
-        {
-            try
-            {
-                Parent root = FXMLLoader.load(getClass().getResource("/attendanceautomation/GUI/View/TeachView.fxml"));
-
-                Scene scene = new Scene(root);
-                Stage stage = new Stage();
-                stage.setTitle("Teacher Menu");
-                Stage Currentstage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                Currentstage.close();
-                stage.setScene(scene);
-                stage.setResizable(false);
-                stage.show();
-            } catch (IOException e)
-            {
-                e.printStackTrace();
+        
+        if (model.loginModel(username, password) == true) {
+            String role = model.getRole();
+            
+            if (role.equals("Student")){
+                OpenStudentMenu(event);
+            }
+            if (role.equals("Teacher")){
+                OpenTeacherMenu(event);
             }
         }
+    }
 
-        if (username.equals("Student"))
-        {
-            try
-            {
-                Parent root = FXMLLoader.load(getClass().getResource("/attendanceautomation/GUI/View/StudView.fxml"));
+    private void OpenTeacherMenu(ActionEvent event) {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/attendanceautomation/GUI/View/TeachView.fxml"));
 
-                Scene scene = new Scene(root);
-                Stage stage = new Stage();
-                stage.setTitle("Student Menu");
-                Stage Currentstage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                Currentstage.close();
-                stage.setScene(scene);
-                stage.setResizable(false);
-                stage.show();
-            } catch (IOException e)
-            {
-                e.printStackTrace();
-            }
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setTitle("Teacher Menu");
+            Stage Currentstage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Currentstage.close();
+            stage.setScene(scene);
+            stage.setResizable(false);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
+    }
+
+    private void OpenStudentMenu(ActionEvent event) {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/attendanceautomation/GUI/View/StudView.fxml"));
+
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setTitle("Student Menu");
+            Stage Currentstage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Currentstage.close();
+            stage.setScene(scene);
+            stage.setResizable(false);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -103,7 +112,7 @@ public class LoginController implements Initializable
 
     @FXML
     private void handleAbout(ActionEvent event) {
-        Alert a = new Alert(AlertType.INFORMATION);        
+        Alert a = new Alert(AlertType.INFORMATION);
         a.setTitle("About");
         a.setHeaderText(null);
         a.setGraphic(null);
@@ -116,6 +125,6 @@ public class LoginController implements Initializable
                 + "Kim Christensen\n"
                 + "Brian Brandt");
         a.show();
-     }
+    }
 
 }

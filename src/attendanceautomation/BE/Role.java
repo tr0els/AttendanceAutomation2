@@ -9,18 +9,20 @@ package attendanceautomation.BE;
  *
  * @author Kim
  */
-public class Teacher extends Person{
-    
-    private String students;
+public interface Role {
+    String Role();
+}
 
-    public Teacher(String email, String password) {
-        super(email, password);
-        
-        personRole = new IsTeacher();
+class IsTeacher implements Role {
+    
+    public String Role() {
+        return "Teacher";
     }
+}
 
+class IsStudent implements Role {
 
-    
-    
-    
+    public String Role() {
+        return "Student";
+    }
 }

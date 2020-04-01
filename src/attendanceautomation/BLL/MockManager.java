@@ -69,8 +69,19 @@ public class MockManager
         mockDao.setTest(txt);
     }
 
+
     public List<Classes> listClasses()
     {
         return mockDao.listClasses();
+
+    
+    public boolean LoginBLL (String email, String password){
+        return mockDao.Login(email, password);
+    }
+    
+    public String getRole(){
+    
+        return mockDao.getRole();
+
     }
 }
