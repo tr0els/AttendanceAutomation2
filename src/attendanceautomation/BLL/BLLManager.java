@@ -8,8 +8,8 @@ package attendanceautomation.BLL;
 import attendanceautomation.DAL.DALException;
 import attendanceautomation.DAL.database.DataDAO;
 import attendanceautomation.DAL.iDataDAO;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.util.Date;
 
 /**
  *
@@ -18,6 +18,8 @@ import java.util.Date;
 public class BLLManager {
 
     private iDataDAO datadao;
+    
+    private LocalDate semesterStart = LocalDate.of(2020, 1, 27); //evt. lave det om til dynamisk via tabel/DB?
 
     public BLLManager() throws DALException {
 
@@ -71,6 +73,31 @@ public class BLLManager {
     
         return datadao.getRole();
 
+    }
+    
+    public void countWeekdays()
+    {
+        int weekdays = 0;
+        
+        LocalDate startDate = semesterStart;
+        LocalDate endDate = LocalDate.now(); //skift ud med getCurrentdate()
+        System.out.println(startDate);
+        while (startDate.isBefore(endDate))
+        {
+            DayOfWeek dw = startDate.getDayOfWeek();
+            if (dw != DayOfWeek.SATURDAY && dw != DayOfWeek.SUNDAY)
+            {
+            ++weekdays;}
+            
+            startDate = startDate.plusDays(1);
+            
+        }
+        
+        
+        
+        
+        System.out.println(endDate);
+        System.out.println(weekdays);
     }
     
 }

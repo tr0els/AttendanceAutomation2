@@ -6,6 +6,7 @@
 package attendanceautomation.DAL;
 
 import java.time.LocalDate;
+import java.util.List;
 
 
 /**
@@ -49,4 +50,10 @@ public interface iDataDAO {
      * @return 
      */
      public String getRole();
+     
+     
+     public List<LocalDate> schoolDaysOff();
+     
+     public List<LocalDate> daysPresent(int personID);
+     
 }

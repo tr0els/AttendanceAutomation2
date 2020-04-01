@@ -52,6 +52,8 @@ public class LoginController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         try {
             model = new AttendanceAutomationModel();
+            
+            model.countWeekdays();
         } catch (DALException ex) {
             Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
         }

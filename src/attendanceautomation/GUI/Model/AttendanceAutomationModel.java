@@ -81,5 +81,13 @@ public class AttendanceAutomationModel {
         return manager.getRole();
 
     }
-
+    
+    
+    /**
+     * 
+     */
+    public void countWeekdays()
+    {
+        manager.countWeekdays();
+    }
 }
