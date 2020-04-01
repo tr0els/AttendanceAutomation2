@@ -22,6 +22,17 @@ public class AttendanceAutomationModel {
         manager = new BLLManager();
     }
 
+//    /**
+//     * shit doesn't work! Skal laves så den kaster exceptions
+//     */
+//    private static class SingletonHolder {
+//        private static final AttendanceAutomationModel INSTANCE = new AttendanceAutomationModel();
+//    }
+//    
+//    public static AttendanceAutomationModel getInstance() {
+//        return SingletonHolder.INSTANCE;
+//    }  
+
     /**
      * Henter datoen for idag og returnere den.
      *
@@ -52,6 +63,23 @@ public class AttendanceAutomationModel {
     public boolean studentAlreadyRegistered(int personID) {
 
         return manager.studentAlreadyRegistered(personID);
+    }
+
+    /*
+        Tager infoen fra longincontrolleren og sender det til BLL
+     */
+    public boolean loginModel(String email, String password) {
+        return manager.LoginBLL(email, password);
+    }
+
+    /*
+        Login controlleren skal bruge information om hvilken rolle useren har
+        så denne metode returnere dette fra BLL
+     */
+    public String getRole() {
+
+        return manager.getRole();
+
     }
 
 }

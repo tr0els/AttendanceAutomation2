@@ -57,4 +57,20 @@ public class BLLManager {
         return datadao.studentAlreadyRegistered(personID);
     }
 
+        /*
+        sender information fra loginmodel til DAO for at blive verified
+    */
+    public boolean LoginBLL (String email, String password){
+        return datadao.Login(email, password);
+    }
+    
+    /*
+        rollen som model spørger efter bliver returneret her
+    */
+    public String getRole(){
+    
+        return datadao.getRole();
+
+    }
+    
 }

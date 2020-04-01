@@ -7,22 +7,38 @@ package attendanceautomation.BE;
 
 /**
  *
- * @author Draik
+ * @author Kim
  */
-public class Person {
+public class Person
+
+    {
     
     private int personID;
     private String name;
-    private String email;
-    private String password;
-    private String phoneNumber;
-    
-    public Person(int personid, String name, String email, String password, String phonenumber){
-        this.personID = personid;
-        this.name = name;
+    public String email;
+    public String password;
+    private int phoneNumber;
+
+    public Person(String email, String password) {
         this.email = email;
         this.password = password;
-        this.phoneNumber = phoneNumber;
+    }
+
+    //using the Role interface to dynamically change the role of the person
+    public Role personRole;
+
+    /*
+        returnere personens rolle
+    */
+    public String CheckRole() {
+        return personRole.Role();
+    }
+
+    /*
+        denne metode lader os skifte rollen på et object fx. student -> teacher
+    */
+    public void setRole(Role setRole) {
+        personRole = setRole;
     }
 
     public String getName() {
@@ -49,11 +65,11 @@ public class Person {
         this.password = password;
     }
 
-    public String getPhoneNumber() {
+    public int getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
+    public void setPhoneNumber(int phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
     
@@ -65,6 +81,5 @@ public class Person {
         return personID;
     }
 
-    
-    
+
 }

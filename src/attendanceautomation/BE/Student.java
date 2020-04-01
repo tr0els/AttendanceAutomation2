@@ -5,16 +5,32 @@
  */
 package attendanceautomation.BE;
 
+import java.util.List;
+import javafx.scene.chart.XYChart;
+
 /**
  *
- * @author Draik
+ * @author Kim
  */
 public class Student extends Person{
     
+    private List<String> last30DaysAbsent;
+//    private int present;
+    private int absent;
+    private XYChart.Series AbsenceDistributedPerDay;
 
-    public Student(int personid, String name, String email, String password, String phonenumber){
-    
-        super(personid, name, email, email, phonenumber);
+    private String teachers;
+
+    /*
+        en Student constructer. da student klassen er extended af person så skal
+        vi kalde med "super" for at få dens variabler
+        personrole blive sat til student ved at bruge "IsStudent"
+    */
+    public Student(String email, String password) {
+        super(email, password);
+
+        
+        personRole = new IsStudent();
     }
     
 }

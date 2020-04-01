@@ -23,6 +23,7 @@ public interface iDataDAO {
     /**
      * sender en dato og personID ind i DB'en for at registrere personen er tilstede på denne dato.
      * @param date 
+     * @param personID 
      */
     public void studentIsPresent(LocalDate date, int personID);
     
@@ -33,4 +34,19 @@ public interface iDataDAO {
      * @return 
      */
     public boolean studentAlreadyRegistered(int personID);
+
+    
+    /**
+     * denne metode skal kunne hente information fra serveren til at sammenligne med det input der kommer fra useren
+     * @param email
+     * @param password
+     * @return 
+     */
+    public boolean Login(String email, String password);
+
+    /**
+     * 
+     * @return 
+     */
+     public String getRole();
 }

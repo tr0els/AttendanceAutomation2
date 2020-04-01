@@ -1,3 +1,4 @@
+  
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -7,15 +8,24 @@ package attendanceautomation.BE;
 
 /**
  *
- * @author Draik
+ * @author Kim
  */
 public class Teacher extends Person{
+    
+    private String students;
 
-    public Teacher(int personid, String name, String email, String password, String phonenumber) {
+    /*
+        en Teacher constructer. da teacher klassen er extended af person så skal
+        vi kalde med "super" for at få dens variabler
+        personrole blive sat til lære ved at bruge "IsTeacher"
+    */
+    public Teacher(String email, String password) {
+        super(email, password);
         
-        super(personid, name, email, email, phonenumber);
-        
+        personRole = new IsTeacher();
     }
+
+
     
     
     

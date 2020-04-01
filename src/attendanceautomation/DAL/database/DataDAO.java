@@ -5,6 +5,8 @@
  */
 package attendanceautomation.DAL.database;
 
+import attendanceautomation.BE.Student;
+import attendanceautomation.BE.Teacher;
 import attendanceautomation.DAL.DALException;
 import attendanceautomation.DAL.iDataDAO;
 import java.sql.Connection;
@@ -23,6 +25,9 @@ import java.util.logging.Logger;
  */
 public class DataDAO implements iDataDAO {
 
+    Student stud = new Student("Studentemail", "123");
+    Teacher teach = new Teacher("Teacheremail", "123");
+    
     private DatabaseConnector dbCon;
 
     public DataDAO() throws DALException {
@@ -68,17 +73,14 @@ public class DataDAO implements iDataDAO {
 
         try ( Connection con = dbCon.getConnection()) {
 
-
             String sql = "INSERT INTO ATTENDANCE (person_id,date,last_changed) VALUES (?,?,CURRENT_TIMESTAMP)";
             PreparedStatement st = con.prepareStatement(sql);
-            
+
             st.setInt(1, personID);
             st.setDate(2, Date.valueOf(date));
-            
-            
+
             st.executeUpdate();
-            
-            
+
         } catch (DALException | SQLException ex) {
             Logger.getLogger(DataDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -87,43 +89,68 @@ public class DataDAO implements iDataDAO {
         System.out.println(personID);
     }
 
-    
     /**
-     * checks if student already registered today, returns boolean value accordingly
+     * checks if student already registered today, returns boolean value
+     * accordingly
+     *
      * @param personID
-     * @return 
+     * @return
      */
     @Override
     public boolean studentAlreadyRegistered(int personID) {
+
+        Boolean registeredStatus = false;
+
         try ( Connection con = dbCon.getConnection()) {
-           
+
             String sql = "SELECT COUNT(*) as count FROM ATTENDANCE WHERE person_id = ? AND date = CONVERT(date, GETDATE())";
             PreparedStatement st = con.prepareStatement(sql);
-            
+
             st.setInt(1, personID);
-            
+
             ResultSet rs = st.executeQuery();
-            
-            while (rs.next())
-            {
+
+            while (rs.next()) {
                 int count = rs.getInt("count");
-                
+
                 System.out.println(count);
-                
-                if (count == 1)
-                {
+
+                if (count == 1) {
                     System.out.println("true");
-                    return true;
-                    
+                    registeredStatus = true;
+                } else {
+                    registeredStatus = false;
                 }
-                
             }
-            
         } catch (DALException | SQLException ex) {
             Logger.getLogger(DataDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        return false;
+        return registeredStatus;
     }
+
+    @Override
+    public boolean Login(String email, String password) {
+                String loginEmail = stud.getEmail();
+        String loginPassword = stud.getPassword();
+        
+        System.out.println(stud.CheckRole());
+        
+        boolean correctLogin = false;
+
+        if (loginEmail.equals(email) || loginPassword.equals(password)) {
+            correctLogin = true;
+        } else {
+            correctLogin = false;
+        }
+        
+        return correctLogin;
+    }
+
+    @Override
+    public String getRole() {
+        return teach.CheckRole();
+    }
+    
+    
 
 }

@@ -5,10 +5,14 @@
  */
 package attendanceautomation.GUI.Controller;
 
+import attendanceautomation.DAL.DALException;
+import attendanceautomation.GUI.Model.AttendanceAutomationModel;
 import com.jfoenix.controls.JFXButton;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,8 +32,7 @@ import javafx.stage.Stage;
  *
  * @author BBran
  */
-public class LoginController implements Initializable
-{
+public class LoginController implements Initializable {
 
     private Label label;
     @FXML
@@ -43,57 +46,73 @@ public class LoginController implements Initializable
     @FXML
     private MenuItem menuitemAbout;
 
-    @Override
-    public void initialize(URL url, ResourceBundle rb)
-    {
+    private AttendanceAutomationModel model;
 
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        try {
+            model = new AttendanceAutomationModel();
+        } catch (DALException ex) {
+            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @FXML
-    private void handleLogIn(ActionEvent event) throws IOException
-    {
+    private void handleLogIn(ActionEvent event) throws IOException {
         String username = txtfieldUsername.getText();
+        String password = passwordfieldPassword.getText().toString();
 
-        if (username.equals("Teacher"))
-        {
-            try
-            {
-                Parent root = FXMLLoader.load(getClass().getResource("/attendanceautomation/GUI/View/TeachView.fxml"));
+        if (model.loginModel(username, password) == true) {
+            String role = model.getRole();
 
-                Scene scene = new Scene(root);
-                Stage stage = new Stage();
-                stage.setTitle("Teacher Menu");
-                Stage Currentstage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                Currentstage.close();
-                stage.setScene(scene);
-                stage.setResizable(false);
-                stage.show();
-            } catch (IOException e)
-            {
-                e.printStackTrace();
+            if (role.equals("Student")) {
+                OpenStudentMenu(event);
+            }
+            if (role.equals("Teacher")) {
+                OpenTeacherMenu(event);
             }
         }
+    }
 
-        if (username.equals("Student"))
-        {
-            try
-            {
-                Parent root = FXMLLoader.load(getClass().getResource("/attendanceautomation/GUI/View/StudView.fxml"));
+    /*
+        åbner lære Menuen
+     */
+    private void OpenTeacherMenu(ActionEvent event) {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/attendanceautomation/GUI/View/TeachView.fxml"));
 
-                Scene scene = new Scene(root);
-                Stage stage = new Stage();
-                stage.setTitle("Student Menu");
-                Stage Currentstage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                Currentstage.close();
-                stage.setScene(scene);
-                stage.setResizable(false);
-                stage.show();
-            } catch (IOException e)
-            {
-                e.printStackTrace();
-            }
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setTitle("Teacher Menu");
+            Stage Currentstage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Currentstage.close();
+            stage.setScene(scene);
+            stage.setResizable(false);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
+    }
+
+    /*
+        åbner studerende menuen
+     */
+    private void OpenStudentMenu(ActionEvent event) {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/attendanceautomation/GUI/View/StudView.fxml"));
+
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setTitle("Student Menu");
+            Stage Currentstage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Currentstage.close();
+            stage.setScene(scene);
+            stage.setResizable(false);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -103,7 +122,7 @@ public class LoginController implements Initializable
 
     @FXML
     private void handleAbout(ActionEvent event) {
-        Alert a = new Alert(AlertType.INFORMATION);        
+        Alert a = new Alert(AlertType.INFORMATION);
         a.setTitle("About");
         a.setHeaderText(null);
         a.setGraphic(null);
@@ -116,6 +135,6 @@ public class LoginController implements Initializable
                 + "Kim Christensen\n"
                 + "Brian Brandt");
         a.show();
-     }
+    }
 
 }
