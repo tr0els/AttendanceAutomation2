@@ -6,7 +6,7 @@
 package attendanceautomation.GUI.Controller;
 
 import attendanceautomation.DAL.DALException;
-import attendanceautomation.GUI.Model.studentModel;
+import attendanceautomation.GUI.Model.AttendanceAutomationModel;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
 import java.io.IOException;
@@ -53,7 +53,7 @@ public class StudViewController implements Initializable {
     private Label lblAbsencepercent;
 
     private int absence;
-    private studentModel model;
+    
     @FXML
     private MenuItem menuitemSLogout;
     @FXML
@@ -69,6 +69,7 @@ public class StudViewController implements Initializable {
     @FXML
     private Label showDate;
 
+    private AttendanceAutomationModel model;
     private int personID;
     private LocalDate currentDate;
     private Boolean registeredToday;
@@ -80,7 +81,7 @@ public class StudViewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 
         try {
-            model = new studentModel();
+            model = new AttendanceAutomationModel();
 
             personID = 1; //TO_DO Skaffe personID fra BE!
 

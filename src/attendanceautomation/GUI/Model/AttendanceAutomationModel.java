@@ -14,11 +14,11 @@ import java.util.Date;
  *
  * @author BBran
  */
-public class studentModel {
+public class AttendanceAutomationModel {
 
     private BLLManager manager;
 
-    public studentModel() throws DALException {
+    public AttendanceAutomationModel() throws DALException {
         manager = new BLLManager();
     }
 
