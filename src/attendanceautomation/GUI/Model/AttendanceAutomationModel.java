@@ -5,95 +5,84 @@
  */
 package attendanceautomation.GUI.Model;
 
-import attendanceautomation.BE.Classes;
-import attendanceautomation.BLL.MockManager;
-import java.util.List;
-import javafx.scene.chart.XYChart;
+import java.util.Date;
+import attendanceautomation.BLL.BLLManager;
+import attendanceautomation.DAL.DALException;
 
 /**
  *
- * @author Troels Klein
+ * @author BBran
  */
-public class AttendanceAutomationModel
-{
-    private MockManager bll;
+
+public class AttendanceAutomationModel {
+
+    private BLLManager manager;
+
+    public AttendanceAutomationModel() throws DALException {
+                manager = new BLLManager();
     
-    private AttendanceAutomationModel() {
-        bll = new MockManager(); // MockManager should later be a BLLManager
-    }
-    
-    private static class SingletonHolder {
-        private static final AttendanceAutomationModel INSTANCE = new AttendanceAutomationModel();
-    }
-    
-    public static AttendanceAutomationModel getInstance() {
-        return SingletonHolder.INSTANCE;
     }
 
-    public List<String> absentStudentList()
+    
+
+//    /**
+//     * shit doesn't work! Skal laves så den kaster exceptions
+//     */
+//    private static class SingletonHolder {
+//        private static final AttendanceAutomationModel INSTANCE = new AttendanceAutomationModel();
+//    }
+//    
+//    public static AttendanceAutomationModel getInstance() {
+//        return SingletonHolder.INSTANCE;
+//    }  
+
+    /**
+     * Henter datoen for idag og returnere den.
+     * @return Dagens dato
+     */
+    public Date getCurrentDate()
     {
-        return bll.absentStudentList();
-    }
-
-    public List<String> studentAbsentDays()
-    {
-        return bll.studentAbsentDays();
-    }
-
-    public XYChart.Series absencePerDay()
-    {
-        return bll.absencePerDay();
-    }
-
-    public List<String> selectedStudent()
-    {
-        return bll.selectedStudent();
-    }
-
-    public String selectedClass()
-    {
-        return bll.selectedClass();
-    }
-
-    public List<String> currentClass()
-    {
-        return bll.currentClass();
-    }
-    
-    public List<String> missedClass()
-    {
-        return bll.missedClass();
-    }
-    
-    public String getTest() {
-        return bll.getTest();
-    }
-    
-    public void setTest(String txt) {
-        bll.setTest(txt);
+        return manager.getCurrentdate();
+        
     }
     
 
-    public List<Classes> listClasses(){
-        return bll.listClasses();
+    /**
+     * sender en dato og personID ind i DB'en for at registrere personen er tilstede på denne dato.
+     * @param date 
+     */
+    public void studentIsPresent(Date date, int personID)
+    {
+        manager.studentIsPresent(date, personID);
     }
 
-    
+    /**
+     * sender en personID ind i DB for at tjekke om studenten har registreret
+     * sig idag.
+     *
+     * @param personID
+     * @return
+     */
+    public boolean studentAlreadyRegistered(int personID) {
+
+        return manager.studentAlreadyRegistered(personID);
+    }
+
     /*
         Tager infoen fra longincontrolleren og sender det til BLL
-    */
-    public boolean loginModel(String email, String password){
-        return bll.LoginBLL(email, password);
+     */
+    public boolean loginModel(String email, String password) {
+        return manager.LoginBLL(email, password);
     }
-    
-    
+
     /*
         Login controlleren skal bruge information om hvilken rolle useren har
         så denne metode returnere dette fra BLL
-    */
-    public String getRole(){
-    
-        return bll.getRole();
+     */
+    public String getRole() {
+
+        return manager.getRole();
 
     }
-}
+
+

@@ -7,11 +7,14 @@ package attendanceautomation.GUI.Controller;
 
 import attendanceautomation.BE.Student;
 import attendanceautomation.BE.Teacher;
+import attendanceautomation.DAL.DALException;
 import attendanceautomation.GUI.Model.AttendanceAutomationModel;
 import com.jfoenix.controls.JFXButton;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -47,9 +50,15 @@ public class LoginController implements Initializable {
     
     private AttendanceAutomationModel model;
 
+    private AttendanceAutomationModel model;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        model = AttendanceAutomationModel.getInstance();
+        try {
+            model = new AttendanceAutomationModel();
+        } catch (DALException ex) {
+            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     
@@ -99,6 +108,26 @@ public class LoginController implements Initializable {
     /*
         åbner studerende menuen
     */
+    private void OpenStudentMenu(ActionEvent event) {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/attendanceautomation/GUI/View/StudView.fxml"));
+
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setTitle("Student Menu");
+            Stage Currentstage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Currentstage.close();
+            stage.setScene(scene);
+            stage.setResizable(false);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /*
+        åbner studerende menuen
+     */
     private void OpenStudentMenu(ActionEvent event) {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/attendanceautomation/GUI/View/StudView.fxml"));

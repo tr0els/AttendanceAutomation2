@@ -40,5 +40,33 @@ public class BLLManager {
         
         studentdao.studentIsPresent(date, personID);
     }
+
+    /**
+     * sender en personID ind i DB for at tjekke om studenten har registreret
+     * sig idag.
+     *
+     * @param personID
+     * @return
+     */
+    public boolean studentAlreadyRegistered(int personID) {
+
+        return datadao.studentAlreadyRegistered(personID);
+    }
+
+        /*
+        sender information fra loginmodel til DAO for at blive verified
+    */
+    public boolean LoginBLL (String email, String password){
+        return datadao.Login(email, password);
+    }
+    
+    /*
+        rollen som model spørger efter bliver returneret her
+    */
+    public String getRole(){
+    
+        return datadao.getRole();
+
+    }
     
 }

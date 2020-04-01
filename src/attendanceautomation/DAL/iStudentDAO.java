@@ -23,6 +23,7 @@ public interface iStudentDAO {
     /**
      * sender en dato og personID ind i DB'en for at registrere personen er tilstede på denne dato.
      * @param date 
+     * @param personID 
      */
     public void studentIsPresent(Date date, int personID);
     
