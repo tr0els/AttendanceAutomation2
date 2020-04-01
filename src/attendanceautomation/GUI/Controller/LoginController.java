@@ -63,12 +63,12 @@ public class LoginController implements Initializable {
         String password = passwordfieldPassword.getText().toString();
 
         if (model.loginModel(username, password) == true) {
-            String role = model.getRole();
+            int role = model.getRole(username, password);
 
-            if (role.equals("Student")) {
+            if (role == 1) {
                 OpenStudentMenu(event);
             }
-            if (role.equals("Teacher")) {
+            if (role == 2) {
                 OpenTeacherMenu(event);
             }
         }
