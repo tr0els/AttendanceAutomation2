@@ -21,6 +21,11 @@ public class Student extends Person{
 
     private String teachers;
 
+    /*
+        en Student constructer. da student klassen er extended af person så skal
+        vi kalde med "super" for at få dens variabler
+        personrole blive sat til student ved at bruge "IsStudent"
+    */
     public Student(String email, String password) {
         super(email, password);
 

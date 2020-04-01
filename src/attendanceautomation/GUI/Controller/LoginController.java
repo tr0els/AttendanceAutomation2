@@ -52,6 +52,11 @@ public class LoginController implements Initializable {
         model = AttendanceAutomationModel.getInstance();
     }
 
+    
+    /*
+        Tager det info der er blevet tastet ind og sender det ned til DAO for at
+        blive verified
+    */
     @FXML
     private void handleLogIn(ActionEvent event) throws IOException {
         String username = txtfieldUsername.getText();
@@ -70,6 +75,9 @@ public class LoginController implements Initializable {
         }
     }
 
+    /*
+        åbner lære Menuen
+    */
     private void OpenTeacherMenu(ActionEvent event) {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/attendanceautomation/GUI/View/TeachView.fxml"));
@@ -87,7 +95,10 @@ public class LoginController implements Initializable {
         }
 
     }
-
+    
+    /*
+        åbner studerende menuen
+    */
     private void OpenStudentMenu(ActionEvent event) {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/attendanceautomation/GUI/View/StudView.fxml"));

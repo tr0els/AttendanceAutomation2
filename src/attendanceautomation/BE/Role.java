@@ -13,13 +13,18 @@ public interface Role {
     String Role();
 }
 
+/*
+    sætter Role(); til at sende "Teacher" tilbage
+*/
 class IsTeacher implements Role {
     
     public String Role() {
         return "Teacher";
     }
 }
-
+/*
+    sætter Role(); til at sende "Student" tilbage
+*/
 class IsStudent implements Role {
 
     public String Role() {

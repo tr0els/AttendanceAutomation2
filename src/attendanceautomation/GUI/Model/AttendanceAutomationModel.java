@@ -78,10 +78,19 @@ public class AttendanceAutomationModel
         return bll.listClasses();
     }
 
+    
+    /*
+        Tager infoen fra longincontrolleren og sender det til BLL
+    */
     public boolean loginModel(String email, String password){
         return bll.LoginBLL(email, password);
     }
     
+    
+    /*
+        Login controlleren skal bruge information om hvilken rolle useren har
+        så denne metode returnere dette fra BLL
+    */
     public String getRole(){
     
         return bll.getRole();

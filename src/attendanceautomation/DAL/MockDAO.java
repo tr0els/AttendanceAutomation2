@@ -21,9 +21,17 @@ import javafx.scene.chart.XYChart;
  */
 public class MockDAO {
 
+    /*
+        mock data
+    */
     Student stud = new Student("Studentemail", "123");
     Teacher teach = new Teacher("Teacheremail", "123");
 
+    
+    /*
+        denne metode skal kunne hente information fra serveren til at sammenligne
+        med det input der kommer fra useren
+    */
     public boolean Login(String email, String password) {
 
         String loginEmail = stud.getEmail();
@@ -43,6 +51,9 @@ public class MockDAO {
 
     }
     
+    /*
+        skal kunne finde rollen som useren har
+    */
     public String getRole(){
     
         return teach.CheckRole();

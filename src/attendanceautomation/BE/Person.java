@@ -27,10 +27,16 @@ public class Person
     //using the Role interface to dynamically change the role of the person
     public Role personRole;
 
+    /*
+        returnere personens rolle
+    */
     public String CheckRole() {
         return personRole.Role();
     }
 
+    /*
+        denne metode lader os skifte rollen på et object fx. student -> teacher
+    */
     public void setRole(Role setRole) {
         personRole = setRole;
     }
