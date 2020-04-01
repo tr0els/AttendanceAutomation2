@@ -53,7 +53,8 @@ public class LoginController implements Initializable {
         try {
             model = new AttendanceAutomationModel();
             
-            model.countWeekdays();
+            model.countWeekdays(); //DELETE ME WHEN DONE
+            model.studentAbsence(1); //DELETE ME WHEN DONE
         } catch (DALException ex) {
             Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
         }

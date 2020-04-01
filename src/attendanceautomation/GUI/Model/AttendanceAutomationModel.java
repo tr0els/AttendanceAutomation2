@@ -84,10 +84,16 @@ public class AttendanceAutomationModel {
     
     
     /**
-     * 
+     * DELETE ME WHEN DONE
      */
     public void countWeekdays()
     {
         manager.countWeekdays();
+    }
+    
+    
+    public void studentAbsence(int personID)
+    {
+        manager.studentAbsence(personID);
     }
 }
