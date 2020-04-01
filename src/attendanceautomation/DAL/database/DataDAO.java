@@ -25,6 +25,7 @@ import java.util.logging.Logger;
  */
 public class DataDAO implements iDataDAO {
 
+    
     Student stud = new Student("Studentemail", "123");
     Teacher teach = new Teacher("Teacheremail", "123");
     
