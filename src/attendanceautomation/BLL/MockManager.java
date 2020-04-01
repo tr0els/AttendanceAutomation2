@@ -65,4 +65,13 @@ public class MockManager
     public void setTest(String txt) {
         mockDao.setTest(txt);
     }
+    
+    public boolean LoginBLL (String email, String password){
+        return mockDao.Login(email, password);
+    }
+    
+    public String getRole(){
+    
+        return mockDao.getRole();
+    }
 }

@@ -7,6 +7,7 @@ package attendanceautomation.GUI.Controller;
 
 import attendanceautomation.BE.Student;
 import attendanceautomation.BE.Teacher;
+import attendanceautomation.GUI.Model.AttendanceAutomationModel;
 import com.jfoenix.controls.JFXButton;
 import java.io.IOException;
 import java.net.URL;
@@ -44,12 +45,11 @@ public class LoginController implements Initializable {
     @FXML
     private MenuItem menuitemAbout;
     
-    Student stud = new Student("s", "123");
-    Teacher teach = new Teacher("t", "321");
+    private AttendanceAutomationModel model;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+        model = AttendanceAutomationModel.getInstance();
     }
 
     @FXML
@@ -57,13 +57,17 @@ public class LoginController implements Initializable {
         String username = txtfieldUsername.getText();
         String password = passwordfieldPassword.getText().toString();
 
-//        if (username.equals("Teacher")) {
-//            OpenTeacherMenu(event);
-//        }
-//
-//        if (username.equals("Student")) {
-//            OpenStudentMenu(event);
-//        }
+        
+        if (model.loginModel(username, password) == true) {
+            String role = model.getRole();
+            
+            if (role.equals("Student")){
+                OpenStudentMenu(event);
+            }
+            if (role.equals("Teacher")){
+                OpenTeacherMenu(event);
+            }
+        }
     }
 
     private void OpenTeacherMenu(ActionEvent event) {

@@ -71,4 +71,13 @@ public class AttendanceAutomationModel
     public void setTest(String txt) {
         bll.setTest(txt);
     }
+    
+    public boolean loginModel(String email, String password){
+        return bll.LoginBLL(email, password);
+    }
+    
+    public String getRole(){
+    
+        return bll.getRole();
+    }
 }

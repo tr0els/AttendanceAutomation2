@@ -26,5 +26,4 @@ public class Student extends Person{
         personRole = new IsStudent();
     }
     
-    
 }

@@ -15,8 +15,8 @@ public class Person
     
     private int personID;
     private String name;
-    private String email;
-    private String password;
+    public String email;
+    public String password;
     private int phoneNumber;
 
     public Person(String email, String password) {
