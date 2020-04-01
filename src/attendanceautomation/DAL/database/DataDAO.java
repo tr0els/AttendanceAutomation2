@@ -50,9 +50,7 @@ public class DataDAO implements iDataDAO {
                 return currentdate;
             }
 
-        } catch (SQLException ex) {
-            Logger.getLogger(DataDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (DALException ex) {
+        } catch (SQLException | DALException ex) {
             Logger.getLogger(DataDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -71,24 +69,61 @@ public class DataDAO implements iDataDAO {
         try ( Connection con = dbCon.getConnection()) {
 
 
-            String sql = "INSERT INTO ATTENDANCE (person_id,date) VALUES (?,?)";
-            PreparedStatement st = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+            String sql = "INSERT INTO ATTENDANCE (person_id,date,last_changed) VALUES (?,?,CURRENT_TIMESTAMP)";
+            PreparedStatement st = con.prepareStatement(sql);
             
             st.setInt(1, personID);
             st.setDate(2, Date.valueOf(date));
             
-            int affectedRows = st.executeUpdate();
+            
+            st.executeUpdate();
             
             
-            
-        } catch (DALException ex) {
-            Logger.getLogger(DataDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        } catch (DALException | SQLException ex) {
             Logger.getLogger(DataDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         System.out.println(date);
         System.out.println(personID);
+    }
+
+    
+    /**
+     * checks if student already registered today, returns boolean value accordingly
+     * @param personID
+     * @return 
+     */
+    @Override
+    public boolean studentAlreadyRegistered(int personID) {
+        try ( Connection con = dbCon.getConnection()) {
+           
+            String sql = "SELECT COUNT(*) as count FROM ATTENDANCE WHERE person_id = ? AND date = CONVERT(date, GETDATE())";
+            PreparedStatement st = con.prepareStatement(sql);
+            
+            st.setInt(1, personID);
+            
+            ResultSet rs = st.executeQuery();
+            
+            while (rs.next())
+            {
+                int count = rs.getInt("count");
+                
+                System.out.println(count);
+                
+                if (count == 1)
+                {
+                    System.out.println("true");
+                    return true;
+                    
+                }
+                
+            }
+            
+        } catch (DALException | SQLException ex) {
+            Logger.getLogger(DataDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return false;
     }
 
 }

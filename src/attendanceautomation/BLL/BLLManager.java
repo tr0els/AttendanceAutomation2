@@ -16,31 +16,45 @@ import java.util.Date;
  * @author BBran
  */
 public class BLLManager {
-    
+
     private iDataDAO datadao;
-    
-    public BLLManager() throws DALException{
-        
+
+    public BLLManager() throws DALException {
+
         datadao = new DataDAO();
     }
-    
+
     /**
      * returnere dagens dato.
-     * @return 
+     *
+     * @return
      */
-    public LocalDate getCurrentdate(){
-        
+    public LocalDate getCurrentdate() {
+
         return datadao.getCurrentDate();
     }
-    
-    
+
     /**
-     * sender en dato og personID ind i DB'en for at registrere personen er tilstede på denne dato.
-     * @param date 
+     * sender en dato og personID ind i DB'en for at registrere personen er
+     * tilstede på denne dato.
+     *
+     * @param date
      */
-    public void studentIsPresent(LocalDate date, int personID){
-        
+    public void studentIsPresent(LocalDate date, int personID) {
+
         datadao.studentIsPresent(date, personID);
     }
-    
+
+    /**
+     * sender en personID ind i DB for at tjekke om studenten har registreret
+     * sig idag.
+     *
+     * @param personID
+     * @return
+     */
+    public boolean studentAlreadyRegistered(int personID) {
+
+        return datadao.studentAlreadyRegistered(personID);
+    }
+
 }

@@ -71,7 +71,8 @@ public class StudViewController implements Initializable {
 
     private int personID;
     private LocalDate currentDate;
-    
+    private Boolean registeredToday;
+
     /**
      * Initializes the controller class.
      */
@@ -81,11 +82,17 @@ public class StudViewController implements Initializable {
         try {
             model = new studentModel();
 
-            currentDate = model.getCurrentDate();
+            personID = 1; //TO_DO Skaffe personID fra BE!
 
+            currentDate = model.getCurrentDate();
             String strDate = currentDate.format(DateTimeFormatter.ofPattern("dd. MMMM yyyy"));
-            
             showDate.setText(strDate);
+
+            registeredToday = model.studentAlreadyRegistered(personID);
+            if (registeredToday == true) {
+                btnAttendCurrentClass.setDisable(true);
+                btnAttendCurrentClass.setText("Already Registered!");
+            }
 
         } catch (DALException ex) {
             Logger.getLogger(StudViewController.class.getName()).log(Level.SEVERE, null, ex);
@@ -134,9 +141,9 @@ public class StudViewController implements Initializable {
     @FXML
     private void handleAttendance(ActionEvent event) {
 
-        //TO_DO Skaffe personID fra BE!
-        personID = 1;
         model.studentIsPresent(currentDate, personID);
+        btnAttendCurrentClass.setDisable(true);
+        btnAttendCurrentClass.setText("Already Registered!");
     }
 
     @FXML

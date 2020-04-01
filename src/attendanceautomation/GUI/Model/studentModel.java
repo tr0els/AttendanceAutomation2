@@ -15,33 +15,43 @@ import java.util.Date;
  * @author BBran
  */
 public class studentModel {
-    
+
     private BLLManager manager;
-    
-    public studentModel() throws DALException
-    {
+
+    public studentModel() throws DALException {
         manager = new BLLManager();
     }
-    
 
     /**
      * Henter datoen for idag og returnere den.
+     *
      * @return Dagens dato
      */
-    public LocalDate getCurrentDate()
-    {
+    public LocalDate getCurrentDate() {
         return manager.getCurrentdate();
-        
+
     }
-    
 
     /**
-     * sender en dato og personID ind i DB'en for at registrere personen er tilstede på denne dato.
-     * @param date 
+     * sender en dato og personID ind i DB'en for at registrere personen er
+     * tilstede på denne dato.
+     *
+     * @param date
      */
-    public void studentIsPresent(LocalDate date, int personID)
-    {
+    public void studentIsPresent(LocalDate date, int personID) {
         manager.studentIsPresent(date, personID);
     }
-    
+
+    /**
+     * sender en personID ind i DB for at tjekke om studenten har registreret
+     * sig idag.
+     *
+     * @param personID
+     * @return
+     */
+    public boolean studentAlreadyRegistered(int personID) {
+
+        return manager.studentAlreadyRegistered(personID);
+    }
+
 }
