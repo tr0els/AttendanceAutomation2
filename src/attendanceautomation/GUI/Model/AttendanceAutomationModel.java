@@ -89,5 +89,19 @@ public class AttendanceAutomationModel {
         return manager.getRole(username, password);
 
     }
-
+    
+    
+    /**
+     * DELETE ME WHEN DONE
+     */
+    public void countWeekdays()
+    {
+        manager.countWeekdays();
+    }
+    
+    
+    public double studentAbsence(int personID)
+    {
+        return manager.studentAbsence(personID);
+    }
 }

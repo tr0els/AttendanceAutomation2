@@ -8,8 +8,11 @@ package attendanceautomation.BLL;
 import attendanceautomation.DAL.DALException;
 import attendanceautomation.DAL.database.DataDAO;
 import attendanceautomation.DAL.iDataDAO;
+import java.text.DecimalFormat;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -18,6 +21,8 @@ import java.util.Date;
 public class BLLManager {
 
     private iDataDAO datadao;
+
+    private LocalDate semesterStart = LocalDate.of(2020, 1, 27); //evt. lave det om til dynamisk via tabel/DB?
 
     public BLLManager() throws DALException {
 
@@ -57,20 +62,72 @@ public class BLLManager {
         return datadao.studentAlreadyRegistered(personID);
     }
 
-        /*
+    /*
         sender information fra loginmodel til DAO for at blive verified
-    */
-    public boolean LoginBLL (String email, String password){
+     */
+    public boolean LoginBLL(String email, String password) {
         return datadao.Login(email, password);
     }
-    
+
     /*
         rollen som model spørger efter bliver returneret her
-    */
-    public int getRole(String username, String password){
-    
+     */
+    public int getRole(String username, String password) {
+
         return datadao.getRole(username, password);
 
     }
-    
+
+    /**
+     * calculates schooldays from semesterstart, taking in account weekends and
+     * dates from DB (SCHOOL_DAYS_OFF)
+     */
+    public int countWeekdays() {
+        int weekdays = 0;
+        List<LocalDate> daysOff = new ArrayList<>();
+
+        daysOff = datadao.schoolDaysOff();
+        LocalDate date = semesterStart;
+        LocalDate endDate = getCurrentdate();
+
+        daysOff.contains(date);
+        while (date.isBefore(endDate)) {
+           
+            DayOfWeek dw = date.getDayOfWeek();
+            if (!daysOff.contains(date) && dw != DayOfWeek.SATURDAY && dw != DayOfWeek.SUNDAY) {
+                ++weekdays;
+            }
+
+            date = date.plusDays(1);
+
+        }
+
+
+        return weekdays;
+    }
+
+    /**
+     * Calculates students (personID) abscence in percent
+     *
+     * @param personID
+     */
+    public double studentAbsence(int personID) {
+
+        List<LocalDate> daysPresent = new ArrayList<>();
+
+        daysPresent = datadao.daysPresent(personID);
+
+        double countDaysPresent = daysPresent.size();
+        double countSchooldays = countWeekdays();
+
+        double absencePercent = 100 - ((countDaysPresent / countSchooldays) * 100);
+
+        System.out.println(absencePercent); //DELETE ME WHEN DONE
+        System.out.println(countDaysPresent); //DELETE ME WHEN DONE
+        System.out.println(countSchooldays); //DELETE ME WHEN DONE
+
+        return absencePercent;
+
+    }
+
 }

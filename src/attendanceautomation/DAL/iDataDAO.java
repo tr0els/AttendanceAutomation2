@@ -6,47 +6,63 @@
 package attendanceautomation.DAL;
 
 import java.time.LocalDate;
-
+import java.util.List;
 
 /**
  *
  * @author BBran
  */
 public interface iDataDAO {
-    
-     /**
+
+    /**
      * returnere dagens dato.
-     * @return 
+     *
+     * @return
      */
     public LocalDate getCurrentDate();
-    
+
     /**
-     * sender en dato og personID ind i DB'en for at registrere personen er tilstede på denne dato.
-     * @param date 
-     * @param personID 
+     * sender en dato og personID ind i DB'en for at registrere personen er
+     * tilstede på denne dato.
+     *
+     * @param date
+     * @param personID
      */
     public void studentIsPresent(LocalDate date, int personID);
-    
-    
+
     /**
-     * sender en personID ind i DB for at tjekke om studenten har registreret sig idag.
+     * sender en personID ind i DB for at tjekke om studenten har registreret
+     * sig idag.
+     *
      * @param personID
-     * @return 
+     * @return
      */
     public boolean studentAlreadyRegistered(int personID);
 
-    
     /**
-     * denne metode skal kunne hente information fra serveren til at sammenligne med det input der kommer fra useren
+     * denne metode skal kunne hente information fra serveren til at sammenligne
+     * med det input der kommer fra useren
+     *
      * @param email
      * @param password
-     * @return 
+     * @return
      */
     public boolean Login(String email, String password);
 
+    public int getRole(String username, String password);
+
     /**
-     * 
-     * @return 
+     * Get a list of set schooldays off from DB.
+     *
+     * @return
      */
-     public int getRole(String username, String password);
+    public List<LocalDate> schoolDaysOff();
+
+    /**
+     * Get a list of days student(personID) was present.
+     *
+     * @return
+     */
+    public List<LocalDate> daysPresent(int personID);
+
 }

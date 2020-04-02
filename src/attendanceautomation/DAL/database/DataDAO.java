@@ -16,6 +16,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -85,8 +87,6 @@ public class DataDAO implements iDataDAO {
             Logger.getLogger(DataDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        System.out.println(date);
-        System.out.println(personID);
     }
 
     /**
@@ -112,8 +112,6 @@ public class DataDAO implements iDataDAO {
 
             while (rs.next()) {
                 int count = rs.getInt("count");
-
-                System.out.println(count);
 
                 if (count == 1) {
                     System.out.println("true");
@@ -189,6 +187,68 @@ public class DataDAO implements iDataDAO {
         }
 
         return role;
+    }
+
+    /**
+     * Get a list of set schooldays off from DB.
+     *
+     * @return
+     */
+    @Override
+    public List<LocalDate> schoolDaysOff() {
+
+        try ( Connection con = dbCon.getConnection()) {
+
+            String sql = "SELECT date FROM SCHOOL_DAYS_OFF";
+            PreparedStatement st = con.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+
+            ArrayList<LocalDate> daysOff = new ArrayList<>();
+            while (rs.next()) {
+                LocalDate date = rs.getDate("date").toLocalDate();
+                daysOff.add(date);
+
+            }
+
+            return daysOff;
+
+        } catch (DALException | SQLException ex) {
+            Logger.getLogger(DataDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    /**
+     * Get a list of days student(personID) was present.
+     *
+     * @return
+     */
+    @Override
+    public List<LocalDate> daysPresent(int personID) {
+         
+        try ( Connection con = dbCon.getConnection()) {
+
+            String sql = "SELECT date FROM ATTENDANCE WHERE person_id = ?";
+            PreparedStatement st = con.prepareStatement(sql);
+
+            st.setInt(1, personID);
+
+            ResultSet rs = st.executeQuery();
+
+            ArrayList<LocalDate> daysPresent = new ArrayList<>();
+            while (rs.next()) {
+                LocalDate date = rs.getDate("date").toLocalDate();
+                daysPresent.add(date);
+
+            }
+
+            return daysPresent;
+
+        } catch (DALException | SQLException ex) {
+            Logger.getLogger(DataDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return null;
     }
 
 }
