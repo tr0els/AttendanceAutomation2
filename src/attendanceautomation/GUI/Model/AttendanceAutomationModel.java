@@ -29,7 +29,8 @@ public class AttendanceAutomationModel {
     }
 
     /**
-     * shit doesn't work! Skal laves så den kaster exceptions
+     * virker nu, der er brugt en static initializer som smider en ExceptionInInitializerError
+     * som håndtere exceptions under static initializer hvis noget går galt
      */
     private static class SingletonHolder {
         private static final AttendanceAutomationModel INSTANCE;
@@ -37,7 +38,7 @@ public class AttendanceAutomationModel {
         try {
             INSTANCE =  new AttendanceAutomationModel();
         } catch (DALException e) {
-            throw new ExceptionInInitializerError(e); //
+            throw new ExceptionInInitializerError("noget gik galt, i Singletonholderen"); //
         }
     }}
     
