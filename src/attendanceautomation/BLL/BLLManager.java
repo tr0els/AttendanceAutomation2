@@ -82,7 +82,7 @@ public class BLLManager {
      * calculates schooldays from semesterstart, taking in account weekends and
      * dates from DB (SCHOOL_DAYS_OFF)
      */
-    public int countWeekdays() {
+    public int countWeekdays() { //<-- lav så funktionen kun skal køre 1 gang og så gemme i fast variabel
         int weekdays = 0;
         List<LocalDate> daysOff = new ArrayList<>();
 
@@ -101,7 +101,6 @@ public class BLLManager {
             date = date.plusDays(1);
 
         }
-
 
         return weekdays;
     }
