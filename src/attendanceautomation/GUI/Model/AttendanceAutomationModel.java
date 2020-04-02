@@ -19,20 +19,28 @@ public class AttendanceAutomationModel {
     private BLLManager manager;
 
     public AttendanceAutomationModel() throws DALException {
-        manager = new BLLManager();
+      manager = new BLLManager();
+     
     }
 
-//    /**
-//     * shit doesn't work! Skal laves så den kaster exceptions
-//     */
-//    private static class SingletonHolder {
-//        private static final AttendanceAutomationModel INSTANCE = new AttendanceAutomationModel();
-//    }
-//    
-//    public static AttendanceAutomationModel getInstance() {
-//        return SingletonHolder.INSTANCE;
-//    }  
-
+    /**
+     * shit doesn't work! Skal laves så den kaster exceptions
+     */
+    private static class SingletonHolder {
+        private static final AttendanceAutomationModel INSTANCE;
+        static {
+        try {
+            INSTANCE =  new AttendanceAutomationModel();
+        } catch (DALException e) {
+            throw new ExceptionInInitializerError(e); //
+        }
+    }}
+    
+    public static AttendanceAutomationModel getInstance() {
+        return SingletonHolder.INSTANCE;
+    }
+    
+    
     /**
      * Henter datoen for idag og returnere den.
      *
