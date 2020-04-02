@@ -90,9 +90,6 @@ public class BLLManager {
         LocalDate date = semesterStart;
         LocalDate endDate = getCurrentdate();
 
-        System.out.println(date); //DELETE ME WHEN DONE
-        System.out.println(daysOff); //DELETE ME WHEN DONE
-
         daysOff.contains(date);
         while (date.isBefore(endDate)) {
            
@@ -105,8 +102,6 @@ public class BLLManager {
 
         }
 
-        System.out.println(endDate); //DELETE ME WHEN DONE
-        System.out.println(weekdays); //DELETE ME WHEN DONE
 
         return weekdays;
     }
@@ -125,7 +120,7 @@ public class BLLManager {
         double countDaysPresent = daysPresent.size();
         double countSchooldays = countWeekdays();
 
-        double absencePercent = ((countDaysPresent / countSchooldays) * 100);
+        double absencePercent = 100 - ((countDaysPresent / countSchooldays) * 100);
 
         System.out.println(absencePercent); //DELETE ME WHEN DONE
         System.out.println(countDaysPresent); //DELETE ME WHEN DONE

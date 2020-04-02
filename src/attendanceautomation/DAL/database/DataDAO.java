@@ -87,8 +87,6 @@ public class DataDAO implements iDataDAO {
             Logger.getLogger(DataDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        System.out.println(date);
-        System.out.println(personID);
     }
 
     /**
@@ -114,8 +112,6 @@ public class DataDAO implements iDataDAO {
 
             while (rs.next()) {
                 int count = rs.getInt("count");
-
-                System.out.println(count);
 
                 if (count == 1) {
                     System.out.println("true");

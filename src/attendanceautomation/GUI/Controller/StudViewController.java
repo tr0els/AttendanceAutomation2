@@ -19,6 +19,8 @@ import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -52,8 +54,6 @@ public class StudViewController implements Initializable {
     @FXML
     private Label lblAbsencepercent;
 
-    private int absence;
-    
     @FXML
     private MenuItem menuitemSLogout;
     @FXML
@@ -69,6 +69,7 @@ public class StudViewController implements Initializable {
     @FXML
     private Label showDate;
 
+    private double absence;
     private AttendanceAutomationModel model;
     private int personID;
     private LocalDate currentDate;
@@ -85,6 +86,8 @@ public class StudViewController implements Initializable {
 
             personID = 1; //TO_DO Skaffe personID fra BE!
 
+            absence = model.studentAbsence(personID);            
+            
             currentDate = model.getCurrentDate();
             String strDate = currentDate.format(DateTimeFormatter.ofPattern("dd. MMMM yyyy"));
             showDate.setText(strDate);
@@ -94,7 +97,11 @@ public class StudViewController implements Initializable {
                 btnAttendCurrentClass.setDisable(true);
                 btnAttendCurrentClass.setText("Already Registered!");
             }
-
+            
+            handlePieChart();
+            String strAbsence = String.format("%.1f", absence);
+            lblAbsencepercent.setText(strAbsence + "%");
+            
         } catch (DALException ex) {
             Logger.getLogger(StudViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -103,6 +110,17 @@ public class StudViewController implements Initializable {
 
     public void handlePieChart() {
 
+
+        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
+                new PieChart.Data("Present", 100 - absence),
+                new PieChart.Data("Absent", absence)
+        );
+
+        piechartAttendance.setData(pieChartData);
+        piechartAttendance.setClockwise(true);
+        piechartAttendance.setLabelLineLength(10);
+        piechartAttendance.setLegendVisible(false);
+        piechartAttendance.setStartAngle(90);
     }
 
     public void handleMissedClasses() {

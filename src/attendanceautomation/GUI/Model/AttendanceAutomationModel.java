@@ -92,8 +92,8 @@ public class AttendanceAutomationModel {
     }
     
     
-    public void studentAbsence(int personID)
+    public double studentAbsence(int personID)
     {
-        manager.studentAbsence(personID);
+        return manager.studentAbsence(personID);
     }
 }
