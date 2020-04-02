@@ -5,6 +5,7 @@
  */
 package attendanceautomation.DAL.database;
 
+import attendanceautomation.BE.Classes;
 import attendanceautomation.BE.Student;
 import attendanceautomation.BE.Teacher;
 import attendanceautomation.DAL.DALException;
@@ -250,5 +251,39 @@ public class DataDAO implements iDataDAO {
         
         return null;
     }
+    
+    /**
+     * Returnerer liste med hvilke classes lærerne har.
+     * @return 
+     * @throws DALException 
+     */
+    public List<Classes> getTeacherClasses()
+    {
+        ArrayList<Classes> teacherClasses = new ArrayList<>();
+        // Attempts to connect to the database.
+        try ( Connection con = dbCon.getConnection())
+        {
+            // SQL code. 
+            String sql = "SELECT * FROM CLASS;";
+            // Create statement.
+            Statement statement = con.createStatement();
+            // Attempts to execute the statement.
+            ResultSet rs = statement.executeQuery(sql);
+            while (rs.next())
+            {
+                // Add all to a list
+                Classes classes = new Classes();
+                classes.setId(rs.getInt("class_id"));
+                classes.setClassName(rs.getString("class_name"));
 
+                teacherClasses.add(classes);
+            }
+            //Return
+            return teacherClasses;
+
+        } catch (DALException | SQLException ex) {
+            Logger.getLogger(DataDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 }

@@ -5,6 +5,7 @@
  */
 package attendanceautomation.DAL;
 
+import attendanceautomation.BE.Classes;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -64,5 +65,11 @@ public interface iDataDAO {
      * @return
      */
     public List<LocalDate> daysPresent(int personID);
+    
+    /**
+      * 
+      * @return 
+      */
+     public List<Classes> getTeacherClasses();
 
 }

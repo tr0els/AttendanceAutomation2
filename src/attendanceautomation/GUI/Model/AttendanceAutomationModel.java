@@ -5,10 +5,13 @@
  */
 package attendanceautomation.GUI.Model;
 
+import attendanceautomation.BE.Classes;
 import attendanceautomation.BLL.BLLManager;
 import attendanceautomation.DAL.DALException;
 import java.time.LocalDate;
-import java.util.Date;
+import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  *
@@ -17,10 +20,12 @@ import java.util.Date;
 public class AttendanceAutomationModel {
 
     private BLLManager manager;
+    private ObservableList<Classes> teacherClasses;
 
     public AttendanceAutomationModel() throws DALException {
-      manager = new BLLManager();
-     
+        manager = new BLLManager();
+        teacherClasses = FXCollections.observableArrayList();
+        teacherClasses.addAll(manager.getTeacherClasses());
     }
 
     /**
@@ -103,5 +108,10 @@ public class AttendanceAutomationModel {
     public double studentAbsence(int personID)
     {
         return manager.studentAbsence(personID);
+    }
+    
+    public List<Classes> getTeacherClasses() throws DALException
+    {
+        return teacherClasses;
     }
 }

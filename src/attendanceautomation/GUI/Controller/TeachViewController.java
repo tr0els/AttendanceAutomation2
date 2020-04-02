@@ -6,10 +6,14 @@
 package attendanceautomation.GUI.Controller;
 
 import attendanceautomation.BE.Classes;
+import attendanceautomation.DAL.DALException;
+import attendanceautomation.GUI.Model.AttendanceAutomationModel;
 import com.jfoenix.controls.JFXListView;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -34,7 +38,10 @@ import javafx.stage.Stage;
  *
  * @author BBran
  */
-public class TeachViewController implements Initializable {
+public class TeachViewController implements Initializable
+{
+
+    private AttendanceAutomationModel model;
 
     @FXML
     private JFXListView<String> listviewStudents;
@@ -50,7 +57,6 @@ public class TeachViewController implements Initializable {
     private JFXListView<String> listviewAbsenceDays;
     @FXML
     private BarChart<?, ?> chartAbsenceperDay;
-
     @FXML
     private MenuBar menuBar;
     @FXML
@@ -66,30 +72,41 @@ public class TeachViewController implements Initializable {
      * Initializes the controller class.
      */
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-
-
-    }
-
-    public void handleStudentList() {
-
-
-
-    }
-
-    public void handleStudentAbsence() {
-        
+    public void initialize(URL url, ResourceBundle rb)
+    {
+        try
+        {
+            model = new AttendanceAutomationModel();
+            
+            choiceBoxClasses.setItems(FXCollections.observableArrayList(model.getTeacherClasses()));
+        } catch (DALException ex)
+        {
+            Logger.getLogger(TeachViewController.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
 
-    public void handleBarChart() {
+    public void handleStudentList()
+    {
+
+    }
+
+    public void handleStudentAbsence()
+    {
+
+    }
+
+    public void handleBarChart()
+    {
 
     }
 
     @FXML
-    private void handleLogout(ActionEvent event) {
+    private void handleLogout(ActionEvent event)
+    {
 
-        try {
+        try
+        {
             Parent root = FXMLLoader.load(getClass().getResource("/attendanceautomation/GUI/View/Login.fxml"));
 
             Scene scene = new Scene(root);
@@ -100,18 +117,21 @@ public class TeachViewController implements Initializable {
             stage.setScene(scene);
             stage.setResizable(false);
             stage.show();
-        } catch (IOException e) {
+        } catch (IOException e)
+        {
             e.printStackTrace();
         }
     }
 
     @FXML
-    private void handleCloseprogram(ActionEvent event) {
+    private void handleCloseprogram(ActionEvent event)
+    {
         System.exit(0);
     }
 
     @FXML
-    private void handleAbout(ActionEvent event) {
+    private void handleAbout(ActionEvent event)
+    {
         Alert a = new Alert(Alert.AlertType.INFORMATION);
         a.setTitle("About");
         a.setHeaderText(null);
@@ -130,6 +150,6 @@ public class TeachViewController implements Initializable {
     @FXML
     private void handleChosenClass(MouseEvent event)
     {
-    }
 
+    }
 }

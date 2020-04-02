@@ -45,15 +45,12 @@ public class StudViewController implements Initializable {
 
     @FXML
     private Label lblStudentFullname;
-
     @FXML
     private PieChart piechartAttendance;
     @FXML
     private JFXListView<String> listviewMissedClasses;
-
     @FXML
     private Label lblAbsencepercent;
-
     @FXML
     private MenuItem menuitemSLogout;
     @FXML
