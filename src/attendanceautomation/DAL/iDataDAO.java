@@ -48,5 +48,5 @@ public interface iDataDAO {
      * 
      * @return 
      */
-     public String getRole();
+     public int getRole(String username, String password);
 }

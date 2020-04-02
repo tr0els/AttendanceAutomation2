@@ -25,10 +25,9 @@ import java.util.logging.Logger;
  */
 public class DataDAO implements iDataDAO {
 
-    
     Student stud = new Student("Studentemail", "123");
     Teacher teach = new Teacher("Teacheremail", "123");
-    
+
     private DatabaseConnector dbCon;
 
     public DataDAO() throws DALException {
@@ -131,27 +130,65 @@ public class DataDAO implements iDataDAO {
 
     @Override
     public boolean Login(String email, String password) {
-                String loginEmail = stud.getEmail();
-        String loginPassword = stud.getPassword();
-        
-        System.out.println(stud.CheckRole());
-        
-        boolean correctLogin = false;
 
-        if (loginEmail.equals(email) || loginPassword.equals(password)) {
-            correctLogin = true;
-        } else {
-            correctLogin = false;
+        boolean verifiedLogin = true;
+
+        try ( Connection con = dbCon.getConnection()) {
+
+            String sql = "SELECT email, password FROM PERSON WHERE email = ? AND password = ?";
+
+            PreparedStatement st = con.prepareStatement(sql);
+
+            st.setNString(1, email);
+            st.setNString(2, password);
+
+            ResultSet rs = st.executeQuery();
+
+            if (rs.next() == false) {
+                System.out.println("ResultSet is empty");
+                verifiedLogin = false;
+            } else {
+                do {
+                    String emailDAO = rs.getString("email");
+                    String passwordDAO = rs.getString("password");
+
+                    if (emailDAO.equals(emailDAO) && passwordDAO.equals(passwordDAO)) {
+                        verifiedLogin = true;
+                    }
+                } while (rs.next());
+            }
+
+        } catch (DALException | SQLException ex) {
+            Logger.getLogger(DataDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        return correctLogin;
+
+        return verifiedLogin;
     }
 
     @Override
-    public String getRole() {
-        return teach.CheckRole();
+    public int getRole(String email, String password) {
+        int role = 0;
+
+        try ( Connection con = dbCon.getConnection()) {
+
+            String sql = "SELECT email, password, role_id FROM PERSON WHERE email = ? AND password = ?";
+
+            PreparedStatement st = con.prepareStatement(sql);
+
+            st.setNString(1, email);
+            st.setNString(2, password);
+
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+                role = rs.getInt("role_id");
+            }
+
+        } catch (DALException | SQLException ex) {
+            Logger.getLogger(DataDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return role;
     }
-    
-    
 
 }

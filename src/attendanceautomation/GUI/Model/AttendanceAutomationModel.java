@@ -84,9 +84,9 @@ public class AttendanceAutomationModel {
         Login controlleren skal bruge information om hvilken rolle useren har
         så denne metode returnere dette fra BLL
      */
-    public String getRole() {
+    public int getRole(String username, String password) {
 
-        return manager.getRole();
+        return manager.getRole(username, password);
 
     }
 
