@@ -59,6 +59,9 @@ public class LoginController implements Initializable {
 
     @FXML
     private void handleLogIn(ActionEvent event) throws IOException {
+        
+        
+        
         String username = txtfieldUsername.getText();
         String password = passwordfieldPassword.getText().toString();
 

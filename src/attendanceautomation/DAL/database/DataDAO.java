@@ -9,6 +9,7 @@ import attendanceautomation.BE.Student;
 import attendanceautomation.BE.Teacher;
 import attendanceautomation.DAL.DALException;
 import attendanceautomation.DAL.iDataDAO;
+import java.security.SecureRandom;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -128,8 +129,8 @@ public class DataDAO implements iDataDAO {
         return registeredStatus;
     }
 
-    @Override
-    public boolean Login(String email, String password) {
+    
+    public boolean Login(String email, byte[] password) {
 
         boolean verifiedLogin = true;
 
@@ -140,7 +141,7 @@ public class DataDAO implements iDataDAO {
             PreparedStatement st = con.prepareStatement(sql);
 
             st.setNString(1, email);
-            st.setNString(2, password);
+            st.setBytes(2, password);
 
             ResultSet rs = st.executeQuery();
 
@@ -163,6 +164,31 @@ public class DataDAO implements iDataDAO {
         }
 
         return verifiedLogin;
+    }
+    
+    public byte[] getSalt(String email){
+        
+        byte[] salt = null;
+        
+        try (Connection con = dbCon.getConnection()){
+            
+            String sql = "SELECT email, salt FROM PERSON WHERE email = ?";
+            
+            PreparedStatement st = con.prepareStatement(sql);
+            
+            st.setNString(1, email);
+            
+            ResultSet rs = st.executeQuery();
+            
+            while(rs.next()){
+                salt = rs.getBytes("salt");
+            }
+            
+        } catch (Exception e) {
+        }
+        
+         return salt;
+         
     }
 
     @Override
@@ -189,6 +215,38 @@ public class DataDAO implements iDataDAO {
         }
 
         return role;
+    }
+
+    public void hashPassword() {
+        try ( Connection con = dbCon.getConnection()) {
+
+            String sql = "UPDATE PERSON SET password = ? WHERE person_id = ?";
+
+        } catch (Exception e) {
+        }
+    }
+
+    @Override
+    public void setPasswordandSalt(byte[] HashedPassword, byte[] salt) {
+        try ( Connection con = dbCon.getConnection()) {
+
+            String sql = "UPDATE PERSON SET salt = ?, password = ? WHERE person_id = ? ";
+
+            PreparedStatement st = con.prepareStatement(sql);
+
+            st.setBytes(1, salt);
+            st.setBytes(2, HashedPassword);
+            st.setInt(3, 5);
+
+            st.executeQuery();
+
+        } catch (Exception e) {
+        }
+    }
+
+    @Override
+    public boolean Login(String email, String password) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

@@ -8,6 +8,9 @@ package attendanceautomation.BLL;
 import attendanceautomation.DAL.DALException;
 import attendanceautomation.DAL.database.DataDAO;
 import attendanceautomation.DAL.iDataDAO;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.SecureRandom;
 import java.time.LocalDate;
 import java.util.Date;
 
@@ -57,20 +60,68 @@ public class BLLManager {
         return datadao.studentAlreadyRegistered(personID);
     }
 
-        /*
+    /*
         sender information fra loginmodel til DAO for at blive verified
-    */
-    public boolean LoginBLL (String email, String password){
-        return datadao.Login(email, password);
+     */
+    public boolean LoginBLL(String email, String password) {
+        
+        boolean verifiedLogin = false;
+        byte[] salt = datadao.getSalt(email);
+
+        try {
+
+            MessageDigest md = MessageDigest.getInstance("SHA-512");
+            md.update(salt);
+
+            byte[] HashedPassword = md.digest(password.getBytes(StandardCharsets.UTF_8));
+
+            //datadao.setPasswordandSalt(HashedPassword, salt);
+
+            verifiedLogin =  datadao.Login(email, HashedPassword);
+
+        } catch (Exception e) {
+        }
+        
+        return verifiedLogin;
+
     }
-    
+
     /*
         rollen som model spørger efter bliver returneret her
-    */
-    public int getRole(String username, String password){
-    
+     */
+    public int getRole(String username, String password) {
+
         return datadao.getRole(username, password);
 
     }
+
+    public void HashPassword(String passwordToHash) {
+        byte[] salt = createSalt();
+
+        try {
+
+            MessageDigest md = MessageDigest.getInstance("SHA-512");
+            md.update(salt);
+
+            byte[] HashedPassword = md.digest(passwordToHash.getBytes(StandardCharsets.UTF_8));
+
+            datadao.setPasswordandSalt(HashedPassword, salt);
+
+        } catch (Exception e) {
+        }
+    }
+
+    /*
+    dette var brugt til at lave salt data
     
+     */
+    public byte[] createSalt() {
+
+        SecureRandom random = new SecureRandom();
+        byte[] salt = new byte[16];
+        random.nextBytes(salt);
+
+        return salt;
+    }
+
 }

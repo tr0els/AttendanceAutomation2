@@ -5,6 +5,7 @@
  */
 package attendanceautomation.DAL;
 
+import java.security.SecureRandom;
 import java.time.LocalDate;
 
 
@@ -49,4 +50,10 @@ public interface iDataDAO {
      * @return 
      */
      public int getRole(String username, String password);
+
+    public void setPasswordandSalt(byte[] HashedPassword, byte[] salt);
+
+    public boolean Login(String email, byte[] HashedPassword);
+
+    public byte[] getSalt(String email);
 }

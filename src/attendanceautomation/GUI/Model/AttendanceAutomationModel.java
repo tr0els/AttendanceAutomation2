@@ -81,5 +81,9 @@ public class AttendanceAutomationModel {
         return manager.getRole(username, password);
 
     }
+    
+    public void hashPassword(String password){
+        manager.HashPassword(password);
+    }
 
 }
