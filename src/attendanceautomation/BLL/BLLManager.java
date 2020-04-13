@@ -23,10 +23,15 @@ public class BLLManager {
     private iDataDAO datadao;
 
     private LocalDate semesterStart = LocalDate.of(2020, 1, 27); //evt. lave det om til dynamisk via tabel/DB?
+    private List<LocalDate> daysOff;
 
     public BLLManager() throws DALException {
 
         datadao = new DataDAO();
+        
+        daysOff = new ArrayList<>();
+        daysOff = datadao.schoolDaysOff();
+        
     }
 
     /**
@@ -39,6 +44,7 @@ public class BLLManager {
         return datadao.getCurrentDate();
     }
 
+    
     /**
      * sender en dato og personID ind i DB'en for at registrere personen er
      * tilstede på denne dato.
@@ -51,15 +57,27 @@ public class BLLManager {
     }
 
     /**
-     * sender en personID ind i DB for at tjekke om studenten har registreret
-     * sig idag.
+     * Tjekker om det er en skoledag og/eller om eleven har registeret sig.
      *
      * @param personID
      * @return
      */
-    public boolean studentAlreadyRegistered(int personID) {
+    public String studentAlreadyRegistered(int personID) {
 
-        return datadao.studentAlreadyRegistered(personID);
+        LocalDate date = datadao.getCurrentDate();
+        DayOfWeek dw = date.getDayOfWeek();
+        String btnMessage = null;
+        
+        if (!daysOff.contains(date) && dw != DayOfWeek.SATURDAY && dw != DayOfWeek.SUNDAY)
+        {
+            btnMessage = "No School Today!";
+        }
+        else if (datadao.studentAlreadyRegistered(personID) == true)       
+        {
+            btnMessage = "Already Registered";
+        }
+        
+        return btnMessage;
     }
 
     /*
@@ -79,18 +97,16 @@ public class BLLManager {
     }
 
     /**
-     * calculates schooldays from semesterstart, taking in account weekends and
-     * dates from DB (SCHOOL_DAYS_OFF)
+     * udregner skoledage fra semesterStart og tager højde for weekender
+     * og helligdage (SCHOOL_DAYS_OFF i DB).
      */
-    public int countWeekdays() { //<-- lav så funktionen kun skal køre 1 gang og så gemme i fast variabel
+    public int countWeekdays() { 
         int weekdays = 0;
-        List<LocalDate> daysOff = new ArrayList<>();
 
-        daysOff = datadao.schoolDaysOff();
         LocalDate date = semesterStart;
         LocalDate endDate = getCurrentdate();
 
-        daysOff.contains(date);
+
         while (date.isBefore(endDate)) {
            
             DayOfWeek dw = date.getDayOfWeek();
@@ -106,7 +122,7 @@ public class BLLManager {
     }
 
     /**
-     * Calculates students (personID) abscence in percent
+     * Udregner og returnere en students fraværsprocent
      *
      * @param personID
      */
@@ -128,5 +144,36 @@ public class BLLManager {
         return absencePercent;
 
     }
+    
+    /**
+     * returnere liste over dage hvor eleven ikke har været i skole hvor x er intervallet fra dagens dato
+     * listen tager højde for helligdage(SCHOOL_DAYS_OFF i DB) og weekender.
+     * @param personID
+     * @return 
+     */
 
+    public List<LocalDate> missedDays(int personID, int x)
+    {
+        List<LocalDate> daysPresent = new ArrayList<>();
+        daysPresent = datadao.xDaysPresent(personID, x);
+
+        List<LocalDate> missedDays = new ArrayList<>();
+        
+        LocalDate today = getCurrentdate();
+        LocalDate intervalDate = today.minusDays(x);
+        
+        while (intervalDate.isBefore(today))
+                {
+                    DayOfWeek dw = intervalDate.getDayOfWeek();
+                    if (!daysPresent.contains(intervalDate) && !daysOff.contains(intervalDate) && dw != DayOfWeek.SATURDAY && dw != DayOfWeek.SUNDAY)
+                    {
+                        missedDays.add(intervalDate);
+                    }
+                    intervalDate = intervalDate.plusDays(1);
+                }
+        
+        return missedDays;
+    }
+    
+    
 }

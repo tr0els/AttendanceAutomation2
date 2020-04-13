@@ -48,8 +48,6 @@ public class StudViewController implements Initializable {
 
     @FXML
     private PieChart piechartAttendance;
-    @FXML
-    private JFXListView<String> listviewMissedClasses;
 
     @FXML
     private Label lblAbsencepercent;
@@ -72,8 +70,13 @@ public class StudViewController implements Initializable {
     private double absence;
     private AttendanceAutomationModel model;
     private int personID;
+    private int daysPresent;
     private LocalDate currentDate;
-    private Boolean registeredToday;
+    private String registeredToday;
+    @FXML
+    private JFXListView<LocalDate> listviewMissedDays;
+    @FXML
+    private Label lblMissedDays;
 
     /**
      * Initializes the controller class.
@@ -84,24 +87,26 @@ public class StudViewController implements Initializable {
         try {
             model = new AttendanceAutomationModel();
 
+            daysPresent = 15; //hvor langt tilbage listen over missed days viser
+            lblMissedDays.setText("Missed Days (Last " + daysPresent + " days)");
             personID = 1; //TO_DO Skaffe personID fra BE!
 
-            absence = model.studentAbsence(personID);            
-            
+            absence = model.studentAbsence(personID);
+
             currentDate = model.getCurrentDate();
             String strDate = currentDate.format(DateTimeFormatter.ofPattern("dd. MMMM yyyy"));
             showDate.setText(strDate);
 
             registeredToday = model.studentAlreadyRegistered(personID);
-            if (registeredToday == true) {
+            if (registeredToday != null) {
                 btnAttendCurrentClass.setDisable(true);
-                btnAttendCurrentClass.setText("Already Registered!");
+                btnAttendCurrentClass.setText(registeredToday);
             }
-            
+
             handlePieChart();
-            String strAbsence = String.format("%.1f", absence);
-            lblAbsencepercent.setText(strAbsence + "%");
-            
+
+            handleMissedDays();
+
         } catch (DALException ex) {
             Logger.getLogger(StudViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -109,7 +114,6 @@ public class StudViewController implements Initializable {
     }
 
     public void handlePieChart() {
-
 
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
                 new PieChart.Data("Present", 100 - absence),
@@ -121,10 +125,13 @@ public class StudViewController implements Initializable {
         piechartAttendance.setLabelLineLength(10);
         piechartAttendance.setLegendVisible(false);
         piechartAttendance.setStartAngle(90);
+
+        String strAbsence = String.format("%.1f", absence);
+        lblAbsencepercent.setText(strAbsence + "%");
     }
 
-    public void handleMissedClasses() {
-
+    public void handleMissedDays() {
+        listviewMissedDays.setItems(model.missedDays(personID, daysPresent));
     }
 
     public void handleBarChart() {

@@ -58,12 +58,12 @@
       <PieChart fx:id="piechartAttendance" layoutX="438.0" layoutY="75.0" prefHeight="120.0" prefWidth="200.0" />
       <Rectangle fx:id="rectangle" height="245.0" layoutX="20.0" layoutY="165.0" width="370.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="165.0">
       </Rectangle>
-      <Label alignment="CENTER" layoutX="10.0" layoutY="179.0" prefHeight="27.0" prefWidth="370.0" text="Missed days (last 7 days)">
+      <Label fx:id="lblMissedDays" alignment="CENTER" layoutX="10.0" layoutY="179.0" prefHeight="27.0" prefWidth="370.0" text="Missed days (last 7 days)">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <JFXListView fx:id="listviewMissedClasses" layoutX="23.0" layoutY="215.0" prefHeight="185.0" prefWidth="350.0" AnchorPane.leftAnchor="20.0" />
+      <JFXListView fx:id="listviewMissedDays" layoutX="23.0" layoutY="215.0" prefHeight="185.0" prefWidth="350.0" AnchorPane.leftAnchor="20.0" />
       <Label layoutX="523.0" layoutY="72.0" prefHeight="27.0" prefWidth="79.0" text="absence.">
          <font>
             <Font size="18.0" />
