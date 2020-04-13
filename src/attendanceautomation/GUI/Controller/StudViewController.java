@@ -89,6 +89,7 @@ public class StudViewController implements Initializable {
 
             daysPresent = 15; //hvor langt tilbage listen over missed days viser
             lblMissedDays.setText("Missed Days (Last " + daysPresent + " days)");
+            
             personID = 1; //TO_DO Skaffe personID fra BE!
 
             absence = model.studentAbsence(personID);
@@ -159,8 +160,7 @@ public class StudViewController implements Initializable {
 
     /**
      * Henter dato for idag og sender den og personID ned i db for at registrere
-     * at man er tilstede. Konvertere dato til string og viser den i label
-     * showDate.
+     * at man er tilstede. 
      *
      * @param event
      */
