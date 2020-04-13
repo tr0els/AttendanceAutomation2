@@ -60,7 +60,7 @@ public interface iDataDAO {
     public List<LocalDate> schoolDaysOff();
 
     /**
-     * Get a list of days student(personID) was present.
+     * Get a list of all days student(personID) was present.
      *
      * @return
      */
@@ -71,5 +71,10 @@ public interface iDataDAO {
       * @return 
       */
      public List<Classes> getTeacherClasses();
+     * Get a list of x days student(personID) was present.
+     *
+     * @return
+     */
+    public List<LocalDate> xDaysPresent (int personID, int x);    
 
 }

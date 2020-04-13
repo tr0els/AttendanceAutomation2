@@ -220,13 +220,13 @@ public class DataDAO implements iDataDAO {
     }
 
     /**
-     * Get a list of days student(personID) was present.
+     * Get a list of all days student(personID) was present.
      *
      * @return
      */
     @Override
     public List<LocalDate> daysPresent(int personID) {
-         
+
         try ( Connection con = dbCon.getConnection()) {
 
             String sql = "SELECT date FROM ATTENDANCE WHERE person_id = ?";
@@ -248,7 +248,7 @@ public class DataDAO implements iDataDAO {
         } catch (DALException | SQLException ex) {
             Logger.getLogger(DataDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return null;
     }
     
@@ -284,6 +284,36 @@ public class DataDAO implements iDataDAO {
         } catch (DALException | SQLException ex) {
             Logger.getLogger(DataDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+    /**
+     * Get a list of x days student(personID) was present.
+     *
+     * @return
+     */
+    @Override
+    public List<LocalDate> xDaysPresent(int personID, int x) {
+        try ( Connection con = dbCon.getConnection()) {
+
+            String sql = "SELECT date FROM ATTENDANCE WHERE person_id = ? AND date >= DATEADD(day, -?, GETDATE())";
+            PreparedStatement st = con.prepareStatement(sql);
+
+            st.setInt(1, personID);
+            st.setInt(2, x);
+
+            ResultSet rs = st.executeQuery();
+
+            ArrayList<LocalDate> daysPresent = new ArrayList<>();
+            while (rs.next()) {
+                LocalDate date = rs.getDate("date").toLocalDate();
+                daysPresent.add(date);
+
+            }
+
+            return daysPresent;
+
+        } catch (DALException | SQLException ex) {
+            Logger.getLogger(DataDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         return null;
     }
 }

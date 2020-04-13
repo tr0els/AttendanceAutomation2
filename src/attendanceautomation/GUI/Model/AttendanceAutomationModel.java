@@ -9,6 +9,7 @@ import attendanceautomation.BE.Classes;
 import attendanceautomation.BLL.BLLManager;
 import attendanceautomation.DAL.DALException;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,9 +22,11 @@ public class AttendanceAutomationModel {
 
     private BLLManager manager;
     private ObservableList<Classes> teacherClasses;
+    private ObservableList<LocalDate> daysPresent;
 
     public AttendanceAutomationModel() throws DALException {
         manager = new BLLManager();
+        daysPresent = FXCollections.observableArrayList();
         teacherClasses = FXCollections.observableArrayList();
         teacherClasses.addAll(manager.getTeacherClasses());
     }
@@ -74,7 +77,7 @@ public class AttendanceAutomationModel {
      * @param personID
      * @return
      */
-    public boolean studentAlreadyRegistered(int personID) {
+    public String studentAlreadyRegistered(int personID) {
 
         return manager.studentAlreadyRegistered(personID);
     }
@@ -97,18 +100,31 @@ public class AttendanceAutomationModel {
     }
     
     
+  
+    /**
+     * returnere fraværsprocent.
+     * @param personID
+     * @return 
+     */
+    public double studentAbsence(int personID)
+    {
+        return manager.studentAbsence(personID);
+    }
+    
+    public ObservableList<LocalDate> missedDays(int personID, int x)
+    {
+       daysPresent.addAll(manager.missedDays(personID, x));
+       return daysPresent;
+    }
+    
+    
+
     /**
      * DELETE ME WHEN DONE
      */
     public void countWeekdays()
     {
         manager.countWeekdays();
-    }
-    
-    
-    public double studentAbsence(int personID)
-    {
-        return manager.studentAbsence(personID);
     }
     
     public List<Classes> getTeacherClasses() throws DALException
