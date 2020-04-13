@@ -284,6 +284,8 @@ public class DataDAO implements iDataDAO {
         } catch (DALException | SQLException ex) {
             Logger.getLogger(DataDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return null;
+    }
     /**
      * Get a list of x days student(personID) was present.
      *
