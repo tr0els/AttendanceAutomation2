@@ -26,14 +26,16 @@ import java.util.logging.Logger;
  *
  * @author BBran
  */
-public class DataDAO implements iDataDAO {
+public class DataDAO implements iDataDAO
+{
 
     Student stud = new Student("Studentemail", "123");
     Teacher teach = new Teacher("Teacheremail", "123");
 
     private DatabaseConnector dbCon;
 
-    public DataDAO() throws DALException {
+    public DataDAO() throws DALException
+    {
 
         dbCon = new DatabaseConnector();
 
@@ -45,20 +47,24 @@ public class DataDAO implements iDataDAO {
      * @return
      */
     @Override
-    public LocalDate getCurrentDate() {
+    public LocalDate getCurrentDate()
+    {
 
-        try ( Connection con = dbCon.getConnection()) {
+        try ( Connection con = dbCon.getConnection())
+        {
 
             String sql = "SELECT CONVERT(date, GETDATE()) as [Current_Date]";
             Statement statement = con.createStatement();
             ResultSet rs = statement.executeQuery(sql);
 
-            while (rs.next()) {
+            while (rs.next())
+            {
                 LocalDate currentdate = rs.getDate("Current_Date").toLocalDate();
                 return currentdate;
             }
 
-        } catch (SQLException | DALException ex) {
+        } catch (SQLException | DALException ex)
+        {
             Logger.getLogger(DataDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -72,9 +78,11 @@ public class DataDAO implements iDataDAO {
      * @param date
      */
     @Override
-    public void studentIsPresent(LocalDate date, int personID) {
+    public void studentIsPresent(LocalDate date, int personID)
+    {
 
-        try ( Connection con = dbCon.getConnection()) {
+        try ( Connection con = dbCon.getConnection())
+        {
 
             String sql = "INSERT INTO ATTENDANCE (person_id,date,last_changed) VALUES (?,?,CURRENT_TIMESTAMP)";
             PreparedStatement st = con.prepareStatement(sql);
@@ -84,7 +92,8 @@ public class DataDAO implements iDataDAO {
 
             st.executeUpdate();
 
-        } catch (DALException | SQLException ex) {
+        } catch (DALException | SQLException ex)
+        {
             Logger.getLogger(DataDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -98,11 +107,13 @@ public class DataDAO implements iDataDAO {
      * @return
      */
     @Override
-    public boolean studentAlreadyRegistered(int personID) {
+    public boolean studentAlreadyRegistered(int personID)
+    {
 
         Boolean registeredStatus = false;
 
-        try ( Connection con = dbCon.getConnection()) {
+        try ( Connection con = dbCon.getConnection())
+        {
 
             String sql = "SELECT COUNT(*) as count FROM ATTENDANCE WHERE person_id = ? AND date = CONVERT(date, GETDATE())";
             PreparedStatement st = con.prepareStatement(sql);
@@ -111,28 +122,34 @@ public class DataDAO implements iDataDAO {
 
             ResultSet rs = st.executeQuery();
 
-            while (rs.next()) {
+            while (rs.next())
+            {
                 int count = rs.getInt("count");
 
-                if (count == 1) {
+                if (count == 1)
+                {
                     System.out.println("true");
                     registeredStatus = true;
-                } else {
+                } else
+                {
                     registeredStatus = false;
                 }
             }
-        } catch (DALException | SQLException ex) {
+        } catch (DALException | SQLException ex)
+        {
             Logger.getLogger(DataDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return registeredStatus;
     }
 
     @Override
-    public boolean Login(String email, String password) {
+    public boolean Login(String email, String password)
+    {
 
         boolean verifiedLogin = true;
 
-        try ( Connection con = dbCon.getConnection()) {
+        try ( Connection con = dbCon.getConnection())
+        {
 
             String sql = "SELECT email, password FROM PERSON WHERE email = ? AND password = ?";
 
@@ -143,21 +160,26 @@ public class DataDAO implements iDataDAO {
 
             ResultSet rs = st.executeQuery();
 
-            if (rs.next() == false) {
+            if (rs.next() == false)
+            {
                 System.out.println("ResultSet is empty");
                 verifiedLogin = false;
-            } else {
-                do {
+            } else
+            {
+                do
+                {
                     String emailDAO = rs.getString("email");
                     String passwordDAO = rs.getString("password");
 
-                    if (emailDAO.equals(emailDAO) && passwordDAO.equals(passwordDAO)) {
+                    if (emailDAO.equals(emailDAO) && passwordDAO.equals(passwordDAO))
+                    {
                         verifiedLogin = true;
                     }
                 } while (rs.next());
             }
 
-        } catch (DALException | SQLException ex) {
+        } catch (DALException | SQLException ex)
+        {
             Logger.getLogger(DataDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -165,10 +187,12 @@ public class DataDAO implements iDataDAO {
     }
 
     @Override
-    public int getRole(String email, String password) {
+    public int getRole(String email, String password)
+    {
         int role = 0;
 
-        try ( Connection con = dbCon.getConnection()) {
+        try ( Connection con = dbCon.getConnection())
+        {
 
             String sql = "SELECT email, password, role_id FROM PERSON WHERE email = ? AND password = ?";
 
@@ -179,11 +203,13 @@ public class DataDAO implements iDataDAO {
 
             ResultSet rs = st.executeQuery();
 
-            while (rs.next()) {
+            while (rs.next())
+            {
                 role = rs.getInt("role_id");
             }
 
-        } catch (DALException | SQLException ex) {
+        } catch (DALException | SQLException ex)
+        {
             Logger.getLogger(DataDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -196,16 +222,19 @@ public class DataDAO implements iDataDAO {
      * @return
      */
     @Override
-    public List<LocalDate> schoolDaysOff() {
+    public List<LocalDate> schoolDaysOff()
+    {
 
-        try ( Connection con = dbCon.getConnection()) {
+        try ( Connection con = dbCon.getConnection())
+        {
 
             String sql = "SELECT date FROM SCHOOL_DAYS_OFF";
             PreparedStatement st = con.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
 
             ArrayList<LocalDate> daysOff = new ArrayList<>();
-            while (rs.next()) {
+            while (rs.next())
+            {
                 LocalDate date = rs.getDate("date").toLocalDate();
                 daysOff.add(date);
 
@@ -213,7 +242,8 @@ public class DataDAO implements iDataDAO {
 
             return daysOff;
 
-        } catch (DALException | SQLException ex) {
+        } catch (DALException | SQLException ex)
+        {
             Logger.getLogger(DataDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
@@ -225,9 +255,11 @@ public class DataDAO implements iDataDAO {
      * @return
      */
     @Override
-    public List<LocalDate> daysPresent(int personID) {
-         
-        try ( Connection con = dbCon.getConnection()) {
+    public List<LocalDate> daysPresent(int personID)
+    {
+
+        try ( Connection con = dbCon.getConnection())
+        {
 
             String sql = "SELECT date FROM ATTENDANCE WHERE person_id = ?";
             PreparedStatement st = con.prepareStatement(sql);
@@ -237,7 +269,8 @@ public class DataDAO implements iDataDAO {
             ResultSet rs = st.executeQuery();
 
             ArrayList<LocalDate> daysPresent = new ArrayList<>();
-            while (rs.next()) {
+            while (rs.next())
+            {
                 LocalDate date = rs.getDate("date").toLocalDate();
                 daysPresent.add(date);
 
@@ -245,17 +278,19 @@ public class DataDAO implements iDataDAO {
 
             return daysPresent;
 
-        } catch (DALException | SQLException ex) {
+        } catch (DALException | SQLException ex)
+        {
             Logger.getLogger(DataDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return null;
     }
-    
+
     /**
      * Returnerer liste med hvilke classes lærerne har.
-     * @return 
-     * @throws DALException 
+     *
+     * @return
+     * @throws DALException
      */
     public List<Classes> getTeacherClasses()
     {
@@ -281,9 +316,48 @@ public class DataDAO implements iDataDAO {
             //Return
             return teacherClasses;
 
-        } catch (DALException | SQLException ex) {
+        } catch (DALException | SQLException ex)
+        {
             Logger.getLogger(DataDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+
+    @Override
+    public List<Student> getStudentsInClass(Classes choiceBoxChosenClass) throws DALException
+    {
+        ArrayList<Student> allStudentsInClass = new ArrayList<>();
+        // Attempts to connect to the database.
+        try ( Connection con = dbCon.getConnection())
+        {
+            Integer idClasses = choiceBoxChosenClass.getId();
+            // SQL code. 
+            String sql = "select * from person p, PERSON_CLASS pc\n"
+                    + "where p.person_id = pc.person_id\n"
+                    + "and pc.class_id = " + idClasses + "\n" 
+                    + "and p.role_id = 1;";
+            // Create statement.
+            Statement statement = con.createStatement();
+            // Attempts to execute the statement.
+            ResultSet rs = statement.executeQuery(sql);
+            while (rs.next())
+            {
+
+                // Add all to a list
+                Student student = new Student();
+                student.setPersonID(rs.getInt("id"));
+                student.setName(rs.getString("name"));
+
+                allStudentsInClass.add(student);
+            }
+            //Return
+            return allStudentsInClass;
+
+        } catch (SQLException ex)
+        {
+            Logger.getLogger(DataDAO.class
+                    .getName()).log(Level.SEVERE, null, ex);
+            throw new DALException("Can´t do that");
+        }
     }
 }

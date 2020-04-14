@@ -19,6 +19,11 @@ public class Person
     public String password;
     private int phoneNumber;
 
+    public Person()
+    {
+        
+    }
+    
     public Person(String email, String password) {
         this.email = email;
         this.password = password;

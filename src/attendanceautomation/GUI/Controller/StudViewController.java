@@ -83,7 +83,7 @@ public class StudViewController implements Initializable {
 
             personID = 1; //TO_DO Skaffe personID fra BE!
 
-            absence = model.studentAbsence(personID);            
+            absence = model.studentAbsence(personID);
             
             currentDate = model.getCurrentDate();
             String strDate = currentDate.format(DateTimeFormatter.ofPattern("dd. MMMM yyyy"));

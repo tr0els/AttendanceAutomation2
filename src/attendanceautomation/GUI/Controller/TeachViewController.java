@@ -6,6 +6,7 @@
 package attendanceautomation.GUI.Controller;
 
 import attendanceautomation.BE.Classes;
+import attendanceautomation.BE.Student;
 import attendanceautomation.DAL.DALException;
 import attendanceautomation.GUI.Model.AttendanceAutomationModel;
 import com.jfoenix.controls.JFXListView;
@@ -42,9 +43,10 @@ public class TeachViewController implements Initializable
 {
 
     private AttendanceAutomationModel model;
+    private Classes choiceBoxChosenClass;
 
     @FXML
-    private JFXListView<String> listviewStudents;
+    private JFXListView<Student> listviewStudents;
     @FXML
     private ImageView imgStudent;
     @FXML
@@ -74,6 +76,18 @@ public class TeachViewController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
+        choiceBoxClasses.getSelectionModel().selectedItemProperty().addListener( (v, oldValue, newValue) -> {
+        choiceBoxChosenClass = choiceBoxClasses.getSelectionModel().getSelectedItem();
+            try
+            {
+                listviewStudents.setItems(model.getStudentsInClass(choiceBoxChosenClass));
+            } catch (DALException ex)
+            {
+                Logger.getLogger(TeachViewController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+}
+        );
+        
         try
         {
             model = new AttendanceAutomationModel();
@@ -148,8 +162,10 @@ public class TeachViewController implements Initializable
     }
 
     @FXML
-    private void handleChosenClass(MouseEvent event)
+    private void handleChosenClass(MouseEvent event) throws DALException
     {
-
+        choiceBoxChosenClass = choiceBoxClasses.getSelectionModel().getSelectedItem();
+        listviewStudents.setItems(model.getStudentsInClass(choiceBoxChosenClass));
+        
     }
 }

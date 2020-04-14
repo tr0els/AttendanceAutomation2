@@ -6,6 +6,7 @@
 package attendanceautomation.GUI.Model;
 
 import attendanceautomation.BE.Classes;
+import attendanceautomation.BE.Student;
 import attendanceautomation.BLL.BLLManager;
 import attendanceautomation.DAL.DALException;
 import java.time.LocalDate;
@@ -21,11 +22,14 @@ public class AttendanceAutomationModel {
 
     private BLLManager manager;
     private ObservableList<Classes> teacherClasses;
+    private ObservableList<Student> studentsInClass;
+    private int choiceBoxChosenClass;
 
     public AttendanceAutomationModel() throws DALException {
         manager = new BLLManager();
         teacherClasses = FXCollections.observableArrayList();
         teacherClasses.addAll(manager.getTeacherClasses());
+        studentsInClass = FXCollections.observableArrayList();
     }
 
     /**
@@ -114,5 +118,13 @@ public class AttendanceAutomationModel {
     public List<Classes> getTeacherClasses() throws DALException
     {
         return teacherClasses;
+    }
+    
+    public ObservableList<Student> getStudentsInClass(Classes choiceBoxChosenClass) throws DALException
+    {
+        List<Student> tempStudents = manager.getStudentsInClass(choiceBoxChosenClass);
+        studentsInClass.clear();
+        studentsInClass.addAll(tempStudents);
+        return studentsInClass;
     }
 }
