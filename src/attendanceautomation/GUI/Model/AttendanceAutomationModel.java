@@ -76,12 +76,17 @@ public class AttendanceAutomationModel {
         Login controlleren skal bruge information om hvilken rolle useren har
         så denne metode returnere dette fra BLL
      */
-    public int getRole(String username, String password) {
+    public int getRole(String username) {
 
-        return manager.getRole(username, password);
+        return manager.getRole(username);
 
     }
     
+    /*
+        en funktion der sender passwords til bll for at blive hashet. 
+        Denne funktion bliver ikke brugt lige nu, men skal højst sandsyneligt bruges
+        i fremtiden.
+    */
     public void hashPassword(String password){
         manager.HashPassword(password);
     }

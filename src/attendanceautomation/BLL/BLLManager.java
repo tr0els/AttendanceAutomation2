@@ -61,7 +61,9 @@ public class BLLManager {
     }
 
     /*
-        sender information fra loginmodel til DAO for at blive verified
+        denne metode tager det info som kommer fra brugeren. den finder det gemte salt
+        på serveren med emailen som sammenligner. derefter hasher den passwordet
+        så vi kan sammenligne det med det hash som ligger på serveren.
      */
     public boolean LoginBLL(String email, String password) {
         
@@ -71,6 +73,7 @@ public class BLLManager {
         try {
 
             MessageDigest md = MessageDigest.getInstance("SHA-512");
+            md.reset();
             md.update(salt);
 
             byte[] HashedPassword = md.digest(password.getBytes(StandardCharsets.UTF_8));
@@ -89,12 +92,16 @@ public class BLLManager {
     /*
         rollen som model spørger efter bliver returneret her
      */
-    public int getRole(String username, String password) {
+    public int getRole(String username) {
 
-        return datadao.getRole(username, password);
+        return datadao.getRole(username);
 
     }
 
+    /*
+        denne metoder bliver ikke brugt lige nu, men den hasher passwords som så 
+        kan gemmes på serveren.
+    */
     public void HashPassword(String passwordToHash) {
         byte[] salt = createSalt();
 
@@ -112,8 +119,7 @@ public class BLLManager {
     }
 
     /*
-    dette var brugt til at lave salt data
-    
+    dette var brugt til at lave salt som gør hashet passwords mere sikkert.
      */
     public byte[] createSalt() {
 

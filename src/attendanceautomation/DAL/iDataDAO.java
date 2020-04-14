@@ -43,17 +43,16 @@ public interface iDataDAO {
      * @param password
      * @return 
      */
-    public boolean Login(String email, String password);
+    public boolean Login(String email, byte[] HashedPassword);
 
     /**
      * 
      * @return 
      */
-     public int getRole(String username, String password);
 
     public void setPasswordandSalt(byte[] HashedPassword, byte[] salt);
 
-    public boolean Login(String email, byte[] HashedPassword);
-
     public byte[] getSalt(String email);
+
+    public int getRole(String username);
 }

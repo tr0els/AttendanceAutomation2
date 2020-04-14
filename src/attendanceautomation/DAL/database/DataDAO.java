@@ -17,6 +17,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -129,7 +130,10 @@ public class DataDAO implements iDataDAO {
         return registeredStatus;
     }
 
-    
+    /*
+        tager det info fra brugeren og sammenligner det med data på serveren for
+        at se om det input brugeren har puttet ind findes i databasen
+    */
     public boolean Login(String email, byte[] password) {
 
         boolean verifiedLogin = true;
@@ -151,10 +155,11 @@ public class DataDAO implements iDataDAO {
             } else {
                 do {
                     String emailDAO = rs.getString("email");
-                    String passwordDAO = rs.getString("password");
-
-                    if (emailDAO.equals(emailDAO) && passwordDAO.equals(passwordDAO)) {
+                    byte[] passwordDAO = rs.getBytes("password");
+                    
+                    if (emailDAO.equals(email) && Arrays.equals(passwordDAO, password)) {
                         verifiedLogin = true;
+                        break;
                     }
                 } while (rs.next());
             }
@@ -166,6 +171,10 @@ public class DataDAO implements iDataDAO {
         return verifiedLogin;
     }
     
+    /*
+        henter saltet fra serveren så den kan bruges til at hashe et identisk
+        hash fra serveren.
+    */
     public byte[] getSalt(String email){
         
         byte[] salt = null;
@@ -191,18 +200,20 @@ public class DataDAO implements iDataDAO {
          
     }
 
+    /*
+        finder rollen på brugeren som har succesfuldt logget ind.
+    */
     @Override
-    public int getRole(String email, String password) {
+    public int getRole(String email) {
         int role = 0;
 
         try ( Connection con = dbCon.getConnection()) {
 
-            String sql = "SELECT email, password, role_id FROM PERSON WHERE email = ? AND password = ?";
+            String sql = "SELECT email, role_id FROM PERSON WHERE email = ?";
 
             PreparedStatement st = con.prepareStatement(sql);
 
             st.setNString(1, email);
-            st.setNString(2, password);
 
             ResultSet rs = st.executeQuery();
 
@@ -217,15 +228,11 @@ public class DataDAO implements iDataDAO {
         return role;
     }
 
-    public void hashPassword() {
-        try ( Connection con = dbCon.getConnection()) {
-
-            String sql = "UPDATE PERSON SET password = ? WHERE person_id = ?";
-
-        } catch (Exception e) {
-        }
-    }
-
+    
+    /*
+        denne funktion bliver ikke brugt lige nu. Den tager det hashet password
+        og salt og gemmer det på serveren
+    */
     @Override
     public void setPasswordandSalt(byte[] HashedPassword, byte[] salt) {
         try ( Connection con = dbCon.getConnection()) {
@@ -242,11 +249,6 @@ public class DataDAO implements iDataDAO {
 
         } catch (Exception e) {
         }
-    }
-
-    @Override
-    public boolean Login(String email, String password) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

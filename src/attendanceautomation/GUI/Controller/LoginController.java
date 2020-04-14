@@ -57,16 +57,18 @@ public class LoginController implements Initializable {
         }
     }
 
+    /*
+        tager det info som brugeren har inputtet og sender det til modelen.
+    */
     @FXML
     private void handleLogIn(ActionEvent event) throws IOException {
-        
-        
-        
         String username = txtfieldUsername.getText();
         String password = passwordfieldPassword.getText().toString();
+        
+        boolean check = model.loginModel(username, password);
 
         if (model.loginModel(username, password) == true) {
-            int role = model.getRole(username, password);
+            int role = model.getRole(username);
 
             if (role == 1) {
                 OpenStudentMenu(event);
@@ -118,11 +120,17 @@ public class LoginController implements Initializable {
         }
     }
 
+    /*
+        lukker programmet
+    */
     @FXML
     private void handleCloseprogram(ActionEvent event) {
         System.exit(0);
     }
 
+    /*
+        giver en beskrivelse over hvem der har lavet programmet
+    */
     @FXML
     private void handleAbout(ActionEvent event) {
         Alert a = new Alert(AlertType.INFORMATION);
