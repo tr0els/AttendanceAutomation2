@@ -6,10 +6,10 @@
 package attendanceautomation.BLL;
 
 import attendanceautomation.BE.Classes;
+import attendanceautomation.BE.Student;
 import attendanceautomation.DAL.DALException;
 import attendanceautomation.DAL.database.DataDAO;
 import attendanceautomation.DAL.iDataDAO;
-import java.text.DecimalFormat;
 import java.time.DayOfWeek;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -24,9 +24,9 @@ import java.util.List;
  */
 public class BLLManager {
 
-    private iDataDAO datadao;
+    private final iDataDAO datadao;
 
-    private LocalDate semesterStart = LocalDate.of(2020, 1, 27); //evt. lave det om til dynamisk via tabel/DB?
+    private final LocalDate semesterStart = LocalDate.of(2020, 1, 27); //evt. lave det om til dynamisk via tabel/DB?
     private List<LocalDate> daysOff;
 
     public BLLManager() throws DALException {
@@ -55,7 +55,7 @@ public class BLLManager {
      *
      * @param date
      */
-    public void studentIsPresent(LocalDate date, int personID) {
+    public void studentIsPresent(final LocalDate date, final int personID) {
 
         datadao.studentIsPresent(date, personID);
     }
@@ -66,10 +66,10 @@ public class BLLManager {
      * @param personID
      * @return
      */
-    public String studentAlreadyRegistered(int personID) {
+    public String studentAlreadyRegistered(final int personID) {
 
-        LocalDate date = datadao.getCurrentDate();
-        DayOfWeek dw = date.getDayOfWeek();
+        final LocalDate date = datadao.getCurrentDate();
+        final DayOfWeek dw = date.getDayOfWeek();
         String btnMessage = null;
         
         if (!daysOff.contains(date) && dw != DayOfWeek.SATURDAY && dw != DayOfWeek.SUNDAY)
@@ -90,24 +90,24 @@ public class BLLManager {
         på serveren med emailen som sammenligner. derefter hasher den passwordet
         så vi kan sammenligne det med det hash som ligger på serveren.
      */
-    public boolean LoginBLL(String email, String password) {
+    public boolean LoginBLL(final String email, final String password) {
         
         boolean verifiedLogin = false;
-        byte[] salt = datadao.getSalt(email);
+        final byte[] salt = datadao.getSalt(email);
 
         try {
 
-            MessageDigest md = MessageDigest.getInstance("SHA-512");
+            final MessageDigest md = MessageDigest.getInstance("SHA-512");
             md.reset();
             md.update(salt);
 
-            byte[] HashedPassword = md.digest(password.getBytes(StandardCharsets.UTF_8));
+            final byte[] HashedPassword = md.digest(password.getBytes(StandardCharsets.UTF_8));
 
             //datadao.setPasswordandSalt(HashedPassword, salt);
 
             verifiedLogin =  datadao.Login(email, HashedPassword);
 
-        } catch (Exception e) {
+        } catch (final Exception e) {
         }
         
         return verifiedLogin;
@@ -118,7 +118,7 @@ public class BLLManager {
         rollen som model spørger efter bliver returneret her
      */
 
-    public int getRole(String username) {
+    public int getRole(final String username) {
 
         return datadao.getRole(username);
 
@@ -128,19 +128,19 @@ public class BLLManager {
         denne metoder bliver ikke brugt lige nu, men den hasher passwords som så 
         kan gemmes på serveren.
     */
-    public void HashPassword(String passwordToHash) {
-        byte[] salt = createSalt();
+    public void HashPassword(final String passwordToHash) {
+        final byte[] salt = createSalt();
 
         try {
 
-            MessageDigest md = MessageDigest.getInstance("SHA-512");
+            final MessageDigest md = MessageDigest.getInstance("SHA-512");
             md.update(salt);
 
-            byte[] HashedPassword = md.digest(passwordToHash.getBytes(StandardCharsets.UTF_8));
+            final byte[] HashedPassword = md.digest(passwordToHash.getBytes(StandardCharsets.UTF_8));
 
             datadao.setPasswordandSalt(HashedPassword, salt);
 
-        } catch (Exception e) {
+        } catch (final Exception e) {
         }
     }
 
@@ -152,12 +152,12 @@ public class BLLManager {
         int weekdays = 0;
 
         LocalDate date = semesterStart;
-        LocalDate endDate = getCurrentdate();
+        final LocalDate endDate = getCurrentdate();
 
 
         while (date.isBefore(endDate)) {
            
-            DayOfWeek dw = date.getDayOfWeek();
+            final DayOfWeek dw = date.getDayOfWeek();
             if (!daysOff.contains(date) && dw != DayOfWeek.SATURDAY && dw != DayOfWeek.SUNDAY) {
                 ++weekdays;
             }
@@ -174,16 +174,16 @@ public class BLLManager {
      *
      * @param personID
      */
-    public double studentAbsence(int personID) {
+    public double studentAbsence(final int personID) {
 
         List<LocalDate> daysPresent = new ArrayList<>();
 
         daysPresent = datadao.daysPresent(personID);
 
-        double countDaysPresent = daysPresent.size();
-        double countSchooldays = countWeekdays();
+        final double countDaysPresent = daysPresent.size();
+        final double countSchooldays = countWeekdays();
 
-        double absencePercent = 100 - ((countDaysPresent / countSchooldays) * 100);
+        final double absencePercent = 100 - ((countDaysPresent / countSchooldays) * 100);
 
         System.out.println(absencePercent); //DELETE ME WHEN DONE
         System.out.println(countDaysPresent); //DELETE ME WHEN DONE
@@ -203,6 +203,11 @@ public class BLLManager {
     public List<Classes> getTeacherClasses() throws DALException
     {
         return datadao.getTeacherClasses();
+    }
+    
+    public List<Student> getStudentsInClass(Classes choiceBoxChosenClass) throws DALException
+    {
+        return datadao.getStudentsInClass(choiceBoxChosenClass);
     }
     
     public List<LocalDate> missedDays(int personID, int x)
@@ -228,8 +233,6 @@ public class BLLManager {
         return missedDays;
     }
     
-    
-
     /*
     dette var brugt til at lave salt som gør hashet passwords mere sikkert.
      */
@@ -241,6 +244,5 @@ public class BLLManager {
 
         return salt;
     }
-
-
+    
 }

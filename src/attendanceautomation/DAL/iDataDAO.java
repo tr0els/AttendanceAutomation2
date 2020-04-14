@@ -4,9 +4,9 @@
  * and open the template in the editor.
  */
 package attendanceautomation.DAL;
-
+        
 import attendanceautomation.BE.Classes;
-import java.security.SecureRandom;
+import attendanceautomation.BE.Student;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -67,10 +67,20 @@ public interface iDataDAO {
     public List<LocalDate> daysPresent(int personID);
     
     /**
-      * 
+      * Get a list of classes associated with logged in teacher.
       * @return 
       */
      public List<Classes> getTeacherClasses();
+
+     
+     /**
+      * Returns a list of students on the specified class
+      * @param choiceBoxChosenClass
+      * @return
+      * @throws DALException 
+      */
+     public List<Student> getStudentsInClass(Classes choiceBoxChosenClass) throws DALException;
+
      /** Get a list of x days student(personID) was present.
      *
      * @return
