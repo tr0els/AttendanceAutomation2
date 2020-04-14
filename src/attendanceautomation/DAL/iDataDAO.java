@@ -6,6 +6,7 @@
 package attendanceautomation.DAL;
 
 import attendanceautomation.BE.Classes;
+import java.security.SecureRandom;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -48,9 +49,8 @@ public interface iDataDAO {
      * @param password
      * @return
      */
-    public boolean Login(String email, String password);
+    public boolean Login(String email, byte[] HashedPassword);
 
-    public int getRole(String username, String password);
 
     /**
      * Get a list of set schooldays off from DB.
@@ -77,4 +77,9 @@ public interface iDataDAO {
      */
     public List<LocalDate> xDaysPresent (int personID, int x);    
 
+    public void setPasswordandSalt(byte[] HashedPassword, byte[] salt);
+
+    public byte[] getSalt(String email);
+
+    public int getRole(String username);
 }

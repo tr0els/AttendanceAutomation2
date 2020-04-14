@@ -10,6 +10,7 @@ import attendanceautomation.BE.Student;
 import attendanceautomation.BE.Teacher;
 import attendanceautomation.DAL.DALException;
 import attendanceautomation.DAL.iDataDAO;
+import java.security.SecureRandom;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -19,6 +20,7 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -127,8 +129,11 @@ public class DataDAO implements iDataDAO {
         return registeredStatus;
     }
 
-    @Override
-    public boolean Login(String email, String password) {
+    /*
+        tager det info fra brugeren og sammenligner det med data på serveren for
+        at se om det input brugeren har puttet ind findes i databasen
+    */
+    public boolean Login(String email, byte[] password) {
 
         boolean verifiedLogin = true;
 
@@ -139,7 +144,7 @@ public class DataDAO implements iDataDAO {
             PreparedStatement st = con.prepareStatement(sql);
 
             st.setNString(1, email);
-            st.setNString(2, password);
+            st.setBytes(2, password);
 
             ResultSet rs = st.executeQuery();
 
@@ -149,10 +154,11 @@ public class DataDAO implements iDataDAO {
             } else {
                 do {
                     String emailDAO = rs.getString("email");
-                    String passwordDAO = rs.getString("password");
-
-                    if (emailDAO.equals(emailDAO) && passwordDAO.equals(passwordDAO)) {
+                    byte[] passwordDAO = rs.getBytes("password");
+                    
+                    if (emailDAO.equals(email) && Arrays.equals(passwordDAO, password)) {
                         verifiedLogin = true;
+                        break;
                     }
                 } while (rs.next());
             }
@@ -163,19 +169,50 @@ public class DataDAO implements iDataDAO {
 
         return verifiedLogin;
     }
+    
+    /*
+        henter saltet fra serveren så den kan bruges til at hashe et identisk
+        hash fra serveren.
+    */
+    public byte[] getSalt(String email){
+        
+        byte[] salt = null;
+        
+        try (Connection con = dbCon.getConnection()){
+            
+            String sql = "SELECT email, salt FROM PERSON WHERE email = ?";
+            
+            PreparedStatement st = con.prepareStatement(sql);
+            
+            st.setNString(1, email);
+            
+            ResultSet rs = st.executeQuery();
+            
+            while(rs.next()){
+                salt = rs.getBytes("salt");
+            }
+            
+        } catch (Exception e) {
+        }
+        
+         return salt;
+         
+    }
 
+    /*
+        finder rollen på brugeren som har succesfuldt logget ind.
+    */
     @Override
-    public int getRole(String email, String password) {
+    public int getRole(String email) {
         int role = 0;
 
         try ( Connection con = dbCon.getConnection()) {
 
-            String sql = "SELECT email, password, role_id FROM PERSON WHERE email = ? AND password = ?";
+            String sql = "SELECT email, role_id FROM PERSON WHERE email = ?";
 
             PreparedStatement st = con.prepareStatement(sql);
 
             st.setNString(1, email);
-            st.setNString(2, password);
 
             ResultSet rs = st.executeQuery();
 
@@ -318,4 +355,27 @@ public class DataDAO implements iDataDAO {
 
         return null;
     }
+    
+    /*
+        denne funktion bliver ikke brugt lige nu. Den tager det hashet password
+        og salt og gemmer det på serveren
+    */
+    @Override
+    public void setPasswordandSalt(byte[] HashedPassword, byte[] salt) {
+        try ( Connection con = dbCon.getConnection()) {
+
+            String sql = "UPDATE PERSON SET salt = ?, password = ? WHERE person_id = ? ";
+
+            PreparedStatement st = con.prepareStatement(sql);
+
+            st.setBytes(1, salt);
+            st.setBytes(2, HashedPassword);
+            st.setInt(3, 5);
+
+            st.executeQuery();
+
+        } catch (Exception e) {
+        }
+    }
+
 }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package securitystuff;
+package attendanceautomation.BLL;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -33,10 +33,12 @@ public class SHAHash {
         SecureRandom random = new SecureRandom();
         byte[] salt = new byte[16];
         random.nextBytes(salt);
-        
+
         bytesToStringHex(salt);
         return salt;
     }
+
+
 
     private final static char[] hexArray = "0123456789ABCDEF".toCharArray();
 

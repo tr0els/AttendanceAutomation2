@@ -11,6 +11,9 @@ import attendanceautomation.DAL.database.DataDAO;
 import attendanceautomation.DAL.iDataDAO;
 import java.text.DecimalFormat;
 import java.time.DayOfWeek;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.SecureRandom;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -82,19 +85,63 @@ public class BLLManager {
     }
 
     /*
-        sender information fra loginmodel til DAO for at blive verified
+
+        denne metode tager det info som kommer fra brugeren. den finder det gemte salt
+        på serveren med emailen som sammenligner. derefter hasher den passwordet
+        så vi kan sammenligne det med det hash som ligger på serveren.
      */
     public boolean LoginBLL(String email, String password) {
-        return datadao.Login(email, password);
+        
+        boolean verifiedLogin = false;
+        byte[] salt = datadao.getSalt(email);
+
+        try {
+
+            MessageDigest md = MessageDigest.getInstance("SHA-512");
+            md.reset();
+            md.update(salt);
+
+            byte[] HashedPassword = md.digest(password.getBytes(StandardCharsets.UTF_8));
+
+            //datadao.setPasswordandSalt(HashedPassword, salt);
+
+            verifiedLogin =  datadao.Login(email, HashedPassword);
+
+        } catch (Exception e) {
+        }
+        
+        return verifiedLogin;
+
     }
 
     /*
         rollen som model spørger efter bliver returneret her
      */
-    public int getRole(String username, String password) {
 
-        return datadao.getRole(username, password);
+    public int getRole(String username) {
 
+        return datadao.getRole(username);
+
+    }
+
+    /*
+        denne metoder bliver ikke brugt lige nu, men den hasher passwords som så 
+        kan gemmes på serveren.
+    */
+    public void HashPassword(String passwordToHash) {
+        byte[] salt = createSalt();
+
+        try {
+
+            MessageDigest md = MessageDigest.getInstance("SHA-512");
+            md.update(salt);
+
+            byte[] HashedPassword = md.digest(passwordToHash.getBytes(StandardCharsets.UTF_8));
+
+            datadao.setPasswordandSalt(HashedPassword, salt);
+
+        } catch (Exception e) {
+        }
     }
 
     /**
@@ -182,4 +229,18 @@ public class BLLManager {
     }
     
     
+
+    /*
+    dette var brugt til at lave salt som gør hashet passwords mere sikkert.
+     */
+    public byte[] createSalt() {
+
+        SecureRandom random = new SecureRandom();
+        byte[] salt = new byte[16];
+        random.nextBytes(salt);
+
+        return salt;
+    }
+
+
 }
