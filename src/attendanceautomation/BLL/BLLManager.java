@@ -12,6 +12,9 @@ import attendanceautomation.DAL.database.DataDAO;
 import attendanceautomation.DAL.iDataDAO;
 import java.text.DecimalFormat;
 import java.time.DayOfWeek;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.SecureRandom;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,13 +25,18 @@ import java.util.List;
  */
 public class BLLManager {
 
-    private iDataDAO datadao;
+    private final iDataDAO datadao;
 
-    private LocalDate semesterStart = LocalDate.of(2020, 1, 27); //evt. lave det om til dynamisk via tabel/DB?
+    private final LocalDate semesterStart = LocalDate.of(2020, 1, 27); //evt. lave det om til dynamisk via tabel/DB?
+    private List<LocalDate> daysOff;
 
     public BLLManager() throws DALException {
 
         datadao = new DataDAO();
+        
+        daysOff = new ArrayList<>();
+        daysOff = datadao.schoolDaysOff();
+        
     }
 
     /**
@@ -41,61 +49,116 @@ public class BLLManager {
         return datadao.getCurrentDate();
     }
 
+    
     /**
      * sender en dato og personID ind i DB'en for at registrere personen er
      * tilstede på denne dato.
      *
      * @param date
      */
-    public void studentIsPresent(LocalDate date, int personID) {
+    public void studentIsPresent(final LocalDate date, final int personID) {
 
         datadao.studentIsPresent(date, personID);
     }
 
     /**
-     * sender en personID ind i DB for at tjekke om studenten har registreret
-     * sig idag.
+     * Tjekker om det er en skoledag og/eller om eleven har registeret sig.
      *
      * @param personID
      * @return
      */
-    public boolean studentAlreadyRegistered(int personID) {
+    public String studentAlreadyRegistered(final int personID) {
 
-        return datadao.studentAlreadyRegistered(personID);
+        final LocalDate date = datadao.getCurrentDate();
+        final DayOfWeek dw = date.getDayOfWeek();
+        String btnMessage = null;
+        
+        if (!daysOff.contains(date) && dw != DayOfWeek.SATURDAY && dw != DayOfWeek.SUNDAY)
+        {
+            btnMessage = "No School Today!";
+        }
+        else if (datadao.studentAlreadyRegistered(personID) == true)       
+        {
+            btnMessage = "Already Registered";
+        }
+        
+        return btnMessage;
     }
 
     /*
-        sender information fra loginmodel til DAO for at blive verified
+
+        denne metode tager det info som kommer fra brugeren. den finder det gemte salt
+        på serveren med emailen som sammenligner. derefter hasher den passwordet
+        så vi kan sammenligne det med det hash som ligger på serveren.
      */
-    public boolean LoginBLL(String email, String password) {
-        return datadao.Login(email, password);
+    public boolean LoginBLL(final String email, final String password) {
+        
+        boolean verifiedLogin = false;
+        final byte[] salt = datadao.getSalt(email);
+
+        try {
+
+            final MessageDigest md = MessageDigest.getInstance("SHA-512");
+            md.reset();
+            md.update(salt);
+
+            final byte[] HashedPassword = md.digest(password.getBytes(StandardCharsets.UTF_8));
+
+            //datadao.setPasswordandSalt(HashedPassword, salt);
+
+            verifiedLogin =  datadao.Login(email, HashedPassword);
+
+        } catch (final Exception e) {
+        }
+        
+        return verifiedLogin;
+
     }
 
     /*
         rollen som model spørger efter bliver returneret her
      */
-    public int getRole(String username, String password) {
 
-        return datadao.getRole(username, password);
+    public int getRole(final String username) {
+
+        return datadao.getRole(username);
 
     }
 
+    /*
+        denne metoder bliver ikke brugt lige nu, men den hasher passwords som så 
+        kan gemmes på serveren.
+    */
+    public void HashPassword(final String passwordToHash) {
+        final byte[] salt = createSalt();
+
+        try {
+
+            final MessageDigest md = MessageDigest.getInstance("SHA-512");
+            md.update(salt);
+
+            final byte[] HashedPassword = md.digest(passwordToHash.getBytes(StandardCharsets.UTF_8));
+
+            datadao.setPasswordandSalt(HashedPassword, salt);
+
+        } catch (final Exception e) {
+        }
+    }
+
     /**
-     * calculates schooldays from semesterstart, taking in account weekends and
-     * dates from DB (SCHOOL_DAYS_OFF)
+     * udregner skoledage fra semesterStart og tager højde for weekender
+     * og helligdage (SCHOOL_DAYS_OFF i DB).
      */
-    public int countWeekdays() { //<-- lav så funktionen kun skal køre 1 gang og så gemme i fast variabel
+    public int countWeekdays() { 
         int weekdays = 0;
-        List<LocalDate> daysOff = new ArrayList<>();
 
-        daysOff = datadao.schoolDaysOff();
         LocalDate date = semesterStart;
-        LocalDate endDate = getCurrentdate();
+        final LocalDate endDate = getCurrentdate();
 
-        daysOff.contains(date);
+
         while (date.isBefore(endDate)) {
            
-            DayOfWeek dw = date.getDayOfWeek();
+            final DayOfWeek dw = date.getDayOfWeek();
             if (!daysOff.contains(date) && dw != DayOfWeek.SATURDAY && dw != DayOfWeek.SUNDAY) {
                 ++weekdays;
             }
@@ -108,20 +171,20 @@ public class BLLManager {
     }
 
     /**
-     * Calculates students (personID) abscence in percent
+     * Udregner og returnere en students fraværsprocent
      *
      * @param personID
      */
-    public double studentAbsence(int personID) {
+    public double studentAbsence(final int personID) {
 
         List<LocalDate> daysPresent = new ArrayList<>();
 
         daysPresent = datadao.daysPresent(personID);
 
-        double countDaysPresent = daysPresent.size();
-        double countSchooldays = countWeekdays();
+        final double countDaysPresent = daysPresent.size();
+        final double countSchooldays = countWeekdays();
 
-        double absencePercent = 100 - ((countDaysPresent / countSchooldays) * 100);
+        final double absencePercent = 100 - ((countDaysPresent / countSchooldays) * 100);
 
         System.out.println(absencePercent); //DELETE ME WHEN DONE
         System.out.println(countDaysPresent); //DELETE ME WHEN DONE
@@ -130,13 +193,20 @@ public class BLLManager {
         return absencePercent;
 
     }
+    
+    /**
+     * returnere liste over dage hvor eleven ikke har været i skole hvor x er intervallet fra dagens dato
+     * listen tager højde for helligdage(SCHOOL_DAYS_OFF i DB) og weekender.
+     * @param personID
+     * @return 
+     */
 
     public List<Classes> getTeacherClasses() throws DALException
     {
         return datadao.getTeacherClasses();
     }
     
-    public List<Student> getStudentsInClass(Classes choiceBoxChosenClass) throws DALException
+    public List<Student> getStudentsInClass(final Classes choiceBoxChosenClass) throws DALException
     {
         return datadao.getStudentsInClass(choiceBoxChosenClass);
     }

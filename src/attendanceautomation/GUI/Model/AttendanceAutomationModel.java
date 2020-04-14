@@ -10,6 +10,7 @@ import attendanceautomation.BE.Student;
 import attendanceautomation.BLL.BLLManager;
 import attendanceautomation.DAL.DALException;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,9 +25,11 @@ public class AttendanceAutomationModel {
     private ObservableList<Classes> teacherClasses;
     private ObservableList<Student> studentsInClass;
     private int choiceBoxChosenClass;
+    private ObservableList<LocalDate> daysPresent;
 
     public AttendanceAutomationModel() throws DALException {
         manager = new BLLManager();
+        daysPresent = FXCollections.observableArrayList();
         teacherClasses = FXCollections.observableArrayList();
         teacherClasses.addAll(manager.getTeacherClasses());
         studentsInClass = FXCollections.observableArrayList();
@@ -78,7 +81,7 @@ public class AttendanceAutomationModel {
      * @param personID
      * @return
      */
-    public boolean studentAlreadyRegistered(int personID) {
+    public String studentAlreadyRegistered(int personID) {
 
         return manager.studentAlreadyRegistered(personID);
     }
@@ -94,25 +97,44 @@ public class AttendanceAutomationModel {
         Login controlleren skal bruge information om hvilken rolle useren har
         så denne metode returnere dette fra BLL
      */
-    public int getRole(String username, String password) {
+    public int getRole(String username) {
 
-        return manager.getRole(username, password);
+        return manager.getRole(username);
 
     }
     
+  
+    /**
+     * returnere fraværsprocent.
+     * @param personID
+     * @return 
+     */
+    public double studentAbsence(int personID)
+    {
+        return manager.studentAbsence(personID);
+    }
     
+    public ObservableList<LocalDate> missedDays(int personID, int x)
+    {
+       daysPresent.addAll(manager.missedDays(personID, x));
+       return daysPresent;
+    }
+    
+    /*
+        en funktion der sender passwords til bll for at blive hashet. 
+        Denne funktion bliver ikke brugt lige nu, men skal højst sandsyneligt bruges
+        i fremtiden.
+    */
+    public void hashPassword(String password){
+        manager.HashPassword(password);
+    }
+
     /**
      * DELETE ME WHEN DONE
      */
     public void countWeekdays()
     {
         manager.countWeekdays();
-    }
-    
-    
-    public double studentAbsence(int personID)
-    {
-        return manager.studentAbsence(personID);
     }
     
     public List<Classes> getTeacherClasses() throws DALException
