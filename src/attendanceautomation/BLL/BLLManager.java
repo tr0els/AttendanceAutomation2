@@ -10,7 +10,6 @@ import attendanceautomation.BE.Student;
 import attendanceautomation.DAL.DALException;
 import attendanceautomation.DAL.database.DataDAO;
 import attendanceautomation.DAL.iDataDAO;
-import java.text.DecimalFormat;
 import java.time.DayOfWeek;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -206,9 +205,44 @@ public class BLLManager {
         return datadao.getTeacherClasses();
     }
     
-    public List<Student> getStudentsInClass(final Classes choiceBoxChosenClass) throws DALException
+    public List<Student> getStudentsInClass(Classes choiceBoxChosenClass) throws DALException
     {
         return datadao.getStudentsInClass(choiceBoxChosenClass);
+    }
+    
+    public List<LocalDate> missedDays(int personID, int x)
+    {
+        List<LocalDate> daysPresent = new ArrayList<>();
+        daysPresent = datadao.xDaysPresent(personID, x);
+
+        List<LocalDate> missedDays = new ArrayList<>();
+        
+        LocalDate today = getCurrentdate();
+        LocalDate intervalDate = today.minusDays(x);
+        
+        while (intervalDate.isBefore(today))
+                {
+                    DayOfWeek dw = intervalDate.getDayOfWeek();
+                    if (!daysPresent.contains(intervalDate) && !daysOff.contains(intervalDate) && dw != DayOfWeek.SATURDAY && dw != DayOfWeek.SUNDAY)
+                    {
+                        missedDays.add(intervalDate);
+                    }
+                    intervalDate = intervalDate.plusDays(1);
+                }
+        
+        return missedDays;
+    }
+    
+    /*
+    dette var brugt til at lave salt som gør hashet passwords mere sikkert.
+     */
+    public byte[] createSalt() {
+
+        SecureRandom random = new SecureRandom();
+        byte[] salt = new byte[16];
+        random.nextBytes(salt);
+
+        return salt;
     }
     
 }

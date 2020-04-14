@@ -377,7 +377,7 @@ public class DataDAO implements iDataDAO
 
                 // Add all to a list
                 Student student = new Student();
-                student.setPersonID(rs.getInt("id"));
+                student.setPersonID(rs.getInt("person_id"));
                 student.setName(rs.getString("name"));
 
                 allStudentsInClass.add(student);

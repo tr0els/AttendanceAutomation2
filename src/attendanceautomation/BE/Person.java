@@ -86,5 +86,12 @@ public class Person
         return personID;
     }
 
+    @Override
+    public String toString()
+    {
+        return name;
+    }
+
+    
 
 }

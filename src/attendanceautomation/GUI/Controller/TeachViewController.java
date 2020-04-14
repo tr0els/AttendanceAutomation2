@@ -164,8 +164,8 @@ public class TeachViewController implements Initializable
     @FXML
     private void handleChosenClass(MouseEvent event) throws DALException
     {
-        choiceBoxChosenClass = choiceBoxClasses.getSelectionModel().getSelectedItem();
-        listviewStudents.setItems(model.getStudentsInClass(choiceBoxChosenClass));
+//        choiceBoxChosenClass = choiceBoxClasses.getSelectionModel().getSelectedItem();
+//        listviewStudents.setItems(model.getStudentsInClass(choiceBoxChosenClass));
         
     }
 }
