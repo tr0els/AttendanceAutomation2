@@ -107,10 +107,8 @@ public class StudViewController implements Initializable {
             btnAttendCurrentClass.setText(registeredToday);
         }
 
-        //model.modelMissedDaysforAbsencePerDay();
-
         handlePieChart();
-        handleBarChart();
+        handleBarChart(1); //den skal finde personID fra personen som logger ind
         handleMissedDays();
     }
 
@@ -135,8 +133,8 @@ public class StudViewController implements Initializable {
         listviewMissedDays.setItems(model.missedDays(personID, daysPresent));
     }
 
-    public void handleBarChart() {
-        //chartAbsenceperDay.getData().addAll(model.modelMissedDaysforAbsencePerDay());
+    public void handleBarChart(int personID) {
+        chartAbsenceperDay.getData().addAll(model.modelMissedDaysforAbsencePerDay(personID));
     }
 
     @FXML
