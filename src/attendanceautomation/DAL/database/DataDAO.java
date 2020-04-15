@@ -148,12 +148,14 @@ public class DataDAO implements iDataDAO
     /*
         tager det info fra brugeren og sammenligner det med data på serveren for
         at se om det input brugeren har puttet ind findes i databasen
-    */
-    public boolean Login(String email, byte[] password) {
+     */
+    public boolean Login(String email, byte[] password)
+    {
 
         boolean verifiedLogin = true;
 
-        try ( Connection con = dbCon.getConnection()) {
+        try ( Connection con = dbCon.getConnection())
+        {
 
             String sql = "SELECT email, password FROM PERSON WHERE email = ? AND password = ?";
 
@@ -164,65 +166,73 @@ public class DataDAO implements iDataDAO
 
             ResultSet rs = st.executeQuery();
 
-            if (rs.next() == false) {
+            if (rs.next() == false)
+            {
                 System.out.println("ResultSet is empty");
                 verifiedLogin = false;
-            } else {
-                do {
+            } else
+            {
+                do
+                {
                     String emailDAO = rs.getString("email");
                     byte[] passwordDAO = rs.getBytes("password");
-                    
-                    if (emailDAO.equals(email) && Arrays.equals(passwordDAO, password)) {
+
+                    if (emailDAO.equals(email) && Arrays.equals(passwordDAO, password))
+                    {
                         verifiedLogin = true;
                         break;
                     }
                 } while (rs.next());
             }
 
-        } catch (DALException | SQLException ex) {
+        } catch (DALException | SQLException ex)
+        {
             Logger.getLogger(DataDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return verifiedLogin;
     }
-    
-    
+
     /*
         henter saltet fra serveren så den kan bruges til at hashe et identisk
         hash fra serveren.
-    */
-    public byte[] getSalt(String email){
-        
+     */
+    public byte[] getSalt(String email)
+    {
+
         byte[] salt = null;
-        
-        try (Connection con = dbCon.getConnection()){
-            
+
+        try ( Connection con = dbCon.getConnection())
+        {
+
             String sql = "SELECT email, salt FROM PERSON WHERE email = ?";
-            
+
             PreparedStatement st = con.prepareStatement(sql);
-            
+
             st.setNString(1, email);
-            
+
             ResultSet rs = st.executeQuery();
-            
-            while(rs.next()){
+
+            while (rs.next())
+            {
                 salt = rs.getBytes("salt");
             }
-            
-        } catch (Exception e) {
+
+        } catch (Exception e)
+        {
         }
-        
-         return salt;
-         
+
+        return salt;
+
     }
 
     /*
         finder rollen på brugeren som har succesfuldt logget ind.
-    */
+     */
     @Override
 
-    
-    public int getRole(String email) {
+    public int getRole(String email)
+    {
         int role = 0;
 
         try ( Connection con = dbCon.getConnection())
@@ -288,10 +298,11 @@ public class DataDAO implements iDataDAO
      * @return
      */
     @Override
-    public List<LocalDate> daysPresent(int personID) {
+    public List<LocalDate> daysPresent(int personID)
+    {
 
-        try ( Connection con = dbCon.getConnection()) {
-
+        try ( Connection con = dbCon.getConnection())
+        {
 
             String sql = "SELECT date FROM ATTENDANCE WHERE person_id = ?";
             PreparedStatement st = con.prepareStatement(sql);
@@ -366,7 +377,7 @@ public class DataDAO implements iDataDAO
             // SQL code. 
             String sql = "select * from person p, PERSON_CLASS pc\n"
                     + "where p.person_id = pc.person_id\n"
-                    + "and pc.class_id = " + idClasses + "\n" 
+                    + "and pc.class_id = " + idClasses + "\n"
                     + "and p.role_id = 1;";
             // Create statement.
             Statement statement = con.createStatement();
@@ -399,8 +410,10 @@ public class DataDAO implements iDataDAO
      * @return
      */
     @Override
-    public List<LocalDate> xDaysPresent(int personID, int x) {
-        try ( Connection con = dbCon.getConnection()) {
+    public List<LocalDate> xDaysPresent(int personID, int x)
+    {
+        try ( Connection con = dbCon.getConnection())
+        {
 
             String sql = "SELECT date FROM ATTENDANCE WHERE person_id = ? AND date >= DATEADD(day, -?, GETDATE())";
             PreparedStatement st = con.prepareStatement(sql);
@@ -411,7 +424,8 @@ public class DataDAO implements iDataDAO
             ResultSet rs = st.executeQuery();
 
             ArrayList<LocalDate> daysPresent = new ArrayList<>();
-            while (rs.next()) {
+            while (rs.next())
+            {
                 LocalDate date = rs.getDate("date").toLocalDate();
                 daysPresent.add(date);
 
@@ -419,20 +433,23 @@ public class DataDAO implements iDataDAO
 
             return daysPresent;
 
-        } catch (DALException | SQLException ex) {
+        } catch (DALException | SQLException ex)
+        {
             Logger.getLogger(DataDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return null;
     }
-    
+
     /*
         denne funktion bliver ikke brugt lige nu. Den tager det hashet password
         og salt og gemmer det på serveren
-    */
+     */
     @Override
-    public void setPasswordandSalt(byte[] HashedPassword, byte[] salt) {
-        try ( Connection con = dbCon.getConnection()) {
+    public void setPasswordandSalt(byte[] HashedPassword, byte[] salt)
+    {
+        try ( Connection con = dbCon.getConnection())
+        {
 
             String sql = "UPDATE PERSON SET salt = ?, password = ? WHERE person_id = ? ";
 
@@ -444,10 +461,11 @@ public class DataDAO implements iDataDAO
 
             st.executeQuery();
 
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
         }
     }
-    
+
     public Student getStudentInfo(Student selectedStudent) throws DALException
     {
         Student allStudentInfo = new Student();
@@ -469,7 +487,7 @@ public class DataDAO implements iDataDAO
                 student.setName(rs.getString("name"));
                 student.setPhoneNumber(rs.getInt("phone"));
                 student.setEmail(rs.getString("email"));
-                
+
                 allStudentInfo = student;
             }
             //Return
@@ -484,10 +502,12 @@ public class DataDAO implements iDataDAO
     }
 
     @Override
-    public Student getCurrentStudent(String username, byte[] password){
-    try ( Connection con = dbCon.getConnection()){
-    
-        String sql = "SELECT * FROM PERSON WHERE email = ? AND password = ?;";
+    public Student getCurrentStudent(String username, byte[] password)
+    {
+        try ( Connection con = dbCon.getConnection())
+        {
+
+            String sql = "SELECT * FROM PERSON WHERE email = ? AND password = ?;";
 
             PreparedStatement st = con.prepareStatement(sql);
 
@@ -495,25 +515,57 @@ public class DataDAO implements iDataDAO
             st.setBytes(2, password);
 
             ResultSet rs = st.executeQuery();
-            while(rs.next())
+            while (rs.next())
             {
-            Student student = new Student();
+                Student student = new Student();
                 student.setPersonID(rs.getInt("person_id"));
                 student.setName(rs.getString("name"));
                 student.setPhoneNumber(rs.getInt("phone"));
                 student.setEmail(rs.getString("email"));
-            return student;
+                return student;
             }
-    
-    
+
+        } catch (Exception ex)
+        {
+
+        }
+        return null;
     }
-    catch (Exception ex){
-    
-    
+
+    public Teacher getClassTeacher(Classes choiceBoxChosenClass) throws DALException
+    {
+        Teacher studentsTeacher = new Teacher();
+        // Attempts to connect to the database.
+        try ( Connection con = dbCon.getConnection())
+        {
+            int classId = choiceBoxChosenClass.getId();
+            // SQL code. 
+            String sql = "SELECT name FROM person p, PERSON_CLASS pc\n"
+                    + "where p.person_id = pc.person_id\n"
+                    + "and pc.class_id = " + classId + "\n" 
+                    + "and p.role_id = 2;";
+
+            // Create statement.
+            Statement statement = con.createStatement();
+            // Attempts to execute the statement.
+            ResultSet rs = statement.executeQuery(sql);
+            while (rs.next())
+            {
+                // Add all to a list
+                Teacher teacher = new Teacher();
+                teacher.setName(rs.getString("name"));
+                
+                studentsTeacher = teacher;
+            }
+            //Return
+            return studentsTeacher;
+
+        } catch (SQLException ex)
+        {
+            Logger.getLogger(DataDAO.class
+                    .getName()).log(Level.SEVERE, null, ex);
+            throw new DALException("Can´t make Student");
+        }
     }
-    return null;
-    }
-    
-    
     
 }

@@ -7,6 +7,7 @@ package attendanceautomation.GUI.Model;
 
 import attendanceautomation.BE.Classes;
 import attendanceautomation.BE.Student;
+import attendanceautomation.BE.Teacher;
 import attendanceautomation.BLL.BLLManager;
 import attendanceautomation.DAL.DALException;
 import java.time.LocalDate;
@@ -18,7 +19,8 @@ import javafx.collections.ObservableList;
  *
  * @author Troels
  */
-public class AttendanceAutomationModel {
+public class AttendanceAutomationModel
+{
 
     private BLLManager manager;
     private ObservableList<Classes> teacherClasses;
@@ -27,12 +29,13 @@ public class AttendanceAutomationModel {
     private ObservableList<LocalDate> daysPresent;
 
     /**
-     * Constructor
-     * Skal holdes privat da alt instantiering af denne klasse 
-     * skal foregå ved hjælp af singletonen's getInstance metode.
-     * @throws DALException 
+     * Constructor Skal holdes privat da alt instantiering af denne klasse skal
+     * foregå ved hjælp af singletonen's getInstance metode.
+     *
+     * @throws DALException
      */
-    private AttendanceAutomationModel() throws DALException {
+    private AttendanceAutomationModel() throws DALException
+    {
         manager = new BLLManager();
         daysPresent = FXCollections.observableArrayList();
         teacherClasses = FXCollections.observableArrayList();
@@ -40,7 +43,8 @@ public class AttendanceAutomationModel {
         studentsInClass = FXCollections.observableArrayList();
     }
 
-    public Student getCurrentStudent(String username, String password) {
+    public Student getCurrentStudent(String username, String password)
+    {
         return manager.getCurrentStudent(username, password);
     }
 
@@ -48,34 +52,41 @@ public class AttendanceAutomationModel {
      * Første gang metoden kaldes, oprettes en instans af modellen (new).
      * Instansengemmes i konstanten INSTANCE så den kan returnes ved behov.
      */
-    private static class SingletonHolder {
+    private static class SingletonHolder
+    {
+
         private static final AttendanceAutomationModel INSTANCE;
 
-        static {
-            try {
+        static
+        {
+            try
+            {
                 INSTANCE = new AttendanceAutomationModel();
-            } catch (DALException ex) {
+            } catch (DALException ex)
+            {
                 throw new ExceptionInInitializerError("kunne ikke forbinde til BLL");
             }
         }
     }
-    
+
     /**
-     * Returnerer model instansen
-     * Fordi metoden er static kan den kaldes uden at først lave et objekt af klassen.
+     * Returnerer model instansen Fordi metoden er static kan den kaldes uden at
+     * først lave et objekt af klassen.
+     *
      * @return instans af modellen
      */
-    public static AttendanceAutomationModel getInstance() {
+    public static AttendanceAutomationModel getInstance()
+    {
         return SingletonHolder.INSTANCE;
     }
-    
-    
+
     /**
      * Henter datoen for idag og returnere den.
      *
      * @return Dagens dato
      */
-    public LocalDate getCurrentDate() {
+    public LocalDate getCurrentDate()
+    {
         return manager.getCurrentdate();
 
     }
@@ -86,7 +97,8 @@ public class AttendanceAutomationModel {
      *
      * @param date
      */
-    public void studentIsPresent(LocalDate date, int personID) {
+    public void studentIsPresent(LocalDate date, int personID)
+    {
         manager.studentIsPresent(date, personID);
     }
 
@@ -97,7 +109,8 @@ public class AttendanceAutomationModel {
      * @param personID
      * @return
      */
-    public String studentAlreadyRegistered(int personID) {
+    public String studentAlreadyRegistered(int personID)
+    {
 
         return manager.studentAlreadyRegistered(personID);
     }
@@ -105,7 +118,8 @@ public class AttendanceAutomationModel {
     /*
         Tager infoen fra longincontrolleren og sender det til BLL
      */
-    public boolean loginModel(String email, String password) {
+    public boolean loginModel(String email, String password)
+    {
         return manager.LoginBLL(email, password);
     }
 
@@ -113,35 +127,38 @@ public class AttendanceAutomationModel {
         Login controlleren skal bruge information om hvilken rolle useren har
         så denne metode returnere dette fra BLL
      */
-    public int getRole(String username) {
+    public int getRole(String username)
+    {
 
         return manager.getRole(username);
 
     }
-    
-  
+
     /**
      * returnere fraværsprocent.
+     *
      * @param personID
-     * @return 
+     * @return
      */
     public double studentAbsence(int personID)
     {
         return manager.studentAbsence(personID);
     }
-    
+
     public ObservableList<LocalDate> missedDays(int personID, int x)
     {
-       daysPresent.addAll(manager.missedDays(personID, x));
-       return daysPresent;
+        daysPresent.clear();
+        daysPresent.addAll(manager.missedDays(personID, x));
+        return daysPresent;
     }
-    
+
     /*
         en funktion der sender passwords til bll for at blive hashet. 
         Denne funktion bliver ikke brugt lige nu, men skal højst sandsyneligt bruges
         i fremtiden.
-    */
-    public void hashPassword(String password){
+     */
+    public void hashPassword(String password)
+    {
         manager.HashPassword(password);
     }
 
@@ -152,12 +169,12 @@ public class AttendanceAutomationModel {
     {
         manager.countWeekdays();
     }
-    
+
     public List<Classes> getTeacherClasses() throws DALException
     {
         return teacherClasses;
     }
-    
+
     public ObservableList<Student> getStudentsInClass(Classes choiceBoxChosenClass) throws DALException
     {
         List<Student> tempStudents = manager.getStudentsInClass(choiceBoxChosenClass);
@@ -165,11 +182,18 @@ public class AttendanceAutomationModel {
         studentsInClass.addAll(tempStudents);
         return studentsInClass;
     }
-    
+
     public Student getStudentInfo(Student selectedStudent) throws DALException
     {
         Student stud = new Student();
         stud = manager.getStudentInfo(selectedStudent);
         return stud;
+    }
+
+    public Teacher getClassTeacher(Classes choiceBoxChosenClass) throws DALException
+    {
+        Teacher teach = new Teacher();
+        teach = manager.getClassTeacher(choiceBoxChosenClass);
+        return teach;
     }
 }
