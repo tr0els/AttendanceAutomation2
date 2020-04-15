@@ -449,4 +449,44 @@ public class DataDAO implements iDataDAO
     }
 
 
+    
+    public Teacher getClassTeacher(Classes choiceBoxChosenClass) throws DALException
+    {
+        Teacher studentsTeacher = new Teacher();
+        // Attempts to connect to the database.
+        try ( Connection con = dbCon.getConnection())
+        {
+            int classId = choiceBoxChosenClass.getId();
+            // SQL code. 
+            String sql = "SELECT name FROM person p, PERSON_CLASS pc\n"
+                    + "where p.person_id = pc.person_id\n"
+                    + "and pc.class_id = " + classId + "\n" 
+                    + "and p.role_id = 2;";
+            
+            
+//            String sql = "SELECT name FROM PERSON WHERE person_id = " + classId + ";";
+            // Create statement.
+            Statement statement = con.createStatement();
+            // Attempts to execute the statement.
+            ResultSet rs = statement.executeQuery(sql);
+            while (rs.next())
+            {
+                // Add all to a list
+                Teacher teacher = new Teacher();
+                teacher.setName(rs.getString("name"));
+                
+                studentsTeacher = teacher;
+            }
+            //Return
+            return studentsTeacher;
+
+        } catch (SQLException ex)
+        {
+            Logger.getLogger(DataDAO.class
+                    .getName()).log(Level.SEVERE, null, ex);
+            throw new DALException("Can´t make Student");
+        }
+    }
+
+
 }

@@ -7,6 +7,7 @@ package attendanceautomation.BLL;
 
 import attendanceautomation.BE.Classes;
 import attendanceautomation.BE.Student;
+import attendanceautomation.BE.Teacher;
 import attendanceautomation.DAL.DALException;
 import attendanceautomation.DAL.database.DataDAO;
 import attendanceautomation.DAL.iDataDAO;
@@ -208,6 +209,16 @@ public class BLLManager {
     public List<Student> getStudentsInClass(Classes choiceBoxChosenClass) throws DALException
     {
         return datadao.getStudentsInClass(choiceBoxChosenClass);
+    }
+    
+    public Student getStudentInfo(Student selectedStudent) throws DALException
+    {
+        return datadao.getStudentInfo(selectedStudent);
+    }
+    
+    public Teacher getClassTeacher(Classes choiceBoxChosenClass) throws DALException
+    {
+        return datadao.getClassTeacher(choiceBoxChosenClass);
     }
     
     public List<LocalDate> missedDays(int personID, int x)
