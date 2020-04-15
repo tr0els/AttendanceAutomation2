@@ -7,6 +7,7 @@ package attendanceautomation.BLL;
 
 import attendanceautomation.BE.Classes;
 import attendanceautomation.BE.Student;
+import attendanceautomation.BE.Teacher;
 import attendanceautomation.DAL.DALException;
 import attendanceautomation.DAL.database.DataDAO;
 import attendanceautomation.DAL.iDataDAO;
@@ -204,8 +205,15 @@ public class BLLManager {
     public Student getStudentInfo(Student selectedStudent) throws DALException {
         return datadao.getStudentInfo(selectedStudent);
     }
+    
+    public Teacher getClassTeacher(Classes choiceBoxChosenClass) throws DALException
+    {
+        return datadao.getClassTeacher(choiceBoxChosenClass);
+    }
+    
+    public List<LocalDate> missedDays(int personID, int x)
+    {
 
-    public List<LocalDate> missedDays(int personID, int x) {
         List<LocalDate> daysPresent = new ArrayList<>();
         daysPresent = datadao.xDaysPresent(personID, x);
 
@@ -281,4 +289,22 @@ public class BLLManager {
         return salt;
     }
 
+    public Student getCurrentStudent(String username, String password) {
+        
+        final byte[] salt = datadao.getSalt(username);
+
+        try {
+            final MessageDigest md = MessageDigest.getInstance("SHA-512");
+            md.reset();
+            md.update(salt);
+
+            final byte[] HashedPassword = md.digest(password.getBytes(StandardCharsets.UTF_8));
+         return datadao.getCurrentStudent(username, HashedPassword);
+        }
+        catch ( Exception ex){
+        }
+       
+       return null;
+    }
+    
 }

@@ -7,11 +7,13 @@ package attendanceautomation.GUI.Controller;
 
 import attendanceautomation.BE.Classes;
 import attendanceautomation.BE.Student;
+import attendanceautomation.BE.Teacher;
 import attendanceautomation.DAL.DALException;
 import attendanceautomation.GUI.Model.AttendanceAutomationModel;
 import com.jfoenix.controls.JFXListView;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -45,6 +47,7 @@ public class TeachViewController implements Initializable
     private AttendanceAutomationModel model;
     private Classes choiceBoxChosenClass;
     private Student selectedStudent;
+    private int daysPresent;
 
     @FXML
     private JFXListView<Student> listviewStudents;
@@ -57,7 +60,7 @@ public class TeachViewController implements Initializable
     @FXML
     private Label lblPhone;
     @FXML
-    private JFXListView<String> listviewAbsenceDays;
+    private JFXListView<LocalDate> listviewAbsenceDays;
     @FXML
     private BarChart<?, ?> chartAbsenceperDay;
     @FXML
@@ -67,9 +70,9 @@ public class TeachViewController implements Initializable
     @FXML
     private MenuItem menuitemClose;
     @FXML
-    private Label lblPhone1;
-    @FXML
     private ChoiceBox<Classes> choiceBoxClasses;
+    @FXML
+    private Label lblTeacher;
 
     /**
      * Initializes the controller class.
@@ -77,6 +80,7 @@ public class TeachViewController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
+        daysPresent = 15; //hvor langt tilbage listen over missed days viser
         choiceBoxClasses.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) ->
         {
             choiceBoxChosenClass = choiceBoxClasses.getSelectionModel().getSelectedItem();
@@ -178,12 +182,14 @@ public class TeachViewController implements Initializable
         
         Student stud = new Student();
         stud = model.getStudentInfo(selectedStudent);
-        
+        Teacher teach = new Teacher();
+        teach = model.getClassTeacher(choiceBoxChosenClass);
+        int studId = stud.getPersonID();
         lblStudentname.setText(stud.getName());
         lblEmail.setText(stud.getEmail());
         lblPhone.setText("" + stud.getPhoneNumber());
-//        listviewAbsenceDays.setText(arg0);
-//        chartAbsenceperDay.setText(arg0);
+        listviewAbsenceDays.setItems(model.missedDays(studId, daysPresent));
+        lblTeacher.setText(teach.getName());
 //        chartAbsenceperDay.setText(arg0);
     }
 }

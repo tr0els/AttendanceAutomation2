@@ -7,6 +7,7 @@ package attendanceautomation.DAL;
         
 import attendanceautomation.BE.Classes;
 import attendanceautomation.BE.Student;
+import attendanceautomation.BE.Teacher;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -94,4 +95,8 @@ public interface iDataDAO {
     public int getRole(String username);
     
     public Student getStudentInfo(Student selectedStudent) throws DALException;
+
+    public Student getCurrentStudent(String username, byte[] password);
+    
+    public Teacher getClassTeacher(Classes choiceBoxChosenClass) throws DALException;
 }
