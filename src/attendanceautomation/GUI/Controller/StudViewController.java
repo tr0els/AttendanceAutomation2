@@ -89,11 +89,11 @@ public class StudViewController implements Initializable {
 
             daysPresent = 15; //hvor langt tilbage listen over missed days viser
             lblMissedDays.setText("Missed Days (Last " + daysPresent + " days)");
-            
+
             personID = 1; //TO_DO Skaffe personID fra BE!
 
             absence = model.studentAbsence(personID);
-            
+
             currentDate = model.getCurrentDate();
             String strDate = currentDate.format(DateTimeFormatter.ofPattern("dd. MMMM yyyy"));
             showDate.setText(strDate);
@@ -103,7 +103,7 @@ public class StudViewController implements Initializable {
                 btnAttendCurrentClass.setDisable(true);
                 btnAttendCurrentClass.setText(registeredToday);
             }
-            
+
             handlePieChart();
 
             handleMissedDays();
@@ -160,7 +160,7 @@ public class StudViewController implements Initializable {
 
     /**
      * Henter dato for idag og sender den og personID ned i db for at registrere
-     * at man er tilstede. 
+     * at man er tilstede.
      *
      * @param event
      */
