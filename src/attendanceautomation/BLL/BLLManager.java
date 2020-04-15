@@ -186,14 +186,7 @@ public class BLLManager {
 
     }
 
-    /**
-     * returnere liste over dage hvor eleven ikke har været i skole hvor x er
-     * intervallet fra dagens dato listen tager højde for
-     * helligdage(SCHOOL_DAYS_OFF i DB) og weekender.
-     *
-     * @param personID
-     * @return
-     */
+
     public List<Classes> getTeacherClasses() throws DALException {
         return datadao.getTeacherClasses();
     }
@@ -210,6 +203,14 @@ public class BLLManager {
         return datadao.getClassTeacher(choiceBoxChosenClass);
     }
 
+        /**
+     * returnere liste over dage hvor eleven ikke har været i skole hvor x er
+     * intervallet fra dagens dato listen tager højde for
+     * helligdage(SCHOOL_DAYS_OFF i DB) og weekender.
+     *
+     * @param personID
+     * @return
+     */
     public List<LocalDate> missedDays(int personID, int x) {
 
         List<LocalDate> daysPresent = new ArrayList<>();
@@ -261,8 +262,7 @@ public class BLLManager {
 
             DayOfWeek dayOfWeek = localdate.getDayOfWeek();
 
-            System.out.println(dayOfWeek);
-
+            
             switch (dayOfWeek) {
                 case MONDAY:
                     ++monday;
@@ -289,19 +289,11 @@ public class BLLManager {
         }
 
         monday = (monday / allAbsentDays) * 100;
-        System.out.println(monday);
-
         tuesday = (tuesday / allAbsentDays) * 100;
-        System.out.println(tuesday);
-
         wednesday = (wednesday / allAbsentDays) * 100;
-        System.out.println(wednesday);
-
         thursday = (thursday / allAbsentDays) * 100;
-        System.out.println(thursday);
-
         friday = (friday / allAbsentDays) * 100;
-        System.out.println(friday);
+        
         
         XYChart.Series weekdaysabsent = new XYChart.Series<>();
         weekdaysabsent.getData().add(new XYChart.Data<>("Monday", monday));
