@@ -158,7 +158,7 @@ public class BLLManager {
         while (date.isBefore(endDate)) {
            
             final DayOfWeek dw = date.getDayOfWeek();
-            if (!daysOff.contains(date) && dw != DayOfWeek.SATURDAY && dw != DayOfWeek.SUNDAY) {
+            if (!daysOff.contains(date) && dw == DayOfWeek.SATURDAY && dw == DayOfWeek.SUNDAY) {
                 ++weekdays;
             }
 
