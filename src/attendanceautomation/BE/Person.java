@@ -10,7 +10,6 @@ package attendanceautomation.BE;
  * @author Kim
  */
 public class Person
-
     {
     
     private int personID;

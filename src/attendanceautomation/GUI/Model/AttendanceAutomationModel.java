@@ -35,6 +35,10 @@ public class AttendanceAutomationModel {
         studentsInClass = FXCollections.observableArrayList();
     }
 
+    public Student getCurrentStudent(String username, String password) {
+        return manager.getCurrentStudent(username, password);
+    }
+
     /**
      * virker nu, der er brugt en static initializer som smider en ExceptionInInitializerError
      * som håndtere exceptions under static initializer hvis noget går galt

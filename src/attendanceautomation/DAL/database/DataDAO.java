@@ -483,4 +483,37 @@ public class DataDAO implements iDataDAO
         }
     }
 
+    @Override
+    public Student getCurrentStudent(String username, byte[] password){
+    try ( Connection con = dbCon.getConnection()){
+    
+        String sql = "SELECT * FROM PERSON WHERE email = ? AND password = ?;";
+
+            PreparedStatement st = con.prepareStatement(sql);
+
+            st.setNString(1, username);
+            st.setBytes(2, password);
+
+            ResultSet rs = st.executeQuery();
+            while(rs.next())
+            {
+            Student student = new Student();
+                student.setPersonID(rs.getInt("person_id"));
+                student.setName(rs.getString("name"));
+                student.setPhoneNumber(rs.getInt("phone"));
+                student.setEmail(rs.getString("email"));
+            return student;
+            }
+    
+    
+    }
+    catch (Exception ex){
+    
+    
+    }
+    return null;
+    }
+    
+    
+    
 }

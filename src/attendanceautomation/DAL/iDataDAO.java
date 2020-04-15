@@ -94,4 +94,6 @@ public interface iDataDAO {
     public int getRole(String username);
     
     public Student getStudentInfo(Student selectedStudent) throws DALException;
+
+    public Student getCurrentStudent(String username, byte[] password);
 }

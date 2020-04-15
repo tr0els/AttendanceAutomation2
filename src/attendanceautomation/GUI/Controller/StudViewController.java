@@ -5,6 +5,7 @@
  */
 package attendanceautomation.GUI.Controller;
 
+import attendanceautomation.BE.Student;
 import attendanceautomation.DAL.DALException;
 import attendanceautomation.GUI.Model.AttendanceAutomationModel;
 import com.jfoenix.controls.JFXButton;
@@ -77,6 +78,7 @@ public class StudViewController implements Initializable {
     private JFXListView<LocalDate> listviewMissedDays;
     @FXML
     private Label lblMissedDays;
+    private Student CurrentStudent = null;
 
     /**
      * Initializes the controller class.
@@ -86,18 +88,14 @@ public class StudViewController implements Initializable {
 
         try {
             model = new AttendanceAutomationModel();
-
+            
             daysPresent = 15; //hvor langt tilbage listen over missed days viser
             lblMissedDays.setText("Missed Days (Last " + daysPresent + " days)");
-            personID = 1; //TO_DO Skaffe personID fra BE!
-
-            absence = model.studentAbsence(personID);
-            
+         
             currentDate = model.getCurrentDate();
             String strDate = currentDate.format(DateTimeFormatter.ofPattern("dd. MMMM yyyy"));
             showDate.setText(strDate);
 
-            registeredToday = model.studentAlreadyRegistered(personID);
             if (registeredToday != null) {
                 btnAttendCurrentClass.setDisable(true);
                 btnAttendCurrentClass.setText(registeredToday);
@@ -193,4 +191,14 @@ public class StudViewController implements Initializable {
                 + "Brian Brandt");
         a.show();
     }
+    
+    public void setCurrentUser(Student student){
+        CurrentStudent = student;
+        personID = CurrentStudent.getPersonID(); 
+        absence = model.studentAbsence(personID);
+        registeredToday = model.studentAlreadyRegistered(personID);
+        lblStudentFullname.setText(CurrentStudent.getName());
+    }
+    
+    
 }

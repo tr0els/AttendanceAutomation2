@@ -5,6 +5,7 @@
  */
 package attendanceautomation.GUI.Controller;
 
+import attendanceautomation.BE.Student;
 import attendanceautomation.DAL.DALException;
 import attendanceautomation.GUI.Model.AttendanceAutomationModel;
 import com.jfoenix.controls.JFXButton;
@@ -74,7 +75,8 @@ public class LoginController implements Initializable {
             int role = model.getRole(username);
 
             if (role == 1) {
-                OpenStudentMenu(event);
+                
+                OpenStudentMenu(event,currentStudent(username, password));
             }
             if (role == 2) {
                 OpenTeacherMenu(event);
@@ -106,11 +108,20 @@ public class LoginController implements Initializable {
     /*
         åbner studerende menuen
      */
-    private void OpenStudentMenu(ActionEvent event) {
+    private void OpenStudentMenu(ActionEvent event, Student stud) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/attendanceautomation/GUI/View/StudView.fxml"));
-
+             FXMLLoader loader = new FXMLLoader();
+            
+            
+             loader.setLocation(getClass().getResource("/attendanceautomation/GUI/View/StudView.fxml"));
+             loader.load();
+             Parent root = loader.getRoot();
+            
+            StudViewController studcontroller = loader.getController();
+            studcontroller.setCurrentUser(stud);
+            
             Scene scene = new Scene(root);
+            
             Stage stage = new Stage();
             stage.setTitle("Student Menu");
             Stage Currentstage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -151,4 +162,14 @@ public class LoginController implements Initializable {
         a.show();
     }
 
+    public Student currentStudent(String username, String password){
+        
+       return model.getCurrentStudent(username, password);
+        
+        
+        
+        
+    }
+    
+    
 }
