@@ -219,7 +219,7 @@ public class BLLManager {
         List<LocalDate> missedDays = new ArrayList<>();
         
         LocalDate today = getCurrentdate();
-        LocalDate intervalDate = today.minusDays(x);
+        LocalDate intervalDate = today.minusDays(x-1);
         
         while (intervalDate.isBefore(today))
                 {
