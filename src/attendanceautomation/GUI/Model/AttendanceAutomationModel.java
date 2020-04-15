@@ -15,6 +15,7 @@ import java.util.Comparator;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.chart.XYChart;
 
 /**
  *
@@ -197,6 +198,10 @@ public class AttendanceAutomationModel
         Student stud = new Student();
         stud = manager.getStudentInfo(selectedStudent);
         return stud;
+    }
+    
+    public XYChart.Series modelMissedDaysforAbsencePerDay(int personID){
+        return manager.missedDaysforAbsencePerDay(personID);
     }
 
     public Teacher getClassTeacher(Classes choiceBoxChosenClass) throws DALException

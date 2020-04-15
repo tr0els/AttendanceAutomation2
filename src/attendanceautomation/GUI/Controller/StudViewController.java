@@ -95,7 +95,7 @@ public class StudViewController implements Initializable {
         daysPresent = 15; //hvor langt tilbage listen over missed days viser
         lblMissedDays.setText("Missed Days (Last " + daysPresent + " days)");
 
-        absence = model.studentAbsence(personID);
+        absence = model.studentAbsence(1);
 
         currentDate = model.getCurrentDate();
         String strDate = currentDate.format(DateTimeFormatter.ofPattern("dd. MMMM yyyy"));
@@ -108,7 +108,7 @@ public class StudViewController implements Initializable {
         }
 
         handlePieChart();
-        handleBarChart();
+        handleBarChart(1); //den skal finde personID fra personen som logger ind
         handleMissedDays();
     }
 
@@ -133,17 +133,8 @@ public class StudViewController implements Initializable {
         listviewMissedDays.setItems(model.missedDays(personID, daysPresent));
     }
 
-    public void handleBarChart() {
-        
-        
-        
-        XYChart.Series weekdaysabsent = new XYChart.Series<>();
-        weekdaysabsent.getData().add(new XYChart.Data<>("Monday", 50));
-        weekdaysabsent.getData().add(new XYChart.Data<>("Tuesday", 10));
-        weekdaysabsent.getData().add(new XYChart.Data<>("Wednesday", 30));
-        weekdaysabsent.getData().add(new XYChart.Data<>("Thursday", 40));
-        weekdaysabsent.getData().add(new XYChart.Data<>("friday", 100));
-        chartAbsenceperDay.getData().addAll(weekdaysabsent);
+    public void handleBarChart(int personID) {
+        chartAbsenceperDay.getData().addAll(model.modelMissedDaysforAbsencePerDay(personID));
     }
 
     @FXML
