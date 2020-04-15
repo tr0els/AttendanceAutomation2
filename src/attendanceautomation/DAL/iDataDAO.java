@@ -92,4 +92,6 @@ public interface iDataDAO {
     public byte[] getSalt(String email);
 
     public int getRole(String username);
+    
+    public Student getStudentInfo(Student selectedStudent) throws DALException;
 }
