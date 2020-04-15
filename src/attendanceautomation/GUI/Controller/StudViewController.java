@@ -124,7 +124,7 @@ public class StudViewController implements Initializable {
         handlePieChart();
         handleBarChart();
         handleMissedDays();
-    }
+    }}
 
     public void handlePieChart() {
 
