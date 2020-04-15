@@ -29,7 +29,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.PieChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
@@ -101,14 +104,26 @@ public class StudViewController implements Initializable {
                 btnAttendCurrentClass.setText(registeredToday);
             }
 
-            handlePieChart();
+        model = AttendanceAutomationModel.getInstance();
 
-            handleMissedDays();
+        daysPresent = 15; //hvor langt tilbage listen over missed days viser
+        lblMissedDays.setText("Missed Days (Last " + daysPresent + " days)");
 
-        } catch (DALException ex) {
-            Logger.getLogger(StudViewController.class.getName()).log(Level.SEVERE, null, ex);
+
+        absence = model.studentAbsence(personID);
+
+        currentDate = model.getCurrentDate();
+        String strDate = currentDate.format(DateTimeFormatter.ofPattern("dd. MMMM yyyy"));
+        showDate.setText(strDate);
+
+        if (registeredToday != null) {
+            btnAttendCurrentClass.setDisable(true);
+            btnAttendCurrentClass.setText(registeredToday);
         }
 
+        handlePieChart();
+        handleBarChart();
+        handleMissedDays();
     }
 
     public void handlePieChart() {
@@ -133,7 +148,16 @@ public class StudViewController implements Initializable {
     }
 
     public void handleBarChart() {
-        //use studentid?
+        
+        
+        
+        XYChart.Series weekdaysabsent = new XYChart.Series<>();
+        weekdaysabsent.getData().add(new XYChart.Data<>("Monday", 50));
+        weekdaysabsent.getData().add(new XYChart.Data<>("Tuesday", 10));
+        weekdaysabsent.getData().add(new XYChart.Data<>("Wednesday", 30));
+        weekdaysabsent.getData().add(new XYChart.Data<>("Thursday", 40));
+        weekdaysabsent.getData().add(new XYChart.Data<>("friday", 100));
+        chartAbsenceperDay.getData().addAll(weekdaysabsent);
     }
 
     @FXML

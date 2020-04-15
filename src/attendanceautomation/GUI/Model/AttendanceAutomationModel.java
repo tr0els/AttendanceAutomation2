@@ -10,14 +10,13 @@ import attendanceautomation.BE.Student;
 import attendanceautomation.BLL.BLLManager;
 import attendanceautomation.DAL.DALException;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 /**
  *
- * @author BBran
+ * @author Troels
  */
 public class AttendanceAutomationModel {
 
@@ -27,7 +26,13 @@ public class AttendanceAutomationModel {
     private int choiceBoxChosenClass;
     private ObservableList<LocalDate> daysPresent;
 
-    public AttendanceAutomationModel() throws DALException {
+    /**
+     * Constructor
+     * Skal holdes privat da alt instantiering af denne klasse 
+     * skal foregå ved hjælp af singletonen's getInstance metode.
+     * @throws DALException 
+     */
+    private AttendanceAutomationModel() throws DALException {
         manager = new BLLManager();
         daysPresent = FXCollections.observableArrayList();
         teacherClasses = FXCollections.observableArrayList();
@@ -40,19 +45,26 @@ public class AttendanceAutomationModel {
     }
 
     /**
-     * virker nu, der er brugt en static initializer som smider en ExceptionInInitializerError
-     * som håndtere exceptions under static initializer hvis noget går galt
+     * Første gang metoden kaldes, oprettes en instans af modellen (new).
+     * Instansengemmes i konstanten INSTANCE så den kan returnes ved behov.
      */
     private static class SingletonHolder {
         private static final AttendanceAutomationModel INSTANCE;
+
         static {
-        try {
-            INSTANCE =  new AttendanceAutomationModel();
-        } catch (DALException e) {
-            throw new ExceptionInInitializerError("noget gik galt, i Singletonholderen"); //
+            try {
+                INSTANCE = new AttendanceAutomationModel();
+            } catch (DALException ex) {
+                throw new ExceptionInInitializerError("kunne ikke forbinde til BLL");
+            }
         }
-    }}
+    }
     
+    /**
+     * Returnerer model instansen
+     * Fordi metoden er static kan den kaldes uden at først lave et objekt af klassen.
+     * @return instans af modellen
+     */
     public static AttendanceAutomationModel getInstance() {
         return SingletonHolder.INSTANCE;
     }

@@ -51,14 +51,13 @@ public class LoginController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        try {
-            model = new AttendanceAutomationModel();
-            
-            model.countWeekdays(); //DELETE ME WHEN DONE
 
-        } catch (DALException ex) {
-            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        model = AttendanceAutomationModel.getInstance();
+        model.countWeekdays(); //DELETE ME WHEN DONE
+        
+        txtfieldUsername.setText("student@email.com");
+        passwordfieldPassword.setText("1234");
+
     }
 
     /*
