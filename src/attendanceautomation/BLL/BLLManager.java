@@ -217,6 +217,11 @@ public class BLLManager {
         return datadao.getClassTeacher(choiceBoxChosenClass);
     }
     
+    public List<Student> getAllStudents(Classes choiceBoxChosenClass) throws DALException
+    {
+        return datadao.getAllStudents(choiceBoxChosenClass);
+    }
+    
     public List<LocalDate> missedDays(int personID, int x)
     {
         List<LocalDate> daysPresent = new ArrayList<>();
