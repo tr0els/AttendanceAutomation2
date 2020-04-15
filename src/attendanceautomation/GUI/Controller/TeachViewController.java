@@ -44,6 +44,7 @@ public class TeachViewController implements Initializable
 
     private AttendanceAutomationModel model;
     private Classes choiceBoxChosenClass;
+    private Student selectedStudent;
 
     @FXML
     private JFXListView<Student> listviewStudents;
@@ -76,8 +77,9 @@ public class TeachViewController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
-        choiceBoxClasses.getSelectionModel().selectedItemProperty().addListener( (v, oldValue, newValue) -> {
-        choiceBoxChosenClass = choiceBoxClasses.getSelectionModel().getSelectedItem();
+        choiceBoxClasses.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) ->
+        {
+            choiceBoxChosenClass = choiceBoxClasses.getSelectionModel().getSelectedItem();
             try
             {
                 listviewStudents.setItems(model.getStudentsInClass(choiceBoxChosenClass));
@@ -85,13 +87,13 @@ public class TeachViewController implements Initializable
             {
                 Logger.getLogger(TeachViewController.class.getName()).log(Level.SEVERE, null, ex);
             }
-}
+        }
         );
-        
+
         try
         {
             model = new AttendanceAutomationModel();
-            
+
             choiceBoxClasses.setItems(FXCollections.observableArrayList(model.getTeacherClasses()));
         } catch (DALException ex)
         {
@@ -166,6 +168,22 @@ public class TeachViewController implements Initializable
     {
 //        choiceBoxChosenClass = choiceBoxClasses.getSelectionModel().getSelectedItem();
 //        listviewStudents.setItems(model.getStudentsInClass(choiceBoxChosenClass));
+
+    }
+
+    @FXML
+    private void handleSelectStudent(MouseEvent event) throws DALException
+    {
+        selectedStudent = listviewStudents.getSelectionModel().getSelectedItem();
         
+        Student stud = new Student();
+        stud = model.getStudentInfo(selectedStudent);
+        
+        lblStudentname.setText(stud.getName());
+        lblEmail.setText(stud.getEmail());
+        lblPhone.setText("" + stud.getPhoneNumber());
+//        listviewAbsenceDays.setText(arg0);
+//        chartAbsenceperDay.setText(arg0);
+//        chartAbsenceperDay.setText(arg0);
     }
 }

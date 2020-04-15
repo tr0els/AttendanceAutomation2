@@ -149,4 +149,11 @@ public class AttendanceAutomationModel {
         studentsInClass.addAll(tempStudents);
         return studentsInClass;
     }
+    
+    public Student getStudentInfo(Student selectedStudent) throws DALException
+    {
+        Student stud = new Student();
+        stud = manager.getStudentInfo(selectedStudent);
+        return stud;
+    }
 }
