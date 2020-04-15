@@ -208,9 +208,6 @@ public class BLLManager {
         return datadao.getAllStudents(choiceBoxChosenClass);
     }
     
-    public List<LocalDate> missedDays(int personID, int x)
-    {
-
         /**
      * returnere liste over dage hvor eleven ikke har været i skole hvor x er
      * intervallet fra dagens dato listen tager højde for
@@ -219,7 +216,8 @@ public class BLLManager {
      * @param personID
      * @return
      */
-    public List<LocalDate> missedDays(int personID, int x) {
+    public List<LocalDate> missedDays(int personID, int x) 
+    {
 
         List<LocalDate> daysPresent = new ArrayList<>();
         daysPresent = datadao.xDaysPresent(personID, x);
