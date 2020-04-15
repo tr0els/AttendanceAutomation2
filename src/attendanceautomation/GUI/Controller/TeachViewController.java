@@ -90,10 +90,10 @@ public class TeachViewController implements Initializable
         }
         );
 
+        model = AttendanceAutomationModel.getInstance();
+        
         try
         {
-            model = new AttendanceAutomationModel();
-
             choiceBoxClasses.setItems(FXCollections.observableArrayList(model.getTeacherClasses()));
         } catch (DALException ex)
         {
