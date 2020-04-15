@@ -103,7 +103,8 @@ public class StudViewController implements Initializable {
                 btnAttendCurrentClass.setDisable(true);
                 btnAttendCurrentClass.setText(registeredToday);
             }
-
+            System.out.println(registeredToday);
+            
             handlePieChart();
 
             handleMissedDays();

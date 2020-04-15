@@ -72,7 +72,7 @@ public class BLLManager {
         final DayOfWeek dw = date.getDayOfWeek();
         String btnMessage = null;
         
-        if (!daysOff.contains(date) && dw != DayOfWeek.SATURDAY && dw != DayOfWeek.SUNDAY)
+        if (!daysOff.contains(date) && dw == DayOfWeek.SATURDAY && dw == DayOfWeek.SUNDAY)
         {
             btnMessage = "No School Today!";
         }
@@ -80,7 +80,7 @@ public class BLLManager {
         {
             btnMessage = "Already Registered";
         }
-        
+        System.out.println(daysOff);
         return btnMessage;
     }
 
@@ -218,7 +218,7 @@ public class BLLManager {
         List<LocalDate> missedDays = new ArrayList<>();
         
         LocalDate today = getCurrentdate();
-        LocalDate intervalDate = today.minusDays(x);
+        LocalDate intervalDate = today.minusDays(x-1);
         
         while (intervalDate.isBefore(today))
                 {
