@@ -5,6 +5,8 @@
  */
 package attendanceautomation.GUI.Model;
 
+import attendanceautomation.BE.Classes;
+import attendanceautomation.BE.Student;
 import attendanceautomation.BLL.BLLManager;
 import attendanceautomation.DAL.DALException;
 import java.time.LocalDate;
@@ -20,22 +22,30 @@ import javafx.collections.ObservableList;
 public class AttendanceAutomationModel {
 
     private BLLManager manager;
+    private ObservableList<Classes> teacherClasses;
+    private ObservableList<Student> studentsInClass;
+    private int choiceBoxChosenClass;
     private ObservableList<LocalDate> daysPresent;
 
     public AttendanceAutomationModel() throws DALException {
-      manager = new BLLManager();
-      daysPresent = FXCollections.observableArrayList();
-
+        manager = new BLLManager();
+        daysPresent = FXCollections.observableArrayList();
+        teacherClasses = FXCollections.observableArrayList();
+        teacherClasses.addAll(manager.getTeacherClasses());
+        studentsInClass = FXCollections.observableArrayList();
     }
 
-
+    /**
+     * virker nu, der er brugt en static initializer som smider en ExceptionInInitializerError
+     * som håndtere exceptions under static initializer hvis noget går galt
+     */
     private static class SingletonHolder {
         private static final AttendanceAutomationModel INSTANCE;
         static {
         try {
             INSTANCE =  new AttendanceAutomationModel();
         } catch (DALException e) {
-            throw new ExceptionInInitializerError(e); //
+            throw new ExceptionInInitializerError("noget gik galt, i Singletonholderen"); //
         }
     }}
     
@@ -87,12 +97,11 @@ public class AttendanceAutomationModel {
         Login controlleren skal bruge information om hvilken rolle useren har
         så denne metode returnere dette fra BLL
      */
-    public int getRole(String username, String password) {
+    public int getRole(String username) {
 
-        return manager.getRole(username, password);
+        return manager.getRole(username);
 
     }
-    
     
   
     /**
@@ -111,7 +120,14 @@ public class AttendanceAutomationModel {
        return daysPresent;
     }
     
-    
+    /*
+        en funktion der sender passwords til bll for at blive hashet. 
+        Denne funktion bliver ikke brugt lige nu, men skal højst sandsyneligt bruges
+        i fremtiden.
+    */
+    public void hashPassword(String password){
+        manager.HashPassword(password);
+    }
 
     /**
      * DELETE ME WHEN DONE
@@ -120,5 +136,17 @@ public class AttendanceAutomationModel {
     {
         manager.countWeekdays();
     }
-
+    
+    public List<Classes> getTeacherClasses() throws DALException
+    {
+        return teacherClasses;
+    }
+    
+    public ObservableList<Student> getStudentsInClass(Classes choiceBoxChosenClass) throws DALException
+    {
+        List<Student> tempStudents = manager.getStudentsInClass(choiceBoxChosenClass);
+        studentsInClass.clear();
+        studentsInClass.addAll(tempStudents);
+        return studentsInClass;
+    }
 }

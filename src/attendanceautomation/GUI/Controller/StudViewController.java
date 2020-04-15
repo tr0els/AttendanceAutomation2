@@ -45,13 +45,13 @@ public class StudViewController implements Initializable {
 
     @FXML
     private Label lblStudentFullname;
-
     @FXML
     private PieChart piechartAttendance;
+    @FXML
+    private JFXListView<String> listviewMissedClasses;
 
     @FXML
     private Label lblAbsencepercent;
-
     @FXML
     private MenuItem menuitemSLogout;
     @FXML
@@ -93,7 +93,7 @@ public class StudViewController implements Initializable {
             personID = 1; //TO_DO Skaffe personID fra BE!
 
             absence = model.studentAbsence(personID);
-
+            
             currentDate = model.getCurrentDate();
             String strDate = currentDate.format(DateTimeFormatter.ofPattern("dd. MMMM yyyy"));
             showDate.setText(strDate);

@@ -32,5 +32,10 @@ public class Student extends Person{
         
         personRole = new IsStudent();
     }
+
+    public Student()
+    {
+       // personRole = new IsStudent();
+    }
     
 }

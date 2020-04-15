@@ -4,7 +4,9 @@
  * and open the template in the editor.
  */
 package attendanceautomation.DAL;
-
+        
+import attendanceautomation.BE.Classes;
+import attendanceautomation.BE.Student;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -47,9 +49,8 @@ public interface iDataDAO {
      * @param password
      * @return
      */
-    public boolean Login(String email, String password);
+    public boolean Login(String email, byte[] HashedPassword);
 
-    public int getRole(String username, String password);
 
     /**
      * Get a list of set schooldays off from DB.
@@ -66,10 +67,29 @@ public interface iDataDAO {
     public List<LocalDate> daysPresent(int personID);
     
     /**
-     * Get a list of x days student(personID) was present.
+      * Get a list of classes associated with logged in teacher.
+      * @return 
+      */
+     public List<Classes> getTeacherClasses();
+
+     
+     /**
+      * Returns a list of students on the specified class
+      * @param choiceBoxChosenClass
+      * @return
+      * @throws DALException 
+      */
+     public List<Student> getStudentsInClass(Classes choiceBoxChosenClass) throws DALException;
+
+     /** Get a list of x days student(personID) was present.
      *
      * @return
      */
     public List<LocalDate> xDaysPresent (int personID, int x);    
 
+    public void setPasswordandSalt(byte[] HashedPassword, byte[] salt);
+
+    public byte[] getSalt(String email);
+
+    public int getRole(String username);
 }
