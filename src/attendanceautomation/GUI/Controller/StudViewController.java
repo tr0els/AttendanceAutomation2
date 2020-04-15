@@ -105,6 +105,8 @@ public class StudViewController implements Initializable {
             btnAttendCurrentClass.setText(registeredToday);
         }
 
+        model.modelMissedDaysforAbsencePerDay();
+
         handlePieChart();
         handleBarChart();
         handleMissedDays();
@@ -132,16 +134,7 @@ public class StudViewController implements Initializable {
     }
 
     public void handleBarChart() {
-        
-        
-        
-        XYChart.Series weekdaysabsent = new XYChart.Series<>();
-        weekdaysabsent.getData().add(new XYChart.Data<>("Monday", 50));
-        weekdaysabsent.getData().add(new XYChart.Data<>("Tuesday", 10));
-        weekdaysabsent.getData().add(new XYChart.Data<>("Wednesday", 30));
-        weekdaysabsent.getData().add(new XYChart.Data<>("Thursday", 40));
-        weekdaysabsent.getData().add(new XYChart.Data<>("friday", 100));
-        chartAbsenceperDay.getData().addAll(weekdaysabsent);
+        chartAbsenceperDay.getData().addAll(model.modelMissedDaysforAbsencePerDay());
     }
 
     @FXML

@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.chart.XYChart;
 
 /**
  *
@@ -168,4 +169,9 @@ public class AttendanceAutomationModel {
         stud = manager.getStudentInfo(selectedStudent);
         return stud;
     }
+    
+    public XYChart.Series modelMissedDaysforAbsencePerDay(int personID){
+        return manager.missedDaysforAbsencePerDay(personID);
+    }
+    
 }
