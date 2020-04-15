@@ -84,6 +84,18 @@ public class TeachViewController implements Initializable
         choiceBoxClasses.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) ->
         {
             choiceBoxChosenClass = choiceBoxClasses.getSelectionModel().getSelectedItem();
+            int cBCC = choiceBoxChosenClass.getId();
+            if (cBCC == 4)
+            {
+                try
+                {
+                    listviewStudents.setItems(model.getAllStudents(choiceBoxChosenClass));
+                } catch (DALException ex)
+                {
+                    Logger.getLogger(TeachViewController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            else
             try
             {
                 listviewStudents.setItems(model.getStudentsInClass(choiceBoxChosenClass));
@@ -182,6 +194,7 @@ public class TeachViewController implements Initializable
         
         Student stud = new Student();
         stud = model.getStudentInfo(selectedStudent);
+        
         Teacher teach = new Teacher();
         teach = model.getClassTeacher(choiceBoxChosenClass);
         int studId = stud.getPersonID();

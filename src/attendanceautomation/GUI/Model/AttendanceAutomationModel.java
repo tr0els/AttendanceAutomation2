@@ -11,6 +11,7 @@ import attendanceautomation.BE.Teacher;
 import attendanceautomation.BLL.BLLManager;
 import attendanceautomation.DAL.DALException;
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -26,6 +27,7 @@ public class AttendanceAutomationModel
     private BLLManager manager;
     private ObservableList<Classes> teacherClasses;
     private ObservableList<Student> studentsInClass;
+    private ObservableList<Student> allStudents;
     private int choiceBoxChosenClass;
     private ObservableList<LocalDate> daysPresent;
 
@@ -42,6 +44,7 @@ public class AttendanceAutomationModel
         teacherClasses = FXCollections.observableArrayList();
         teacherClasses.addAll(manager.getTeacherClasses());
         studentsInClass = FXCollections.observableArrayList();
+        allStudents = FXCollections.observableArrayList();
     }
 
     public Student getCurrentStudent(String username, String password)
@@ -181,6 +184,12 @@ public class AttendanceAutomationModel
         List<Student> tempStudents = manager.getStudentsInClass(choiceBoxChosenClass);
         studentsInClass.clear();
         studentsInClass.addAll(tempStudents);
+        
+        for (int i = 0; i < studentsInClass.size(); i++)
+        {
+            studentsInClass.get(i).setAbsence(manager.studentAbsence(studentsInClass.get(i).getPersonID()));
+        }
+        
         return studentsInClass;
     }
 
@@ -201,5 +210,23 @@ public class AttendanceAutomationModel
         teach = manager.getClassTeacher(choiceBoxChosenClass);
         return teach;
     }
-
+    
+    public ObservableList<Student> getAllStudents(Classes choiceBoxChosenClass) throws DALException
+    {
+        Comparator<Student> byAbsence = (Student stud1, Student stud2) -> (int) (stud2.getAbsence() - stud1.getAbsence());
+        
+//                (Student stud1, Student stud2) -> stud1.getAbsence()- stud2.getAbsence();
+        List<Student> tempStudents = manager.getAllStudents(choiceBoxChosenClass);
+        allStudents.clear();
+        allStudents.addAll(tempStudents);
+        
+        for (int i = 0; i < allStudents.size(); i++)
+        {
+            allStudents.get(i).setAbsence(manager.studentAbsence(allStudents.get(i).getPersonID()));
+        }
+        
+        allStudents.sort(byAbsence);
+        
+        return allStudents;
+    }
 }
