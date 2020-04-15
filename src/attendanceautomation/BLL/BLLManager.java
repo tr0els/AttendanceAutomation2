@@ -185,10 +185,6 @@ public class BLLManager {
 
         final double absencePercent = 100 - ((countDaysPresent / countSchooldays) * 100);
 
-        System.out.println(absencePercent); //DELETE ME WHEN DONE
-        System.out.println(countDaysPresent); //DELETE ME WHEN DONE
-        System.out.println(countSchooldays); //DELETE ME WHEN DONE
-
         return absencePercent;
 
     }
