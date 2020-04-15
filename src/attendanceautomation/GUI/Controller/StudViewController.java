@@ -98,11 +98,6 @@ public class StudViewController implements Initializable {
 
         absence = model.studentAbsence(personID);
 
-
-            handleMissedDays();
-            
-            handleBarChart();
-
         currentDate = model.getCurrentDate();
         String strDate = currentDate.format(DateTimeFormatter.ofPattern("dd. MMMM yyyy"));
         showDate.setText(strDate);
@@ -114,6 +109,7 @@ public class StudViewController implements Initializable {
         }
 
         handlePieChart();
+                    handleBarChart();
         handleMissedDays();
     }
 
