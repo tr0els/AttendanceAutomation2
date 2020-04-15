@@ -249,8 +249,6 @@ public class BLLManager {
             LocalDate localdate = LocalDate.of(Integer.parseInt(test[0]), Integer.parseInt(test[1]), Integer.parseInt(test[2]));
 
             DayOfWeek dayOfWeek = localdate.getDayOfWeek();
-
-            System.out.println(dayOfWeek);
             
             switch (dayOfWeek){
                 case MONDAY: monday = monday + 1;
