@@ -41,13 +41,15 @@ public class AttendanceAutomationModel {
      */
     private static class SingletonHolder {
         private static final AttendanceAutomationModel INSTANCE;
+
         static {
-        try {
-            INSTANCE =  new AttendanceAutomationModel();
-        } catch (DALException e) {
-            throw new ExceptionInInitializerError("noget gik galt, i Singletonholderen"); //
+            try {
+                INSTANCE = new AttendanceAutomationModel();
+            } catch (DALException e) {
+                throw new ExceptionInInitializerError("noget gik galt, i Singletonholderen");
+            }
         }
-    }}
+    }
     
     public static AttendanceAutomationModel getInstance() {
         return SingletonHolder.INSTANCE;
