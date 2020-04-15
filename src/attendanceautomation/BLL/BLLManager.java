@@ -205,14 +205,12 @@ public class BLLManager {
     public Student getStudentInfo(Student selectedStudent) throws DALException {
         return datadao.getStudentInfo(selectedStudent);
     }
-    
-    public Teacher getClassTeacher(Classes choiceBoxChosenClass) throws DALException
-    {
+
+    public Teacher getClassTeacher(Classes choiceBoxChosenClass) throws DALException {
         return datadao.getClassTeacher(choiceBoxChosenClass);
     }
-    
-    public List<LocalDate> missedDays(int personID, int x)
-    {
+
+    public List<LocalDate> missedDays(int personID, int x) {
 
         List<LocalDate> daysPresent = new ArrayList<>();
         daysPresent = datadao.xDaysPresent(personID, x);
@@ -234,14 +232,27 @@ public class BLLManager {
     }
 
     public XYChart.Series missedDaysforAbsencePerDay(int personID) {
+
+        int totalDays = 0;
+
+        LocalDate startDate = semesterStart;
+        final LocalDate endDate = getCurrentdate();
+
+        while (startDate.isBefore(endDate)) {
+            ++totalDays;
+            startDate = startDate.plusDays(1);
+
+        }
+
         List<LocalDate> days = new ArrayList<>();
-        days.addAll(missedDays(personID, countWeekdays()));
-        
-        int monday = 0;
-        int tuesday = 0;
-        int wednesday = 0;
-        int thursday = 0;
-        int friday = 0;
+        days.addAll(missedDays(personID, totalDays));
+
+        double monday = 0;
+        double tuesday = 0;
+        double wednesday = 0;
+        double thursday = 0;
+        double friday = 0;
+        double allAbsentDays = 0;
 
         for (int i = 0; i < days.size(); i++) {
             String[] test = days.get(i).toString().split("-");
@@ -251,29 +262,54 @@ public class BLLManager {
             DayOfWeek dayOfWeek = localdate.getDayOfWeek();
 
             System.out.println(dayOfWeek);
-            
-            switch (dayOfWeek){
-                case MONDAY: monday = monday + 1;
-                break;
-                case TUESDAY: tuesday = tuesday + 1;
-                break;
-                case WEDNESDAY: wednesday = wednesday + 1;
-                break;
-                case THURSDAY: thursday = thursday + 1;
-                break;
-                case FRIDAY: friday = friday + 1;
-                break;
+
+            switch (dayOfWeek) {
+                case MONDAY:
+                    ++monday;
+                    ++allAbsentDays;
+                    break;
+                case TUESDAY:
+                    ++tuesday;
+                    ++allAbsentDays;
+                    break;
+                case WEDNESDAY:
+                    ++wednesday;
+                    ++allAbsentDays;
+                    break;
+                case THURSDAY:
+                    ++thursday;
+                    ++allAbsentDays;
+                    break;
+                case FRIDAY:
+                    ++friday;
+                    ++allAbsentDays;
+                    break;
             }
 
         }
 
+        monday = (monday / allAbsentDays) * 100;
+        System.out.println(monday);
+
+        tuesday = (tuesday / allAbsentDays) * 100;
+        System.out.println(tuesday);
+
+        wednesday = (wednesday / allAbsentDays) * 100;
+        System.out.println(wednesday);
+
+        thursday = (thursday / allAbsentDays) * 100;
+        System.out.println(thursday);
+
+        friday = (friday / allAbsentDays) * 100;
+        System.out.println(friday);
+        
         XYChart.Series weekdaysabsent = new XYChart.Series<>();
         weekdaysabsent.getData().add(new XYChart.Data<>("Monday", monday));
         weekdaysabsent.getData().add(new XYChart.Data<>("Tuesday", tuesday));
         weekdaysabsent.getData().add(new XYChart.Data<>("Wednesday", wednesday));
         weekdaysabsent.getData().add(new XYChart.Data<>("Thursday", thursday));
         weekdaysabsent.getData().add(new XYChart.Data<>("friday", friday));
-        
+
         return weekdaysabsent;
     }
 
@@ -290,7 +326,7 @@ public class BLLManager {
     }
 
     public Student getCurrentStudent(String username, String password) {
-        
+
         final byte[] salt = datadao.getSalt(username);
 
         try {
@@ -299,12 +335,11 @@ public class BLLManager {
             md.update(salt);
 
             final byte[] HashedPassword = md.digest(password.getBytes(StandardCharsets.UTF_8));
-         return datadao.getCurrentStudent(username, HashedPassword);
+            return datadao.getCurrentStudent(username, HashedPassword);
+        } catch (Exception ex) {
         }
-        catch ( Exception ex){
-        }
-       
-       return null;
+
+        return null;
     }
-    
+
 }
