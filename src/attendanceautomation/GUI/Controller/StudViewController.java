@@ -95,13 +95,13 @@ public class StudViewController implements Initializable {
         daysPresent = 15; //hvor langt tilbage listen over missed days viser
         lblMissedDays.setText("Missed Days (Last " + daysPresent + " days)");
 
-
         absence = model.studentAbsence(personID);
 
         currentDate = model.getCurrentDate();
         String strDate = currentDate.format(DateTimeFormatter.ofPattern("dd. MMMM yyyy"));
         showDate.setText(strDate);
-
+        
+        registeredToday = model.studentAlreadyRegistered(personID);
         if (registeredToday != null) {
             btnAttendCurrentClass.setDisable(true);
             btnAttendCurrentClass.setText(registeredToday);
