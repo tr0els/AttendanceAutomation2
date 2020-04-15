@@ -80,7 +80,7 @@ public class TeachViewController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
-        daysPresent = 15; //hvor langt tilbage listen over missed days viser
+
         choiceBoxClasses.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) ->
         {
             choiceBoxChosenClass = choiceBoxClasses.getSelectionModel().getSelectedItem();
@@ -201,7 +201,7 @@ public class TeachViewController implements Initializable
         lblStudentname.setText(stud.getName());
         lblEmail.setText(stud.getEmail());
         lblPhone.setText("" + stud.getPhoneNumber());
-        listviewAbsenceDays.setItems(model.missedDays(studId, daysPresent));
+        listviewAbsenceDays.setItems(model.missedDays(studId, model.countAlldays()));
         lblTeacher.setText(teach.getName());
 //        chartAbsenceperDay.setText(arg0);
     }

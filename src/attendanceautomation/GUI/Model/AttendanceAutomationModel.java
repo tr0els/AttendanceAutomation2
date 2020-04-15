@@ -167,11 +167,11 @@ public class AttendanceAutomationModel
     }
 
     /**
-     * DELETE ME WHEN DONE
+     * returnere antal dage siden semesterstart
      */
-    public void countWeekdays()
+    public int countAlldays()
     {
-        manager.countWeekdays();
+        return manager.countAlldays();
     }
 
     public List<Classes> getTeacherClasses() throws DALException
