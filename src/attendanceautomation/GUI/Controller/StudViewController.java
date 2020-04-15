@@ -81,16 +81,13 @@ public class StudViewController implements Initializable {
     @FXML
     private Label lblMissedDays;
 
-
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-
         model = AttendanceAutomationModel.getInstance();
-
 
         daysPresent = 15; //hvor langt tilbage listen over missed days viser
         lblMissedDays.setText("Missed Days (Last " + daysPresent + " days)");
@@ -109,7 +106,7 @@ public class StudViewController implements Initializable {
         }
 
         handlePieChart();
-                    handleBarChart();
+        handleBarChart();
         handleMissedDays();
     }
 
@@ -135,6 +132,9 @@ public class StudViewController implements Initializable {
     }
 
     public void handleBarChart() {
+        
+        
+        
         XYChart.Series weekdaysabsent = new XYChart.Series<>();
         weekdaysabsent.getData().add(new XYChart.Data<>("Monday", 50));
         weekdaysabsent.getData().add(new XYChart.Data<>("Tuesday", 10));
@@ -142,7 +142,6 @@ public class StudViewController implements Initializable {
         weekdaysabsent.getData().add(new XYChart.Data<>("Thursday", 40));
         weekdaysabsent.getData().add(new XYChart.Data<>("friday", 100));
         chartAbsenceperDay.getData().addAll(weekdaysabsent);
-
     }
 
     @FXML
