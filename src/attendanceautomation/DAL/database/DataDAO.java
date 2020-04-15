@@ -447,6 +447,40 @@ public class DataDAO implements iDataDAO
         } catch (Exception e) {
         }
     }
+    
+    public Student getStudentInfo(Student selectedStudent) throws DALException
+    {
+        Student allStudentInfo = new Student();
+        // Attempts to connect to the database.
+        try ( Connection con = dbCon.getConnection())
+        {
+            int studId = selectedStudent.getPersonID();
+            // SQL code. 
+            String sql = "SELECT * FROM PERSON WHERE person_id = " + studId + ";";
+            // Create statement.
+            Statement statement = con.createStatement();
+            // Attempts to execute the statement.
+            ResultSet rs = statement.executeQuery(sql);
+            while (rs.next())
+            {
+                // Add all to a list
+                Student student = new Student();
+                student.setPersonID(rs.getInt("person_id"));
+                student.setName(rs.getString("name"));
+                student.setPhoneNumber(rs.getInt("phone"));
+                student.setEmail(rs.getString("email"));
+                
+                allStudentInfo = student;
+            }
+            //Return
+            return allStudentInfo;
 
+        } catch (SQLException ex)
+        {
+            Logger.getLogger(DataDAO.class
+                    .getName()).log(Level.SEVERE, null, ex);
+            throw new DALException("Can´t make Student");
+        }
+    }
 
 }

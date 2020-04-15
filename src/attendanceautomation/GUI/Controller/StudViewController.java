@@ -84,34 +84,26 @@ public class StudViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        try {
-            model = new AttendanceAutomationModel();
+        model = AttendanceAutomationModel.getInstance();
 
-            daysPresent = 15; //hvor langt tilbage listen over missed days viser
-            lblMissedDays.setText("Missed Days (Last " + daysPresent + " days)");
+        daysPresent = 15; //hvor langt tilbage listen over missed days viser
+        lblMissedDays.setText("Missed Days (Last " + daysPresent + " days)");
+        personID = 1; //TO_DO Skaffe personID fra BE!
 
-            personID = 1; //TO_DO Skaffe personID fra BE!
+        absence = model.studentAbsence(personID);
 
-            absence = model.studentAbsence(personID);
+        currentDate = model.getCurrentDate();
+        String strDate = currentDate.format(DateTimeFormatter.ofPattern("dd. MMMM yyyy"));
+        showDate.setText(strDate);
 
-            currentDate = model.getCurrentDate();
-            String strDate = currentDate.format(DateTimeFormatter.ofPattern("dd. MMMM yyyy"));
-            showDate.setText(strDate);
-
-            registeredToday = model.studentAlreadyRegistered(personID);
-            if (registeredToday != null) {
-                btnAttendCurrentClass.setDisable(true);
-                btnAttendCurrentClass.setText(registeredToday);
-            }
-
-            handlePieChart();
-
-            handleMissedDays();
-
-        } catch (DALException ex) {
-            Logger.getLogger(StudViewController.class.getName()).log(Level.SEVERE, null, ex);
+        registeredToday = model.studentAlreadyRegistered(personID);
+        if (registeredToday != null) {
+            btnAttendCurrentClass.setDisable(true);
+            btnAttendCurrentClass.setText(registeredToday);
         }
 
+        handlePieChart();
+        handleMissedDays();
     }
 
     public void handlePieChart() {
@@ -160,7 +152,8 @@ public class StudViewController implements Initializable {
 
     /**
      * Henter dato for idag og sender den og personID ned i db for at registrere
-     * at man er tilstede.
+     * at man er tilstede. Konvertere dato til string og viser den i label
+     * showDate.
      *
      * @param event
      */

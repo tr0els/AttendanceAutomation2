@@ -72,7 +72,7 @@ public class BLLManager {
         final DayOfWeek dw = date.getDayOfWeek();
         String btnMessage = null;
         
-        if (!daysOff.contains(date) && dw == DayOfWeek.SATURDAY && dw == DayOfWeek.SUNDAY)
+        if (!daysOff.contains(date) && dw != DayOfWeek.SATURDAY && dw != DayOfWeek.SUNDAY)
         {
             btnMessage = "No School Today!";
         }
@@ -80,7 +80,7 @@ public class BLLManager {
         {
             btnMessage = "Already Registered";
         }
-
+        
         return btnMessage;
     }
 
@@ -185,6 +185,9 @@ public class BLLManager {
 
         final double absencePercent = 100 - ((countDaysPresent / countSchooldays) * 100);
 
+        System.out.println(absencePercent); //DELETE ME WHEN DONE
+        System.out.println(countDaysPresent); //DELETE ME WHEN DONE
+        System.out.println(countSchooldays); //DELETE ME WHEN DONE
 
         return absencePercent;
 
@@ -207,6 +210,11 @@ public class BLLManager {
         return datadao.getStudentsInClass(choiceBoxChosenClass);
     }
     
+    public Student getStudentInfo(Student selectedStudent) throws DALException
+    {
+        return datadao.getStudentInfo(selectedStudent);
+    }
+    
     public List<LocalDate> missedDays(int personID, int x)
     {
         List<LocalDate> daysPresent = new ArrayList<>();
@@ -215,7 +223,7 @@ public class BLLManager {
         List<LocalDate> missedDays = new ArrayList<>();
         
         LocalDate today = getCurrentdate();
-        LocalDate intervalDate = today.minusDays(x-1);
+        LocalDate intervalDate = today.minusDays(x);
         
         while (intervalDate.isBefore(today))
                 {

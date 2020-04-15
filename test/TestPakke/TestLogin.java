@@ -20,33 +20,17 @@ import static org.junit.Assert.*;
 public class TestLogin {
     
   
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
-    
+      
     //teste at vi får false når vi ikke ligger en korrekt email og password ind
     @Test
     public void TestLoginFalse(){
     
         AttendanceAutomationModel INSTANCE = AttendanceAutomationModel.getInstance();
         
-        
+        //mailen er forkert, men koden er rigtig
         boolean Can_i_get_in = INSTANCE.loginModel("Student@easv.dk", "1234");
          
-        //assertTrue(Can_i_get_in);
+        
         assertFalse(Can_i_get_in);
         
     
@@ -59,10 +43,10 @@ public class TestLogin {
         AttendanceAutomationModel INSTANCE = AttendanceAutomationModel.getInstance();
         
         
-        
+        //her er det hele korrekt og der burde kunne logges ind
         boolean Can_i_get_in = INSTANCE.loginModel("student@email.com", "1234");
          
-        //assertTrue(Can_i_get_in);
+        
         assertTrue(Can_i_get_in);
         
     
