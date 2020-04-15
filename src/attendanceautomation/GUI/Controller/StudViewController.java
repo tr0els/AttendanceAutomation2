@@ -101,7 +101,7 @@ public class StudViewController implements Initializable {
         String strDate = currentDate.format(DateTimeFormatter.ofPattern("dd. MMMM yyyy"));
         showDate.setText(strDate);
         
-        registeredToday = model.studentAlreadyRegistered(personID);
+        registeredToday = model.studentAlreadyRegistered(1);
         if (registeredToday != null) {
             btnAttendCurrentClass.setDisable(true);
             btnAttendCurrentClass.setText(registeredToday);
