@@ -6,20 +6,14 @@
 package attendanceautomation.GUI.Controller;
 
 import attendanceautomation.BE.Student;
-import attendanceautomation.DAL.DALException;
 import attendanceautomation.GUI.Model.AttendanceAutomationModel;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
 import java.io.IOException;
 import java.net.URL;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -29,10 +23,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.PieChart;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
@@ -53,7 +44,6 @@ public class StudViewController implements Initializable {
     private PieChart piechartAttendance;
     @FXML
     private JFXListView<String> listviewMissedClasses;
-
     @FXML
     private Label lblAbsencepercent;
     @FXML
@@ -70,6 +60,10 @@ public class StudViewController implements Initializable {
     private Rectangle rectangle;
     @FXML
     private Label showDate;
+    @FXML
+    private JFXListView<LocalDate> listviewMissedDays;
+    @FXML
+    private Label lblMissedDays;
 
     private double absence;
     private AttendanceAutomationModel model;
@@ -77,10 +71,7 @@ public class StudViewController implements Initializable {
     private int daysPresent;
     private LocalDate currentDate;
     private String registeredToday;
-    @FXML
-    private JFXListView<LocalDate> listviewMissedDays;
-    @FXML
-    private Label lblMissedDays;
+
     private Student CurrentStudent = null;
 
     /**
@@ -91,24 +82,8 @@ public class StudViewController implements Initializable {
 
         model = AttendanceAutomationModel.getInstance();
 
-        daysPresent = 15; //hvor langt tilbage listen over missed days viser
-        lblMissedDays.setText("Missed Days (Last " + daysPresent + " days)");
 
-        //absence = model.studentAbsence(personID); bliver hentet nede i setCurrentUser
 
-        currentDate = model.getCurrentDate();
-        String strDate = currentDate.format(DateTimeFormatter.ofPattern("dd. MMMM yyyy"));
-        showDate.setText(strDate);
-        
-        //registeredToday = model.studentAlreadyRegistered(personID); bliver hentet nede i setCurrentUser
-        if (registeredToday != null) {
-            btnAttendCurrentClass.setDisable(true);
-            btnAttendCurrentClass.setText(registeredToday);
-        }
-
-        handlePieChart();
-        handleBarChart();
-        handleMissedDays();
     }
 
     public void handlePieChart() {
@@ -132,17 +107,8 @@ public class StudViewController implements Initializable {
         listviewMissedDays.setItems(model.missedDays(personID, daysPresent));
     }
 
-    public void handleBarChart() {
-        
-        
-        
-        XYChart.Series weekdaysabsent = new XYChart.Series<>();
-        weekdaysabsent.getData().add(new XYChart.Data<>("Monday", 50));
-        weekdaysabsent.getData().add(new XYChart.Data<>("Tuesday", 10));
-        weekdaysabsent.getData().add(new XYChart.Data<>("Wednesday", 30));
-        weekdaysabsent.getData().add(new XYChart.Data<>("Thursday", 40));
-        weekdaysabsent.getData().add(new XYChart.Data<>("friday", 100));
-        chartAbsenceperDay.getData().addAll(weekdaysabsent);
+    public void handleBarChart(int studentID) {
+        chartAbsenceperDay.getData().addAll(model.modelMissedDaysforAbsencePerDay(studentID));
     }
 
     @FXML
@@ -200,14 +166,33 @@ public class StudViewController implements Initializable {
                 + "Brian Brandt");
         a.show();
     }
-    
-    public void setCurrentUser(Student student){
+
+    public void setCurrentUser(Student student) {
         CurrentStudent = student;
-        personID = CurrentStudent.getPersonID(); 
+        personID = CurrentStudent.getPersonID();
         absence = model.studentAbsence(personID);
         registeredToday = model.studentAlreadyRegistered(personID);
         lblStudentFullname.setText(CurrentStudent.getName());
+        
+        
+        daysPresent = 15; //hvor langt tilbage listen over missed days viser
+        lblMissedDays.setText("Missed Days (Last " + daysPresent + " days)");
+
+        absence = model.studentAbsence(personID);
+
+        currentDate = model.getCurrentDate();
+        String strDate = currentDate.format(DateTimeFormatter.ofPattern("dd. MMMM yyyy"));
+        showDate.setText(strDate);
+
+        registeredToday = model.studentAlreadyRegistered(personID);
+        if (registeredToday != null) {
+            btnAttendCurrentClass.setDisable(true);
+            btnAttendCurrentClass.setText(registeredToday);
+        }
+
+        handlePieChart();
+        handleBarChart(CurrentStudent.getPersonID());
+        handleMissedDays();
     }
-    
-    
+
 }

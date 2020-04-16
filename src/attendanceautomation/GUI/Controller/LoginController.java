@@ -54,7 +54,7 @@ public class LoginController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 
         model = AttendanceAutomationModel.getInstance();
-        model.countWeekdays(); //DELETE ME WHEN DONE
+
         
         txtfieldUsername.setText("student@email.com");
         passwordfieldPassword.setText("1234");

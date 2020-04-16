@@ -12,12 +12,14 @@ import javafx.scene.chart.XYChart;
  *
  * @author Kim
  */
-public class Student extends Person{
-    
+public class Student extends Person
+{
+
     private List<String> last30DaysAbsent;
 //    private int present;
     private int absent;
     private XYChart.Series AbsenceDistributedPerDay;
+    private double absence;
 
     private String teachers;
 
@@ -25,17 +27,35 @@ public class Student extends Person{
         en Student constructer. da student klassen er extended af person så skal
         vi kalde med "super" for at få dens variabler
         personrole blive sat til student ved at bruge "IsStudent"
-    */
-    public Student(String email, String password) {
+     */
+    public Student(String email, String password)
+    {
         super(email, password);
 
-        
         personRole = new IsStudent();
     }
 
     public Student()
     {
-       // personRole = new IsStudent();
+        this.absence = absence;
     }
+
+    public double getAbsence()
+    {
+        return absence;
+    }
+
+    public void setAbsence(double absence)
+    {
+        this.absence = absence;
+    }
+
+    @Override
+    public String toString()
+    {
+        String strAbsence = String.format("%.1f", absence);
+        return super.getName() + " - " + strAbsence + " %";
+    }
+    
     
 }

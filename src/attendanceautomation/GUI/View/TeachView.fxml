@@ -121,7 +121,7 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <Label fx:id="lblTeachers" layoutX="365.0" layoutY="135.0" prefHeight="17.0" prefWidth="200.0" text="no student selected" textAlignment="CENTER" wrapText="true" AnchorPane.topAnchor="135.0">
+      <Label fx:id="lblTeacher" layoutX="365.0" layoutY="135.0" prefHeight="17.0" prefWidth="200.0" text="no student selected" textAlignment="CENTER" wrapText="true" AnchorPane.topAnchor="135.0">
          <font>
             <Font name="System Italic" size="12.0" />
          </font>
