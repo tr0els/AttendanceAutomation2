@@ -111,6 +111,8 @@ public class TeachViewController implements Initializable
         try
         {
             choiceBoxClasses.setItems(FXCollections.observableArrayList(model.getTeacherClasses()));
+            int startChoiceId = 4;
+            choiceBoxClasses.setValue(model.getTeacherClasses().get(0));
         } catch (DALException ex)
         {
             Logger.getLogger(TeachViewController.class.getName()).log(Level.SEVERE, null, ex);

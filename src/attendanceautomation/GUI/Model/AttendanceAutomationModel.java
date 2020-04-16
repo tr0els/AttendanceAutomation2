@@ -180,6 +180,8 @@ public class AttendanceAutomationModel
 
     public List<Classes> getTeacherClasses() throws DALException
     {
+        Comparator<Classes> byName = (Classes cl1, Classes cl2) -> cl1.getClassName().compareTo(cl2.getClassName());
+        teacherClasses.sort(byName);
         return teacherClasses;
     }
 
