@@ -10,6 +10,7 @@ import attendanceautomation.BE.Student;
 import attendanceautomation.BE.Teacher;
 import attendanceautomation.DAL.DALException;
 import attendanceautomation.GUI.Model.AttendanceAutomationModel;
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
 import java.io.IOException;
 import java.net.URL;
@@ -73,6 +74,10 @@ public class TeachViewController implements Initializable
     private ChoiceBox<Classes> choiceBoxClasses;
     @FXML
     private Label lblTeacher;
+    @FXML
+    private JFXButton btnsetStudentPresent;
+    
+    private Student stud = new Student();
 
     /**
      * Initializes the controller class.
@@ -194,7 +199,7 @@ public class TeachViewController implements Initializable
     {
         selectedStudent = listviewStudents.getSelectionModel().getSelectedItem();
         
-        Student stud = new Student();
+//        Student stud = new Student();
         stud = model.getStudentInfo(selectedStudent);
         
         Teacher teach = new Teacher();
@@ -207,5 +212,24 @@ public class TeachViewController implements Initializable
         lblTeacher.setText(teach.getName());
         chartAbsenceperDay.getData().clear();
         chartAbsenceperDay.getData().addAll(model.modelMissedDaysforAbsencePerDay(studId));
+    }
+
+        @FXML
+    private void handleSetStudentPresent(ActionEvent event) {
+        
+        LocalDate selectedDate = listviewAbsenceDays.getSelectionModel().getSelectedItem();
+        int studentID = stud.getPersonID();
+        if (selectedDate != null)
+        {
+            model.studentIsPresent(selectedDate, studentID);
+            
+        }
+        else
+        {
+            System.out.println("nothing selected"); 
+        }
+        
+        System.out.println(selectedDate);
+        System.out.println(stud.getPersonID());
     }
 }

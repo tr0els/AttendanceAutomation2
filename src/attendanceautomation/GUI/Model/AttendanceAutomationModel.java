@@ -108,6 +108,7 @@ public class AttendanceAutomationModel
     public void studentIsPresent(LocalDate date, int personID)
     {
         manager.studentIsPresent(date, personID);
+        daysPresent.remove(date);
     }
 
     /**
