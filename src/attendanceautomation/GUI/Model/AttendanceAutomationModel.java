@@ -7,6 +7,7 @@ package attendanceautomation.GUI.Model;
 
 import attendanceautomation.BE.Classes;
 import attendanceautomation.BE.Student;
+import attendanceautomation.BE.Teacher;
 import attendanceautomation.BLL.BLLManager;
 import attendanceautomation.DAL.DALException;
 import java.time.LocalDate;
@@ -42,6 +43,10 @@ public class AttendanceAutomationModel {
 
     public Student getCurrentStudent(String username, String password) {
         return manager.getCurrentStudent(username, password);
+    }
+
+    public Teacher getCurrentTeacher(String username, String password) {
+        return manager.getCurrentTeacher(username, password);
     }
 
     /**
