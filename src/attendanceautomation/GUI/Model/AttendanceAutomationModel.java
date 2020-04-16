@@ -52,6 +52,10 @@ public class AttendanceAutomationModel
         return manager.getCurrentStudent(username, password);
     }
 
+    public Teacher getCurrentTeacher(String username, String password) {
+        return manager.getCurrentTeacher(username, password);
+    }
+
     /**
      * Første gang metoden kaldes, oprettes en instans af modellen (new).
      * Instansengemmes i konstanten INSTANCE så den kan returnes ved behov.

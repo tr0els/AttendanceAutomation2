@@ -340,4 +340,23 @@ public class BLLManager {
         return null;
     }
 
+
+    public Teacher getCurrentTeacher(String username, String password) {
+      final byte[] salt = datadao.getSalt(username);
+
+        try {
+            final MessageDigest md = MessageDigest.getInstance("SHA-512");
+            md.reset();
+            md.update(salt);
+
+            final byte[] HashedPassword = md.digest(password.getBytes(StandardCharsets.UTF_8));
+         return datadao.getCurrentTeacher(username, HashedPassword);
+        }
+        catch ( Exception ex){
+        }
+       
+       return null;
+    }
+    
+
 }

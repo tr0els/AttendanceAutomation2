@@ -29,17 +29,11 @@ import java.util.logging.Logger;
  */
 public class DataDAO implements iDataDAO
 {
-
-    Student stud = new Student("Studentemail", "123");
-    Teacher teach = new Teacher("Teacheremail", "123");
-
     private DatabaseConnector dbCon;
 
     public DataDAO() throws DALException
     {
-
         dbCon = new DatabaseConnector();
-
     }
 
     /**
@@ -565,6 +559,41 @@ public class DataDAO implements iDataDAO
         }
     }
     
+
+    public Teacher getCurrentTeacher(String username, byte[] password){
+         try ( Connection con = dbCon.getConnection()){
+    
+        String sql = "SELECT * FROM PERSON WHERE email = ? AND password = ?;";
+
+            PreparedStatement st = con.prepareStatement(sql);
+
+            st.setNString(1, username);
+            st.setBytes(2, password);
+
+            ResultSet rs = st.executeQuery();
+            while(rs.next())
+            {
+            Teacher teacher = new Teacher();
+                teacher.setPersonID(rs.getInt("person_id"));
+                teacher.setName(rs.getString("name"));
+                teacher.setPhoneNumber(rs.getInt("phone"));
+                teacher.setEmail(rs.getString("email"));
+            return teacher;
+            }
+    
+    
+    }
+    catch (Exception ex){
+    
+    
+    }
+    return null;
+   
+        
+    }
+    
+    
+
     public List<Student> getAllStudents(Classes choiceBoxChosenClass) throws DALException
     {
         ArrayList<Student> allStudentsInClass = new ArrayList<>();
@@ -599,5 +628,6 @@ public class DataDAO implements iDataDAO
             throw new DALException("Can´t do that");
         }
     }
+
     
 }

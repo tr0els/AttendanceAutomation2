@@ -25,9 +25,10 @@ public class Teacher extends Person{
         personRole = new IsTeacher();
     }
 
-    public Teacher()
-    {
-        
+
+    public Teacher(){
+    
+
     }
 
 }

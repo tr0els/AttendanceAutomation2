@@ -203,6 +203,7 @@ public class TeachViewController implements Initializable
         lblPhone.setText("" + stud.getPhoneNumber());
         listviewAbsenceDays.setItems(model.missedDays(studId, model.countAlldays()));
         lblTeacher.setText(teach.getName());
-//        chartAbsenceperDay.setText(arg0);
+        chartAbsenceperDay.getData().clear();
+        chartAbsenceperDay.getData().addAll(model.modelMissedDaysforAbsencePerDay(studId));
     }
 }
