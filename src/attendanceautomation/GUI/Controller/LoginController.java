@@ -6,6 +6,7 @@
 package attendanceautomation.GUI.Controller;
 
 import attendanceautomation.BE.Student;
+import attendanceautomation.BE.Teacher;
 import attendanceautomation.DAL.DALException;
 import attendanceautomation.GUI.Model.AttendanceAutomationModel;
 import com.jfoenix.controls.JFXButton;
@@ -53,7 +54,7 @@ public class LoginController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 
         model = AttendanceAutomationModel.getInstance();
-        model.countWeekdays(); //DELETE ME WHEN DONE
+
         
         txtfieldUsername.setText("student@email.com");
         passwordfieldPassword.setText("1234");
@@ -111,7 +112,6 @@ public class LoginController implements Initializable {
         try {
              FXMLLoader loader = new FXMLLoader();
             
-            
              loader.setLocation(getClass().getResource("/attendanceautomation/GUI/View/StudView.fxml"));
              loader.load();
              Parent root = loader.getRoot();
@@ -165,10 +165,13 @@ public class LoginController implements Initializable {
         
        return model.getCurrentStudent(username, password);
         
+    }    
+   public Teacher currentTeacher(String username, String password){
+       return model.getCurrentTeacher(username, password);
+   
+   }     
         
-        
-        
-    }
+    
     
     
 }

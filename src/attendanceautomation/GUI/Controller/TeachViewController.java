@@ -80,10 +80,22 @@ public class TeachViewController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
-        daysPresent = 15; //hvor langt tilbage listen over missed days viser
+
         choiceBoxClasses.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) ->
         {
             choiceBoxChosenClass = choiceBoxClasses.getSelectionModel().getSelectedItem();
+            int cBCC = choiceBoxChosenClass.getId();
+            if (cBCC == 4)
+            {
+                try
+                {
+                    listviewStudents.setItems(model.getAllStudents(choiceBoxChosenClass));
+                } catch (DALException ex)
+                {
+                    Logger.getLogger(TeachViewController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            else
             try
             {
                 listviewStudents.setItems(model.getStudentsInClass(choiceBoxChosenClass));
@@ -182,14 +194,16 @@ public class TeachViewController implements Initializable
         
         Student stud = new Student();
         stud = model.getStudentInfo(selectedStudent);
+        
         Teacher teach = new Teacher();
         teach = model.getClassTeacher(choiceBoxChosenClass);
         int studId = stud.getPersonID();
         lblStudentname.setText(stud.getName());
         lblEmail.setText(stud.getEmail());
         lblPhone.setText("" + stud.getPhoneNumber());
-        listviewAbsenceDays.setItems(model.missedDays(studId, daysPresent));
+        listviewAbsenceDays.setItems(model.missedDays(studId, model.countAlldays()));
         lblTeacher.setText(teach.getName());
-//        chartAbsenceperDay.setText(arg0);
+        chartAbsenceperDay.getData().clear();
+        chartAbsenceperDay.getData().addAll(model.modelMissedDaysforAbsencePerDay(studId));
     }
 }

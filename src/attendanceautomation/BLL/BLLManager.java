@@ -166,6 +166,20 @@ public class BLLManager {
         return weekdays;
     }
 
+    public int countAlldays() {
+        int totalDays = 0;
+
+        LocalDate startDate = semesterStart;
+        final LocalDate endDate = getCurrentdate();
+
+        while (startDate.isBefore(endDate)) {
+            ++totalDays;
+            startDate = startDate.plusDays(1);
+
+        }
+        return totalDays;
+    }
+
     /**
      * Udregner og returnere en students fraværsprocent
      *
@@ -186,7 +200,6 @@ public class BLLManager {
 
     }
 
-
     public List<Classes> getTeacherClasses() throws DALException {
         return datadao.getTeacherClasses();
     }
@@ -203,7 +216,11 @@ public class BLLManager {
         return datadao.getClassTeacher(choiceBoxChosenClass);
     }
 
-        /**
+    public List<Student> getAllStudents(Classes choiceBoxChosenClass) throws DALException {
+        return datadao.getAllStudents(choiceBoxChosenClass);
+    }
+
+    /**
      * returnere liste over dage hvor eleven ikke har været i skole hvor x er
      * intervallet fra dagens dato listen tager højde for
      * helligdage(SCHOOL_DAYS_OFF i DB) og weekender.
@@ -234,16 +251,7 @@ public class BLLManager {
 
     public XYChart.Series missedDaysforAbsencePerDay(int personID) {
 
-        int totalDays = 0;
-
-        LocalDate startDate = semesterStart;
-        final LocalDate endDate = getCurrentdate();
-
-        while (startDate.isBefore(endDate)) {
-            ++totalDays;
-            startDate = startDate.plusDays(1);
-
-        }
+        int totalDays = countAlldays();
 
         List<LocalDate> days = new ArrayList<>();
         days.addAll(missedDays(personID, totalDays));
@@ -262,7 +270,6 @@ public class BLLManager {
 
             DayOfWeek dayOfWeek = localdate.getDayOfWeek();
 
-            
             switch (dayOfWeek) {
                 case MONDAY:
                     ++monday;
@@ -293,8 +300,7 @@ public class BLLManager {
         wednesday = (wednesday / allAbsentDays) * 100;
         thursday = (thursday / allAbsentDays) * 100;
         friday = (friday / allAbsentDays) * 100;
-        
-        
+
         XYChart.Series weekdaysabsent = new XYChart.Series<>();
         weekdaysabsent.getData().add(new XYChart.Data<>("Monday", monday));
         weekdaysabsent.getData().add(new XYChart.Data<>("Tuesday", tuesday));
@@ -333,5 +339,24 @@ public class BLLManager {
 
         return null;
     }
+
+
+    public Teacher getCurrentTeacher(String username, String password) {
+      final byte[] salt = datadao.getSalt(username);
+
+        try {
+            final MessageDigest md = MessageDigest.getInstance("SHA-512");
+            md.reset();
+            md.update(salt);
+
+            final byte[] HashedPassword = md.digest(password.getBytes(StandardCharsets.UTF_8));
+         return datadao.getCurrentTeacher(username, HashedPassword);
+        }
+        catch ( Exception ex){
+        }
+       
+       return null;
+    }
+    
 
 }
