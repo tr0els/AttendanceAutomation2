@@ -214,6 +214,10 @@ public class TeachViewController implements Initializable
         chartAbsenceperDay.getData().addAll(model.modelMissedDaysforAbsencePerDay(studId));
     }
 
+    /**
+     * sætter en valgt dato og personid som tilstede i DB
+     * @param event 
+     */
         @FXML
     private void handleSetStudentPresent(ActionEvent event) {
         
