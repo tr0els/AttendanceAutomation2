@@ -7,12 +7,9 @@ package attendanceautomation.DAL.database;
 
 /**
  *
- * @author Charlotte
+ * @author Brian Brandt, Kim Christensen, Troels Klein, René Jørgensen &
+ * Charlotte Christensen
  */
-
-    
-    
-    
 import attendanceautomation.DAL.DALException;
 import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
@@ -21,46 +18,49 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.util.Properties;
 
-
 public class DatabaseConnector
 {
+
     private SQLServerDataSource dataSource;
-    
-    /*
-    * reads our DBsettings file with input that you need to connect to the database
-    */
+
+    /**
+     * Læser vores DBSettings fil så vi kan forbinde til databasaen
+     *
+     * @throws DALException
+     */
     public DatabaseConnector() throws DALException
     {
-        try{
-        Properties props = new Properties();
-        props.load(new FileReader("DBSettings.txt"));
-        dataSource = new SQLServerDataSource();
-        dataSource.setDatabaseName(props.getProperty("database"));
-        dataSource.setUser(props.getProperty("user"));
-        dataSource.setPassword(props.getProperty("password"));
-        dataSource.setServerName(props.getProperty("server")); 
-        }
-        catch (IOException ex) {
-            
-        throw new DALException("forkert input, check username or password in file");
+        try
+        {
+            Properties props = new Properties();
+            props.load(new FileReader("DBSettings.txt"));
+            dataSource = new SQLServerDataSource();
+            dataSource.setDatabaseName(props.getProperty("database"));
+            dataSource.setUser(props.getProperty("user"));
+            dataSource.setPassword(props.getProperty("password"));
+            dataSource.setServerName(props.getProperty("server"));
+        } catch (IOException ex)
+        {
+            throw new DALException("forkert input, check username or password in file");
         }
     }
-    
-    /*
-    * Tries to connect to get a connection to our database. 
-    * @return Connection
-    */
-    public Connection getConnection() throws DALException  
+
+    /**
+     * Prøver at lave en forbindelse til vores database og returnerer
+     * forbindelsen
+     *
+     * @return
+     * @throws DALException
+     */
+    public Connection getConnection() throws DALException
     {
-        try{
-        return dataSource.getConnection();
-        }
-        catch (SQLServerException ex)
+        try
         {
-        throw new DALException("Kunne ikke oprette forbindelse til serveren"); 
+            return dataSource.getConnection();
+        } catch (SQLServerException ex)
+        {
+            throw new DALException("Kunne ikke oprette forbindelse til serveren");
         }
     }
 
 }
-        
-

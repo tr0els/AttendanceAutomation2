@@ -34,9 +34,11 @@ import javafx.stage.Stage;
 /**
  * FXML Controller class
  *
- * @author BBran
+ * @author Brian Brandt, Kim Christensen, Troels Klein, René Jørgensen &
+ * Charlotte Christensen
  */
-public class StudViewController implements Initializable {
+public class StudViewController implements Initializable
+{
 
     @FXML
     private Label lblStudentFullname;
@@ -70,29 +72,31 @@ public class StudViewController implements Initializable {
     private int personID;
     private LocalDate currentDate;
     private String registeredToday;
-
     private Student CurrentStudent = null;
-
     private int daysPresent = 15; //hvor langt tilbage listen over missed days viser
 
     /**
-     * Initializes the controller class.
+     * Initializer til StudViewController
+     *
+     * @param url
+     * @param rb
      */
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-
+    public void initialize(URL url, ResourceBundle rb)
+    {
         model = AttendanceAutomationModel.getInstance();
-
-
     }
 
-    public void handlePieChart() {
-
+    /**
+     * Sætter data ind i PieCharten for hvor meget fravær den studerende der er
+     * logget ind har
+     */
+    public void handlePieChart()
+    {
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
                 new PieChart.Data("Present", 100 - absence),
                 new PieChart.Data("Absent", absence)
         );
-
         piechartAttendance.setData(pieChartData);
         piechartAttendance.setClockwise(true);
         piechartAttendance.setLabelLineLength(10);
@@ -103,18 +107,36 @@ public class StudViewController implements Initializable {
         lblAbsencepercent.setText(strAbsence + "%");
     }
 
-    public void handleMissedDays() {
+    /**
+     * Sætter hvilke dage, den studerende har været fraværende, ind i vores
+     * ListView for den studerende der er logget ind
+     */
+    public void handleMissedDays()
+    {
         listviewMissedDays.setItems(model.missedDays(personID, daysPresent));
     }
 
-    public void handleBarChart(int studentID) {
+    /**
+     * Sætter vores BarChart op med hvilke dage den studerende der er logget
+     * ind, har været fraværende
+     *
+     * @param studentID
+     */
+    public void handleBarChart(int studentID)
+    {
         chartAbsenceperDay.getData().addAll(model.modelMissedDaysforAbsencePerDay(studentID));
     }
 
+    /**
+     * Logger brugeren ud
+     *
+     * @param event
+     */
     @FXML
-    private void handleLogout(ActionEvent event) {
-
-        try {
+    private void handleLogout(ActionEvent event)
+    {
+        try
+        {
             Parent root = FXMLLoader.load(getClass().getResource("/attendanceautomation/GUI/View/Login.fxml"));
 
             Scene scene = new Scene(root);
@@ -125,7 +147,8 @@ public class StudViewController implements Initializable {
             stage.setScene(scene);
             stage.setResizable(false);
             stage.show();
-        } catch (IOException e) {
+        } catch (IOException e)
+        {
             e.printStackTrace();
         }
     }
@@ -138,20 +161,33 @@ public class StudViewController implements Initializable {
      * @param event
      */
     @FXML
-    private void handleAttendance(ActionEvent event) {
+    private void handleAttendance(ActionEvent event)
+    {
 
         model.studentIsPresent(currentDate, personID);
         btnAttendCurrentClass.setDisable(true);
         btnAttendCurrentClass.setText("Already Registered!");
     }
 
+    /**
+     * Lukker programmet ned
+     *
+     * @param event
+     */
     @FXML
-    private void handleCloseprogram(ActionEvent event) {
+    private void handleCloseprogram(ActionEvent event)
+    {
         System.exit(0);
     }
 
+    /**
+     * Lidt info omkring programmet
+     *
+     * @param event
+     */
     @FXML
-    private void handleAbout(ActionEvent event) {
+    private void handleAbout(ActionEvent event)
+    {
         Alert a = new Alert(Alert.AlertType.INFORMATION);
         a.setTitle("About");
         a.setHeaderText(null);
@@ -167,7 +203,14 @@ public class StudViewController implements Initializable {
         a.show();
     }
 
-    public void setCurrentUser(Student student) {
+    /**
+     * Tager imod et student objekt som bliver sendt med når man logger ind, og
+     * henter data omkring brugeren
+     *
+     * @param student
+     */
+    public void setCurrentUser(Student student)
+    {
         CurrentStudent = student;
         personID = CurrentStudent.getPersonID();
         absence = model.studentAbsence(personID);
@@ -177,13 +220,14 @@ public class StudViewController implements Initializable {
         showDate.setText(strDate);
 
         registeredToday = model.studentAlreadyRegistered(personID);
-        if (registeredToday != null) {
+        if (registeredToday != null)
+        {
             btnAttendCurrentClass.setDisable(true);
             btnAttendCurrentClass.setText(registeredToday);
         }
 
         lblStudentFullname.setText(CurrentStudent.getName());
-        
+
         lblMissedDays.setText("Missed Days (Last " + daysPresent + " days)");
 
         handlePieChart();

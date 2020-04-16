@@ -7,17 +7,19 @@ package attendanceautomation.DAL;
 
 /**
  *
- * @author Charlotte
+ * @author Brian Brandt, Kim Christensen, Troels Klein, René Jørgensen &
+ * Charlotte Christensen
  */
-
 public class DALException extends Exception
-{   /*
-    * our own DALException is made here.
-    */
-    public DALException (String msg)
+{
+
+    /**
+     * Vores egen DALException er lavet her
+     * @param msg 
+     */
+    public DALException(String msg)
     {
-    super( msg); 
+        super(msg);
     }
-    
-    
+
 }

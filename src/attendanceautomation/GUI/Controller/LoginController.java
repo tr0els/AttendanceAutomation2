@@ -7,14 +7,11 @@ package attendanceautomation.GUI.Controller;
 
 import attendanceautomation.BE.Student;
 import attendanceautomation.BE.Teacher;
-import attendanceautomation.DAL.DALException;
 import attendanceautomation.GUI.Model.AttendanceAutomationModel;
 import com.jfoenix.controls.JFXButton;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -32,10 +29,13 @@ import javafx.stage.Stage;
 
 /**
  *
- * @author BBran
+ * @author Brian Brandt, Kim Christensen, Troels Klein, René Jørgensen &
+ * Charlotte Christensen
  */
-public class LoginController implements Initializable {
+public class LoginController implements Initializable
+{
 
+    @FXML
     private Label label;
     @FXML
     private TextField txtfieldUsername;
@@ -50,45 +50,58 @@ public class LoginController implements Initializable {
 
     private AttendanceAutomationModel model;
 
+    /**
+     * Initializer for LoginController
+     *
+     * @param url
+     * @param rb
+     */
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-
+    public void initialize(URL url, ResourceBundle rb)
+    {
         model = AttendanceAutomationModel.getInstance();
-
-        
         txtfieldUsername.setText("student@email.com");
         passwordfieldPassword.setText("1234");
-
     }
 
-    /*
-        tager det info som brugeren har inputtet og sender det til modelen.
-    */
+    /**
+     * Tager det info som brugeren har inputtet og sender det til modelen.
+     *
+     * @param event
+     * @throws IOException
+     */
     @FXML
-    private void handleLogIn(ActionEvent event) throws IOException {
+    private void handleLogIn(ActionEvent event) throws IOException
+    {
         String username = txtfieldUsername.getText();
         String password = passwordfieldPassword.getText().toString();
-        
+
         boolean check = model.loginModel(username, password);
 
-        if (model.loginModel(username, password) == true) {
+        if (model.loginModel(username, password) == true)
+        {
             int role = model.getRole(username);
 
-            if (role == 1) {
-                
-                OpenStudentMenu(event,currentStudent(username, password));
+            if (role == 1)
+            {
+                OpenStudentMenu(event, currentStudent(username, password));
             }
-            if (role == 2) {
+            if (role == 2)
+            {
                 OpenTeacherMenu(event);
             }
         }
     }
 
-    /*
-        åbner lære Menuen
+    /**
+     * Åbner Teacher menuen
+     *
+     * @param event
      */
-    private void OpenTeacherMenu(ActionEvent event) {
-        try {
+    private void OpenTeacherMenu(ActionEvent event)
+    {
+        try
+        {
             Parent root = FXMLLoader.load(getClass().getResource("/attendanceautomation/GUI/View/TeachView.fxml"));
 
             Scene scene = new Scene(root);
@@ -99,28 +112,33 @@ public class LoginController implements Initializable {
             stage.setScene(scene);
             stage.setResizable(false);
             stage.show();
-        } catch (IOException e) {
+        } catch (IOException e)
+        {
             e.printStackTrace();
         }
-
     }
 
-    /*
-        åbner studerende menuen
+    /**
+     * Åbner Student menuen
+     *
+     * @param event
+     * @param stud
      */
-    private void OpenStudentMenu(ActionEvent event, Student stud) {
-        try {
-             FXMLLoader loader = new FXMLLoader();
-            
-             loader.setLocation(getClass().getResource("/attendanceautomation/GUI/View/StudView.fxml"));
-             loader.load();
-             Parent root = loader.getRoot();
-            
+    private void OpenStudentMenu(ActionEvent event, Student stud)
+    {
+        try
+        {
+            FXMLLoader loader = new FXMLLoader();
+
+            loader.setLocation(getClass().getResource("/attendanceautomation/GUI/View/StudView.fxml"));
+            loader.load();
+            Parent root = loader.getRoot();
+
             StudViewController studcontroller = loader.getController();
             studcontroller.setCurrentUser(stud);
-            
+
             Scene scene = new Scene(root);
-            
+
             Stage stage = new Stage();
             stage.setTitle("Student Menu");
             Stage Currentstage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -128,24 +146,31 @@ public class LoginController implements Initializable {
             stage.setScene(scene);
             stage.setResizable(false);
             stage.show();
-        } catch (IOException e) {
+        } catch (IOException e)
+        {
             e.printStackTrace();
         }
     }
 
-    /*
-        lukker programmet
-    */
+    /**
+     * Lukker programmet
+     *
+     * @param event
+     */
     @FXML
-    private void handleCloseprogram(ActionEvent event) {
+    private void handleCloseprogram(ActionEvent event)
+    {
         System.exit(0);
     }
 
-    /*
-        giver en beskrivelse over hvem der har lavet programmet
-    */
+    /**
+     * Giver en beskrivelse over hvem der har lavet programmet
+     *
+     * @param event
+     */
     @FXML
-    private void handleAbout(ActionEvent event) {
+    private void handleAbout(ActionEvent event)
+    {
         Alert a = new Alert(AlertType.INFORMATION);
         a.setTitle("About");
         a.setHeaderText(null);
@@ -161,17 +186,31 @@ public class LoginController implements Initializable {
         a.show();
     }
 
-    public Student currentStudent(String username, String password){
-        
-       return model.getCurrentStudent(username, password);
-        
-    }    
-   public Teacher currentTeacher(String username, String password){
-       return model.getCurrentTeacher(username, password);
-   
-   }     
-        
-    
-    
-    
+    /**
+     * Sikkerhedstjek - Sammenligner username og password med det der ligger i
+     * Databasen.
+     *
+     * @param username
+     * @param password
+     * @return
+     */
+    public Student currentStudent(String username, String password)
+    {
+        return model.getCurrentStudent(username, password);
+    }
+
+    /**
+     * Sikkerhedstjek - Sammenligner username og password med det der ligger i
+     * Databasen.
+     *
+     * @param username
+     * @param password
+     * @return
+     */
+    public Teacher currentTeacher(String username, String password)
+    {
+        return model.getCurrentTeacher(username, password);
+
+    }
+
 }
