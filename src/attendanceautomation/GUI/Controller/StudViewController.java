@@ -68,11 +68,12 @@ public class StudViewController implements Initializable {
     private double absence;
     private AttendanceAutomationModel model;
     private int personID;
-    private int daysPresent;
     private LocalDate currentDate;
     private String registeredToday;
 
     private Student CurrentStudent = null;
+
+    private int daysPresent = 15; //hvor langt tilbage listen over missed days viser
 
     /**
      * Initializes the controller class.
@@ -81,7 +82,6 @@ public class StudViewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 
         model = AttendanceAutomationModel.getInstance();
-
 
 
     }
@@ -171,14 +171,6 @@ public class StudViewController implements Initializable {
         CurrentStudent = student;
         personID = CurrentStudent.getPersonID();
         absence = model.studentAbsence(personID);
-        registeredToday = model.studentAlreadyRegistered(personID);
-        lblStudentFullname.setText(CurrentStudent.getName());
-        
-        
-        daysPresent = 15; //hvor langt tilbage listen over missed days viser
-        lblMissedDays.setText("Missed Days (Last " + daysPresent + " days)");
-
-        absence = model.studentAbsence(personID);
 
         currentDate = model.getCurrentDate();
         String strDate = currentDate.format(DateTimeFormatter.ofPattern("dd. MMMM yyyy"));
@@ -189,6 +181,10 @@ public class StudViewController implements Initializable {
             btnAttendCurrentClass.setDisable(true);
             btnAttendCurrentClass.setText(registeredToday);
         }
+
+        lblStudentFullname.setText(CurrentStudent.getName());
+        
+        lblMissedDays.setText("Missed Days (Last " + daysPresent + " days)");
 
         handlePieChart();
         handleBarChart(CurrentStudent.getPersonID());
