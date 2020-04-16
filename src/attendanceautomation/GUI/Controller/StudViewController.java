@@ -82,24 +82,6 @@ public class StudViewController implements Initializable {
 
         model = AttendanceAutomationModel.getInstance();
 
-        daysPresent = 15; //hvor langt tilbage listen over missed days viser
-        lblMissedDays.setText("Missed Days (Last " + daysPresent + " days)");
-
-        absence = model.studentAbsence(1);
-
-        currentDate = model.getCurrentDate();
-        String strDate = currentDate.format(DateTimeFormatter.ofPattern("dd. MMMM yyyy"));
-        showDate.setText(strDate);
-
-        registeredToday = model.studentAlreadyRegistered(personID);
-        if (registeredToday != null) {
-            btnAttendCurrentClass.setDisable(true);
-            btnAttendCurrentClass.setText(registeredToday);
-        }
-
-        handlePieChart();
-        handleBarChart();
-        handleMissedDays();
     }
 
     public void handlePieChart() {
@@ -123,8 +105,8 @@ public class StudViewController implements Initializable {
         listviewMissedDays.setItems(model.missedDays(personID, daysPresent));
     }
 
-    public void handleBarChart() {
-        chartAbsenceperDay.getData().addAll(model.modelMissedDaysforAbsencePerDay(1));
+    public void handleBarChart(int studentID) {
+        chartAbsenceperDay.getData().addAll(model.modelMissedDaysforAbsencePerDay(studentID));
     }
 
     @FXML
@@ -189,6 +171,26 @@ public class StudViewController implements Initializable {
         absence = model.studentAbsence(personID);
         registeredToday = model.studentAlreadyRegistered(personID);
         lblStudentFullname.setText(CurrentStudent.getName());
+        
+        
+        daysPresent = 15; //hvor langt tilbage listen over missed days viser
+        lblMissedDays.setText("Missed Days (Last " + daysPresent + " days)");
+
+        absence = model.studentAbsence(1);
+
+        currentDate = model.getCurrentDate();
+        String strDate = currentDate.format(DateTimeFormatter.ofPattern("dd. MMMM yyyy"));
+        showDate.setText(strDate);
+
+        registeredToday = model.studentAlreadyRegistered(personID);
+        if (registeredToday != null) {
+            btnAttendCurrentClass.setDisable(true);
+            btnAttendCurrentClass.setText(registeredToday);
+        }
+
+        handlePieChart();
+        handleBarChart(CurrentStudent.getPersonID());
+        handleMissedDays();
     }
 
 }
