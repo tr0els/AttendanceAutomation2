@@ -74,7 +74,6 @@ public class StudViewController implements Initializable {
     private double absence;
     private AttendanceAutomationModel model;
     private int personID;
-    private int daysPresent;
     private LocalDate currentDate;
     private String registeredToday;
     @FXML
@@ -83,33 +82,18 @@ public class StudViewController implements Initializable {
     private Label lblMissedDays;
     private Student CurrentStudent = null;
 
+    private int daysPresent = 15; //hvor langt tilbage listen over missed days viser
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        
         model = AttendanceAutomationModel.getInstance();
 
-        daysPresent = 15; //hvor langt tilbage listen over missed days viser
         lblMissedDays.setText("Missed Days (Last " + daysPresent + " days)");
 
-        absence = model.studentAbsence(1);
-
-        currentDate = model.getCurrentDate();
-        String strDate = currentDate.format(DateTimeFormatter.ofPattern("dd. MMMM yyyy"));
-        showDate.setText(strDate);
-        
-        registeredToday = model.studentAlreadyRegistered(1);
-        if (registeredToday != null) {
-            btnAttendCurrentClass.setDisable(true);
-            btnAttendCurrentClass.setText(registeredToday);
-        }
-
-        handlePieChart();
-        handleBarChart(1); //den skal finde personID fra personen som logger ind
-        handleMissedDays();
     }
 
     public void handlePieChart() {
@@ -192,14 +176,28 @@ public class StudViewController implements Initializable {
                 + "Brian Brandt");
         a.show();
     }
-    
-    public void setCurrentUser(Student student){
+
+    public void setCurrentUser(Student student) {
         CurrentStudent = student;
-        personID = CurrentStudent.getPersonID(); 
+        personID = CurrentStudent.getPersonID();
+
         absence = model.studentAbsence(personID);
+
+        currentDate = model.getCurrentDate();
+        String strDate = currentDate.format(DateTimeFormatter.ofPattern("dd. MMMM yyyy"));
+        showDate.setText(strDate);
+
         registeredToday = model.studentAlreadyRegistered(personID);
+        if (registeredToday != null) {
+            btnAttendCurrentClass.setDisable(true);
+            btnAttendCurrentClass.setText(registeredToday);
+        }
+
         lblStudentFullname.setText(CurrentStudent.getName());
+        handlePieChart();
+        handleBarChart(personID);
+        handleMissedDays();
+
     }
-    
-    
+
 }
