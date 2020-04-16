@@ -7,90 +7,168 @@ package attendanceautomation.BE;
 
 /**
  *
- * @author Kim
+ * @author Brian Brandt, Kim Christensen, Troels Klein, René Jørgensen &
+ * Charlotte Christensen
  */
 public class Person
-    {
-    
+{
+
     private int personID;
     private String name;
     public String email;
     public String password;
     private int phoneNumber;
+    public Role personRole;
 
+    /**
+     * Constructor for Person
+     */
     public Person()
     {
-        
+
     }
-    
-    public Person(String email, String password) {
+
+    /**
+     * Constructor for Person som tager imod email og password
+     *
+     * @param email
+     * @param password
+     */
+    public Person(String email, String password)
+    {
         this.email = email;
         this.password = password;
     }
 
-    //using the Role interface to dynamically change the role of the person
-    public Role personRole;
-
-    /*
-        returnere personens rolle
-    */
-    public String CheckRole() {
+    /**
+     * Returnerer personens rolle
+     *
+     * @return
+     */
+    public String CheckRole()
+    {
         return personRole.Role();
     }
 
-    /*
-        denne metode lader os skifte rollen på et object fx. student -> teacher
-    */
-    public void setRole(Role setRole) {
+    /**
+     * Denne metode lader os skifte rollen på et object fx. student -> teacher
+     *
+     * @param setRole
+     */
+    public void setRole(Role setRole)
+    {
         personRole = setRole;
     }
 
-    public String getName() {
+    /**
+     * Returnerer Person navn
+     *
+     * @return
+     */
+    public String getName()
+    {
         return name;
     }
 
-    public void setName(String name) {
+    /**
+     * Sætter Person navn
+     *
+     * @param name
+     */
+    public void setName(String name)
+    {
         this.name = name;
     }
 
-    public String getEmail() {
+    /**
+     * Returnerer Person email
+     *
+     * @return
+     */
+    public String getEmail()
+    {
         return email;
     }
 
-    public void setEmail(String email) {
+    /**
+     * Sætter Person email
+     *
+     * @param email
+     */
+    public void setEmail(String email)
+    {
         this.email = email;
     }
 
-    public String getPassword() {
+    /**
+     * Returnerer Person password
+     *
+     * @return
+     */
+    public String getPassword()
+    {
         return password;
     }
 
-    public void setPassword(String password) {
+    /**
+     * Sætter Person password
+     *
+     * @param password
+     */
+    public void setPassword(String password)
+    {
         this.password = password;
     }
 
-    public int getPhoneNumber() {
+    /**
+     * Returnerer Person phoneNumber
+     *
+     * @return
+     */
+    public int getPhoneNumber()
+    {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
+    /**
+     * Sætter Person phonenumber
+     *
+     * @param phoneNumber
+     */
+    public void setPhoneNumber(int phoneNumber)
+    {
         this.phoneNumber = phoneNumber;
     }
-    
-    public void setPersonID(int personID){
+
+    /**
+     * Sætter Person personId
+     *
+     * @param personID
+     */
+    public void setPersonID(int personID)
+    {
         this.personID = personID;
     }
 
-    public int getPersonID(){
+    /**
+     * Returnerer Person personId
+     *
+     * @return
+     */
+    public int getPersonID()
+    {
         return personID;
     }
 
+    /**
+     * Definerer en toString metode til at tilgå Classes
+     *
+     * @return
+     */
     @Override
     public String toString()
     {
         return name;
     }
-
-    
 
 }

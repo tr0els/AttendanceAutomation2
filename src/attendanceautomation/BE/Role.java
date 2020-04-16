@@ -7,27 +7,39 @@ package attendanceautomation.BE;
 
 /**
  *
- * @author Kim
+ * @author Brian Brandt, Kim Christensen, Troels Klein, René Jørgensen &
+ * Charlotte Christensen
  */
-public interface Role {
+public interface Role
+{
+
     String Role();
 }
 
-/*
-    sætter Role(); til at sende "Teacher" tilbage
-*/
-class IsTeacher implements Role {
-    
-    public String Role() {
+class IsTeacher implements Role
+{
+
+    /**
+     * Sætter Role() til at sende Teacher tilbage
+     *
+     * @return
+     */
+    public String Role()
+    {
         return "Teacher";
     }
 }
-/*
-    sætter Role(); til at sende "Student" tilbage
-*/
-class IsStudent implements Role {
 
-    public String Role() {
+class IsStudent implements Role
+{
+
+    /**
+     * Sætter Role() til at sende Student tilbage
+     *
+     * @return
+     */
+    public String Role()
+    {
         return "Student";
     }
 }

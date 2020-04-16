@@ -1,4 +1,3 @@
-  
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -8,26 +7,34 @@ package attendanceautomation.BE;
 
 /**
  *
- * @author Kim
+ * @author Brian Brandt, Kim Christensen, Troels Klein, René Jørgensen &
+ * Charlotte Christensen
  */
-public class Teacher extends Person{
-    
+public class Teacher extends Person
+{
+
     private String students;
 
-    /*
-        en Teacher constructer. da teacher klassen er extended af person så skal
-        vi kalde med "super" for at få dens variabler
-        personrole blive sat til lære ved at bruge "IsTeacher"
-    */
-    public Teacher(String email, String password) {
+    /**
+     * Constructer for Teacher. Teacher klassen er extended af person så vi
+     * kalder med "super" for at få dens variabler personrole blive sat til
+     * Teacher ved at bruge "IsTeacher"
+     *
+     * @param email
+     * @param password
+     */
+    public Teacher(String email, String password)
+    {
         super(email, password);
-        
+
         personRole = new IsTeacher();
     }
 
-
-    public Teacher(){
-    
+    /**
+     * Constructor for Teacher
+     */
+    public Teacher()
+    {
 
     }
 
