@@ -20,6 +20,7 @@ public class Student extends Person
     private int absent;
     private XYChart.Series AbsenceDistributedPerDay;
     private double absence;
+    private int classId;
 
     private String teachers;
 
@@ -38,6 +39,16 @@ public class Student extends Person
     public Student()
     {
         this.absence = absence;
+    }
+
+    public int getClassId()
+    {
+        return classId;
+    }
+
+    public void setClassId(int classId)
+    {
+        this.classId = classId;
     }
 
     public double getAbsence()

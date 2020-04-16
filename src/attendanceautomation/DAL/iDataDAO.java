@@ -98,7 +98,7 @@ public interface iDataDAO {
 
     public Student getCurrentStudent(String username, byte[] password);
     
-    public Teacher getClassTeacher(Classes choiceBoxChosenClass) throws DALException;
+    public Teacher getStudentTeacher(Student selectedStudent) throws DALException;
     
     public List<Student> getAllStudents(Classes choiceBoxChosenClass) throws DALException;
 }

@@ -196,7 +196,7 @@ public class TeachViewController implements Initializable
         stud = model.getStudentInfo(selectedStudent);
         
         Teacher teach = new Teacher();
-        teach = model.getClassTeacher(choiceBoxChosenClass);
+        teach = model.getStudentTeacher(selectedStudent);
         int studId = stud.getPersonID();
         lblStudentname.setText(stud.getName());
         lblEmail.setText(stud.getEmail());
