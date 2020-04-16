@@ -383,6 +383,7 @@ public class DataDAO implements iDataDAO
                 Student student = new Student();
                 student.setPersonID(rs.getInt("person_id"));
                 student.setName(rs.getString("name"));
+                student.setClassId(idClasses);
 
                 allStudentsInClass.add(student);
             }
@@ -525,18 +526,15 @@ public class DataDAO implements iDataDAO
         return null;
     }
 
-    public Teacher getClassTeacher(Classes choiceBoxChosenClass) throws DALException
+    public Teacher getStudentTeacher(Student selectedStudent) throws DALException
     {
         Teacher studentsTeacher = new Teacher();
         // Attempts to connect to the database.
         try ( Connection con = dbCon.getConnection())
         {
-            int classId = choiceBoxChosenClass.getId();
+            int classId = selectedStudent.getClassId();
             // SQL code. 
-            String sql = "SELECT name FROM person p, PERSON_CLASS pc\n"
-                    + "where p.person_id = pc.person_id\n"
-                    + "and pc.class_id = " + classId + "\n" 
-                    + "and p.role_id = 2;";
+            String sql = "SELECT DISTINCT PERSON_CLASS.*, PERSON.* FROM PERSON_CLASS JOIN PERSON on PERSON.person_id = PERSON_CLASS.person_id WHERE PERSON.role_id = 2 AND PERSON_CLASS.class_id = " + classId + ";";
 
             // Create statement.
             Statement statement = con.createStatement();
@@ -616,6 +614,7 @@ public class DataDAO implements iDataDAO
                 Student student = new Student();
                 student.setPersonID(rs.getInt("person_id"));
                 student.setName(rs.getString("name"));
+                student.setClassId(rs.getInt("class_id"));
 
                 allStudentsInClass.add(student);
             }

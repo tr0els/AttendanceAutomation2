@@ -102,7 +102,7 @@ public interface iDataDAO {
     public Teacher getCurrentTeacher(String username, byte[] HashedPassword);
 
     
-    public Teacher getClassTeacher(Classes choiceBoxChosenClass) throws DALException;
+    public Teacher getStudentTeacher(Student selectedStudent) throws DALException;
     
     public List<Student> getAllStudents(Classes choiceBoxChosenClass) throws DALException;
 

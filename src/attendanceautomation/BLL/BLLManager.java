@@ -212,8 +212,8 @@ public class BLLManager {
         return datadao.getStudentInfo(selectedStudent);
     }
 
-    public Teacher getClassTeacher(Classes choiceBoxChosenClass) throws DALException {
-        return datadao.getClassTeacher(choiceBoxChosenClass);
+    public Teacher getStudentTeacher(Student selectedStudent) throws DALException {
+        return datadao.getStudentTeacher(selectedStudent);
     }
 
     public List<Student> getAllStudents(Classes choiceBoxChosenClass) throws DALException {

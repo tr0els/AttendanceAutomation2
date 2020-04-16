@@ -180,11 +180,15 @@ public class AttendanceAutomationModel
 
     public List<Classes> getTeacherClasses() throws DALException
     {
+        Comparator<Classes> byName = (Classes cl1, Classes cl2) -> cl1.getClassName().compareTo(cl2.getClassName());
+        teacherClasses.sort(byName);
         return teacherClasses;
     }
 
     public ObservableList<Student> getStudentsInClass(Classes choiceBoxChosenClass) throws DALException
     {
+        Comparator<Student> byAbsence = (Student stud1, Student stud2) -> (int) (stud2.getAbsence() - stud1.getAbsence());
+        
         List<Student> tempStudents = manager.getStudentsInClass(choiceBoxChosenClass);
         studentsInClass.clear();
         studentsInClass.addAll(tempStudents);
@@ -193,6 +197,8 @@ public class AttendanceAutomationModel
         {
             studentsInClass.get(i).setAbsence(manager.studentAbsence(studentsInClass.get(i).getPersonID()));
         }
+        
+        studentsInClass.sort(byAbsence);
         
         return studentsInClass;
     }
@@ -208,10 +214,10 @@ public class AttendanceAutomationModel
         return manager.missedDaysforAbsencePerDay(personID);
     }
 
-    public Teacher getClassTeacher(Classes choiceBoxChosenClass) throws DALException
+    public Teacher getStudentTeacher(Student selectedStudent) throws DALException
     {
         Teacher teach = new Teacher();
-        teach = manager.getClassTeacher(choiceBoxChosenClass);
+        teach = manager.getStudentTeacher(selectedStudent);
         return teach;
     }
     
@@ -219,7 +225,6 @@ public class AttendanceAutomationModel
     {
         Comparator<Student> byAbsence = (Student stud1, Student stud2) -> (int) (stud2.getAbsence() - stud1.getAbsence());
         
-//                (Student stud1, Student stud2) -> stud1.getAbsence()- stud2.getAbsence();
         List<Student> tempStudents = manager.getAllStudents(choiceBoxChosenClass);
         allStudents.clear();
         allStudents.addAll(tempStudents);
